@@ -433,13 +433,14 @@ public abstract class TacticsMove : MonoBehaviour
     public void InteractWithItem(Item item, int actionIndex)
     {
         float distance = Vector3.Distance(currentTile.transform.position, item.transform.position);
-        if (distance<= interactionReach+item.interactionReach)
+        if (distance<= interactionReach+item.GetInteractionReach())
         {
             item.Interact(actionIndex);
             DecreaseActionPoints();
         }
         else
         {
+            Debug.Log("item too far away: " + distance);
         }
        
     }

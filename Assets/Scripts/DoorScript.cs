@@ -39,7 +39,7 @@ public class DoorScript : Item {
     public override string[] InitActions()
     {
         //successivamente leggeremo da un file di configurazione
-        return new string[] { "Use", "Action2" };
+        return new string[] { "Open/Close", "Action2" };
     }
     public override int[] InitActionCosts()
     {
@@ -53,4 +53,8 @@ public class DoorScript : Item {
         this.moving = true;
     }
 
+    public override float GetInteractionReach()
+    {
+        return 1.0f;
+    }
 }

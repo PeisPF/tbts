@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Item : MonoBehaviour {
-    public int interactionReach = 1;
+    public abstract float GetInteractionReach();
 
     public string[] actions;
     public int[] actionCosts;
