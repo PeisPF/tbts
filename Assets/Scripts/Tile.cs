@@ -23,6 +23,8 @@ public class Tile : MonoBehaviour
     public float g = 0; //from parent to current
     public float h = 0; //from current to dest
 
+    private float minEmission = 0.0f;
+    private float maxEmission = 0.2f;
 
     // Use this for initialization
     void Start()
@@ -35,27 +37,38 @@ public class Tile : MonoBehaviour
     {
         if (walkable)
         {
+            Color baseColor;
+            float emissionModifier = 0f;
             if (current)
             {
-                GetComponent<Renderer>().material.color = Color.magenta;
+                baseColor = Color.magenta;
+                //GetComponent<Renderer>().material.color = Color.magenta;
             }
             else if (path)
             {
-                GetComponent<Renderer>().material.color = Color.yellow;
+                baseColor = Color.yellow;
+                emissionModifier = 0.5f;
+               // GetComponent<Renderer>().material.color = Color.yellow;
             }
             else if (target)
             {
-                GetComponent<Renderer>().material.color = Color.green;
+                baseColor = Color.green;
+                //GetComponent<Renderer>().material.color = Color.green;
             }
             else if (selectable)
             {
-                GetComponent<Renderer>().material.color = Color.red;
+                baseColor = Color.red;
+                //GetComponent<Renderer>().material.color = Color.red;
             }
 
             else
             {
-                GetComponent<Renderer>().material.color = Color.white;
+                baseColor = Color.black;
+                //GetComponent<Renderer>().material.color = Color.white;
             }
+            float emission = minEmission+ emissionModifier + Mathf.PingPong(Time.time/5, maxEmission-minEmission);
+             //Replace this with whatever you want for your base color at emission level '1'
+            GetComponent<Renderer>().material.SetColor("_EmissionColor", baseColor * emission);
         }
     }
 
