@@ -23,7 +23,7 @@ public class MapInitializer : MonoBehaviour {
             {
                 GameObject go = (GameObject)Instantiate(obj);
                 go.transform.position = new Vector3(x, 0, z) +this.transform.position;
-                go.transform.parent = this.transform;
+                //go.transform.parent = this.transform;
             }
         }
         initialized = true;
