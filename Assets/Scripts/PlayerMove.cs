@@ -9,6 +9,7 @@ public class PlayerMove : TacticsMove
     float lastClickTime;
     float doubleClickDelay = 0.25f;
     private bool showingPath = false;
+    private bool openingADoor = false;
 
     public GUIElement actionPanel;
 
@@ -120,6 +121,7 @@ public class PlayerMove : TacticsMove
                 }
                 else if (hit.collider.tag == "Items")
                 {
+                    openingADoor = true;
                     DoInteract(hit, 0);
                 }
             }
@@ -233,5 +235,17 @@ public class PlayerMove : TacticsMove
         }
     }
 
+    public bool isMoving() {
+        return moving;
+    }
+
+    public bool isOpeningADoor() {
+        return openingADoor;
+    }
+
+    public void setOpeningADoor(bool x)
+    {
+        openingADoor = x;
+    }
 
 }
