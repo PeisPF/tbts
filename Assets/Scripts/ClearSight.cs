@@ -16,16 +16,13 @@ public class ClearSight : MonoBehaviour
         if (TurnManager.GetCurrentPlayer() != null)
         {
             Transform target = TurnManager.GetCurrentPlayer().transform;
-            actualHits.AddRange(RayCastUtils.RaycastTo(this.transform, target, layerMask));
+            actualHits.AddRange(RaycastTo(target));
             if (tilesToClear != null)
             {
-                
                 foreach (Tile tile in tilesToClear)
                 {
-                    actualHits.AddRange(RayCastUtils.RaycastTo(this.transform, tile.transform, layerMask));
+                    actualHits.AddRange(RaycastTo(tile.transform));
                 }
-                //Debug.Log("hit " + actualHits.Count + " walls");
-                tilesToClear.Clear();
             }
 
 
@@ -45,7 +42,12 @@ public class ClearSight : MonoBehaviour
         }
     }
 
-    
+    private RaycastHit[] RaycastTo(Transform target)
+    {
+        Vector3 relativePosition = target.position - transform.position;
+        return Physics.RaycastAll(transform.position, relativePosition, Vector3.Distance(transform.position, target.transform.position), layerMask);
+    }
+
 
 }
 
