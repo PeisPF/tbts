@@ -139,6 +139,7 @@ Light:
   serializedVersion: 8
   m_Type: 1
   m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Intensity: 0.19
   m_Intensity: 0.6
   m_Range: 10
   m_SpotAngle: 30
@@ -13247,6 +13248,7 @@ Prefab:
     - target: {fileID: 114455568681549716, guid: 5d303fb124374dd469ea6c7f118e2225,
         type: 2}
       propertyPath: layerMask.m_Bits
+      value: 4294964735
       value: 4294960639
       objectReference: {fileID: 0}
     - target: {fileID: 4774862535822550, guid: 5d303fb124374dd469ea6c7f118e2225, type: 2}
@@ -13265,6 +13267,7 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+
     - target: {fileID: 114455568681549716, guid: 5d303fb124374dd469ea6c7f118e2225,
         type: 2}
       propertyPath: onlyTilesLayerMask.m_Bits

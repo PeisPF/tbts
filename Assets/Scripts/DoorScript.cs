@@ -17,24 +17,39 @@ public class DoorScript : Item {
 	void Start () {
         originalTransformPosition = transform.position;
 	}
-	
 
-	// Update is called once per frame
-	void Update () {
+    float endrot = 0;
+    // Update is called once per frame
+    void Update () {
+       
+
 		if (moving)
         {
+            float rot = Time.deltaTime * 180;
+            endrot = endrot + rot;
             if (open)
             {
-                transform.RotateAround(originalTransformPosition + axisOpen, new Vector3(0.0f, -1.0f, 0.0f), 90);
-                moving = false;
+                transform.RotateAround(originalTransformPosition + axisOpen, new Vector3(0.0f, -1.0f, 0.0f), rot);
+                if (endrot >= 90)
+                {
+                    moving = false;
                 open = false;
+                    endrot = 0;
+                }
             }
             else
             {
-                transform.RotateAround(originalTransformPosition + axisOpen, new Vector3(0.0f, 1.0f, 0.0f), 90);
-                moving = false;
-                open = true;
+                transform.RotateAround(originalTransformPosition + axisOpen, new Vector3(0.0f, 1.0f, 0.0f), rot);
+                if (endrot >= 90)
+                {
+                     moving = false;
+                     open = true;
+                    endrot = 0;
+                }
             }
+
+            
+
         }
 	}
 
