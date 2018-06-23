@@ -7,6 +7,8 @@ public class DoorScript : Item {
     public bool open = false;
     public bool moving = false;
 
+    public bool allowedLocalOpen = true;
+
     private Vector3 axisOpen = new Vector3(0,0,-0.5f);
 
     private Vector3 originalTransformPosition;
@@ -55,6 +57,13 @@ public class DoorScript : Item {
 
     public override float GetInteractionReach()
     {
-        return 1.0f;
+        if (allowedLocalOpen)
+        {
+            return 1.0f;
+        }
+        else
+        {
+            return 0f;
+        }
     }
 }
