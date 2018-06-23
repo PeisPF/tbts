@@ -17,15 +17,45 @@ public class PlayerMove : TacticsMove
 
     public LayerMask layerMask;
 
+    public LayerMask fogAndWalls;
+
+    public LayerMask lineOfSightObstructing;
+
+    private Transform rayCastTarget;
+
+    private bool checkedFogInCurrentPosition = false;
+
+
+
     // Use this for initialization
     void Start()
     {
         Init();
+        rayCastTarget = new GameObject().transform;
     }
 
     public override void SetShowPath(bool value)
     {
         showingPath = value;
+    }
+
+    private void CheckFog()
+    {
+        List<RaycastHit> actualHits = new List<RaycastHit>();
+        rayCastTarget.position = this.transform.position + new Vector3(0.1f, 0, 0);
+        for (int i =0; i < 360; i+=1)
+        {
+            rayCastTarget.RotateAround(this.transform.position, new Vector3(0, 1, 0), ((float)i));
+            actualHits.AddRange(RayCastUtils.RaycastTo(this.transform.position, rayCastTarget.position, fogAndWalls, lineOfSightObstructing, float.PositiveInfinity));
+            //Debug.Log("rotated to "+rayCastTarget.position);
+        }
+        //casto un raggio anche verso il giocatore, per eliminare la nebbia su di lui
+        rayCastTarget.position = this.transform.position + new Vector3(0, 2, 0);
+        actualHits.AddRange(RayCastUtils.RaycastTo(rayCastTarget.position, this.transform.position, fogAndWalls, lineOfSightObstructing, 1));
+        //Debug.Log("CheckFog hit " + actualHits.Count + " items");
+        foreach (RaycastHit hit in actualHits){
+            Destroy(hit.collider.gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -39,6 +69,11 @@ public class PlayerMove : TacticsMove
         }
         else
         {
+            if (!checkedFogInCurrentPosition)
+            {
+                CheckFog();
+                checkedFogInCurrentPosition = true;
+            }
             if (!moving && !showingPath)
             {
                 CheckMouse();
@@ -50,6 +85,7 @@ public class PlayerMove : TacticsMove
                 if (!showingPath)
                 {
                     Move();
+                    checkedFogInCurrentPosition = false;
                 }
                 else
                 {
@@ -78,25 +114,7 @@ public class PlayerMove : TacticsMove
     Ray getActualRay(Vector3 tap_position)
     {
         Ray result = Camera.main.ScreenPointToRay(tap_position);
-       /* Debug.DrawLine(result.origin, result.direction*20000, Color.white, 20f);
-        Vector3 modifiedTarget = Camera.main.ScreenToViewportPoint(new Vector3(result.direction.x,result.direction.y, 0.5f- transform.position.z));
-
-        Debug.DrawLine(result.origin, modifiedTarget * 20000, Color.red, 20f);*/
-        return result; //impreciso, più o meno di mezzo tile
-       
-        
-        /*  Debug.Log("tap position: " + tap_position);
-          Vector3 relativePosition =    Camera.main.transform.position- tap_position;
-          Debug.Log("touch position modified: " + relativePosition);
-          Debug.DrawRay(Camera.main.transform.position, relativePosition, Color.white, 20);
-          return new Ray(Camera.main.transform.position, relativePosition);
-          */
-
-        /*  Debug.Log("tap position: "+tap_position);
-          Vector3 touchPos = Camera.main.ScreenToWorldPoint(new Vector3(tap_position.x, tap_position.y, TurnManager.GetCurrentPlayer().transform.position.z - transform.position.z));
-          Debug.Log("touch position modified: " + touchPos);
-          Ray ray = new Ray(Camera.main.transform.position, (touchPos - Camera.main.transform.position).normalized);
-          return ray;*/
+        return result; 
     }
 
     void DoAction(bool pathLit)
@@ -137,6 +155,7 @@ public class PlayerMove : TacticsMove
                 }
             }
         }
+        checkedFogInCurrentPosition = false;
     }
 
     private void SwitchTurn(RaycastHit hit)
