@@ -32,6 +32,8 @@ public abstract class TacticsMove : MonoBehaviour
     Vector3 velocity = new Vector3();
     Vector3 heading = new Vector3();//direzione in cui è girato il tizio
 
+    public LayerMask onlyTilesLayerMask;
+
     public Tile actualTargetTile;
 
 
@@ -53,10 +55,14 @@ public abstract class TacticsMove : MonoBehaviour
     public Tile GetTargetTile(GameObject target)
     {
         RaycastHit hit;
-        Tile tile = null;
-        if (Physics.Raycast(target.transform.position, -Vector3.up, out hit, 1))
+        Tile tile = null;//Physics.Raycast(target.transform.position, -Vector3.up, out hit, onlyTilesLayerMask)
+        if (Physics.Raycast(target.transform.position, -Vector3.up, out hit, onlyTilesLayerMask, onlyTilesLayerMask.value))
         {
             tile = hit.collider.GetComponent<Tile>();
+        }
+        else
+        {
+            Debug.Log("failed to hit a tile under the player");
         }
         return tile;
     }

@@ -16,15 +16,43 @@ public class PlayerMove : TacticsMove
 
     public LayerMask layerMask;
 
+    public LayerMask fogAndWalls;
+
+    public LayerMask lineOfSightObstructing;
+
+    private Transform rayCastTarget;
+
+    private bool checkedFogInCurrentPosition = false;
+
+
+
     // Use this for initialization
     void Start()
     {
         Init();
+        rayCastTarget = new GameObject().transform;
+        rayCastTarget.position = this.transform.position + new Vector3(1, 0, 0);
     }
 
     public override void SetShowPath(bool value)
     {
         showingPath = value;
+    }
+
+    private void CheckFog()
+    {
+        List<RaycastHit> actualHits = new List<RaycastHit>();
+
+        for (int i =0; i < 360; i+=1)
+        {
+            rayCastTarget.RotateAround(this.transform.position, new Vector3(0, 1, 0), ((float)i));
+            actualHits.AddRange(RayCastUtils.RaycastTo(this.transform.position, rayCastTarget.position, fogAndWalls, lineOfSightObstructing, float.PositiveInfinity));
+            //Debug.Log("rotated to "+rayCastTarget.position);
+        }
+        //Debug.Log("CheckFog hit " + actualHits.Count + " items");
+        foreach (RaycastHit hit in actualHits){
+            Destroy(hit.collider.gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -38,6 +66,11 @@ public class PlayerMove : TacticsMove
         }
         else
         {
+            if (!checkedFogInCurrentPosition)
+            {
+                CheckFog();
+                checkedFogInCurrentPosition = true;
+            }
             if (!moving && !showingPath)
             {
                 CheckMouse();
@@ -49,6 +82,7 @@ public class PlayerMove : TacticsMove
                 if (!showingPath)
                 {
                     Move();
+                    checkedFogInCurrentPosition = false;
                 }
                 else
                 {

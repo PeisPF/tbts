@@ -9,6 +9,7 @@ TagManager:
   - StartingCameraTarget
   - Items
   - ActionPanel
+  - Fog
   layers:
   - Default
   - TransparentFX
@@ -22,7 +23,7 @@ TagManager:
   - walls
   - items
   - lightmask
-  - 
+  - fog
   - 
   - 
   - 
