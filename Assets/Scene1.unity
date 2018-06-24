@@ -6205,6 +6205,11 @@ Prefab:
       propertyPath: itemTriggered
       value: 
       objectReference: {fileID: 188861224}
+    - target: {fileID: 23278979341621152, guid: b255c4e791791ab4b9ba0c46087ec980,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8de8ae5f24a623f4580cff069c02a089, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b255c4e791791ab4b9ba0c46087ec980, type: 2}
   m_IsPrefabParent: 0
@@ -6736,7 +6741,7 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eb3ccd6eb7d07724f9b78f5717251969, type: 3}
+      objectReference: {fileID: 2100000, guid: 8de8ae5f24a623f4580cff069c02a089, type: 2}
     - target: {fileID: 1292822528423070, guid: 6446eb7fdaf2d62418c4f34d33343561, type: 2}
       propertyPath: m_Layer
       value: 10
@@ -7575,6 +7580,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 23278979341621152, guid: b255c4e791791ab4b9ba0c46087ec980,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8de8ae5f24a623f4580cff069c02a089, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b255c4e791791ab4b9ba0c46087ec980, type: 2}
   m_IsPrefabParent: 0
@@ -8204,33 +8214,6 @@ Prefab:
       propertyPath: m_RootOrder
       value: 25
       objectReference: {fileID: 0}
-    - target: {fileID: 1292822528423070, guid: 6446eb7fdaf2d62418c4f34d33343561, type: 2}
-      propertyPath: m_TagString
-      value: Items
-      objectReference: {fileID: 0}
-    - target: {fileID: 4993894144541446, guid: 6446eb7fdaf2d62418c4f34d33343561, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
-    - target: {fileID: 23125999229375408, guid: 6446eb7fdaf2d62418c4f34d33343561,
-        type: 2}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: eb3ccd6eb7d07724f9b78f5717251969, type: 3}
-    - target: {fileID: 1292822528423070, guid: 6446eb7fdaf2d62418c4f34d33343561, type: 2}
-      propertyPath: m_Layer
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 114144916169082094, guid: 6446eb7fdaf2d62418c4f34d33343561,
-        type: 2}
-      propertyPath: open
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114144916169082094, guid: 6446eb7fdaf2d62418c4f34d33343561,
-        type: 2}
-      propertyPath: allowedLocalOpen
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 6446eb7fdaf2d62418c4f34d33343561, type: 2}
   m_IsPrefabParent: 0
@@ -8291,6 +8274,11 @@ Prefab:
       propertyPath: m_LocalEulerAnglesHint.y
       value: -90
       objectReference: {fileID: 0}
+    - target: {fileID: 23278979341621152, guid: b255c4e791791ab4b9ba0c46087ec980,
+        type: 2}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 8de8ae5f24a623f4580cff069c02a089, type: 2}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: b255c4e791791ab4b9ba0c46087ec980, type: 2}
   m_IsPrefabParent: 0
@@ -13771,7 +13759,7 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eb3ccd6eb7d07724f9b78f5717251969, type: 3}
+      objectReference: {fileID: 2100000, guid: 8de8ae5f24a623f4580cff069c02a089, type: 2}
     - target: {fileID: 1292822528423070, guid: 6446eb7fdaf2d62418c4f34d33343561, type: 2}
       propertyPath: m_Layer
       value: 10
@@ -14823,7 +14811,7 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eb3ccd6eb7d07724f9b78f5717251969, type: 3}
+      objectReference: {fileID: 2100000, guid: 8de8ae5f24a623f4580cff069c02a089, type: 2}
     - target: {fileID: 1292822528423070, guid: 6446eb7fdaf2d62418c4f34d33343561, type: 2}
       propertyPath: m_Layer
       value: 10

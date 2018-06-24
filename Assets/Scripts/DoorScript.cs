@@ -26,6 +26,7 @@ public class DoorScript : Item
     // Update is called once per frame
     void Update()
     {
+        base.Update();
         if (moving)
         {
             float rot = Time.deltaTime * 180;
