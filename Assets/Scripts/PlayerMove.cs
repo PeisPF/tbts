@@ -25,6 +25,11 @@ public class PlayerMove : TacticsMove
 
     private bool checkedFogInCurrentPosition = false;
 
+    public void SetCheckedFogInCurrentPosition(bool value)
+    {
+        this.checkedFogInCurrentPosition = value;
+    }
+
 
 
     // Use this for initialization

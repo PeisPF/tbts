@@ -2,56 +2,64 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorScript : Item {
+public class DoorScript : Item
+{
 
     public bool open = false;
     public bool moving = false;
 
     public bool allowedLocalOpen = true;
 
-    private Vector3 axisOpen = new Vector3(0,0,-0.5f);
+    //private Vector3 axisOpen = new Vector3(0, 0, -0.5f);
+
+    public Transform fulcrum;
 
     private Vector3 originalTransformPosition;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start()
+    {
         originalTransformPosition = transform.position;
-	}
+    }
 
     float endrot = 0;
     // Update is called once per frame
-    void Update () {
-       
-
-		if (moving)
+    void Update()
+    {
+        if (moving)
         {
             float rot = Time.deltaTime * 180;
-            endrot = endrot + rot;
+            if (endrot + rot > 90)
+            {
+                rot = 90 - endrot;
+            }
+            endrot += rot;
             if (open)
             {
-                transform.RotateAround(originalTransformPosition + axisOpen, new Vector3(0.0f, -1.0f, 0.0f), rot);
+                transform.RotateAround(fulcrum.position, new Vector3(0.0f, -1.0f, 0.0f), rot);
                 if (endrot >= 90)
                 {
                     moving = false;
-                open = false;
+                    open = false;
                     endrot = 0;
                 }
             }
             else
             {
-                transform.RotateAround(originalTransformPosition + axisOpen, new Vector3(0.0f, 1.0f, 0.0f), rot);
+                transform.RotateAround(fulcrum.position, new Vector3(0.0f, 1.0f, 0.0f), rot);
                 if (endrot >= 90)
                 {
-                     moving = false;
-                     open = true;
+                    moving = false;
+                    open = true;
                     endrot = 0;
                 }
             }
-
-            
-
         }
-	}
+        if (TurnManager.GetCurrentPlayer()!=null && TurnManager.GetCurrentPlayer().GetComponent<PlayerMove>() != null)
+        {
+            TurnManager.GetCurrentPlayer().GetComponent<PlayerMove>().SetCheckedFogInCurrentPosition(false);
+        }
+    }
 
     public override string[] InitActions()
     {
