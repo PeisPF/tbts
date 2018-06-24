@@ -8,19 +8,37 @@ public abstract class Item : MonoBehaviour {
 
     public string[] actions;
     public int[] actionCosts;
+    public bool isHovered;
+    public bool colorShouldChange;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
         actions = InitActions();
         actionCosts = InitActionCosts();
+        isHovered = false;
+        colorShouldChange = false;
 	}
 
     public abstract int[] InitActionCosts();
     public abstract string[] InitActions();
 
 	// Update is called once per frame
-	void Update () {
-		
+	protected void Update () {
+        
+        if (colorShouldChange)
+        {
+            Debug.Log("changing color on " + this.name);
+            Color color = Color.black;
+            float emission = 1f;
+            if (this.isHovered)
+            {
+                emission = 0.5f;
+                color = Color.yellow;
+            }          
+            GetComponent<Renderer>().material.SetColor("_EmissionColor", color * emission);
+            colorShouldChange = false;
+        }
+        
 	}
 
     public void Interact(int index)
@@ -66,5 +84,17 @@ public abstract class Item : MonoBehaviour {
     public virtual void Interact5()
     {
         throw new NotImplementedException();
+    }
+
+    public void OnMouseEnter()
+    {
+        this.colorShouldChange = true;
+        this.isHovered = true;
+    }
+
+    public void OnMouseExit()
+    {
+        this.colorShouldChange = true;
+        this.isHovered = false;
     }
 }
