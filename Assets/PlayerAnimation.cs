@@ -2,23 +2,37 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerAnimation : MonoBehaviour {
+public class PlayerAnimation : MonoBehaviour
+{
     private Animator mAnimator;
     private PlayerMove mv;
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         mAnimator = GetComponent<Animator>();
-        GameObject thePlayer = GameObject.Find("Player");
-        mv = thePlayer.GetComponent<PlayerMove>();
+
+        //questa credo sia una pessima practice, consideriamo che lo script è associato già al gameobject
+        //GameObject thePlayer = GameObject.Find("Player");
+        //mv = thePlayer.GetComponent<PlayerMove>();
+        //quindi si può fare come mostro nella update
+
+
     }
-	
-	// Update is called once per frame
-	void Update () {
-        bool walking = mv.isMoving();
-        mAnimator.SetBool("walking", walking);
-        if (mv.isOpeningADoor())
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (mv == null)
         {
-            mv.setOpeningADoor(false);
+            mv = this.gameObject.GetComponentInParent<PlayerMove>();
+        }
+
+
+        bool walking = mv.IsMoving();
+        mAnimator.SetBool("walking", walking);
+        if (mv.IsInteractingWithObject())
+        {
+            mv.SetInteractingWithObject(false);
             mAnimator.SetTrigger("openingADoor");
         }
     }
