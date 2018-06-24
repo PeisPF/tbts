@@ -36,6 +36,8 @@ public abstract class TacticsMove : MonoBehaviour
 
     public Tile actualTargetTile;
 
+    private bool interactingWithObject = false;
+
 
     float halfHeight = 0;
 
@@ -441,6 +443,7 @@ public abstract class TacticsMove : MonoBehaviour
         float distance = Vector3.Distance(currentTile.transform.position, item.transform.position);
         if (distance<= interactionReach+item.GetInteractionReach())
         {
+            interactingWithObject = true;
             item.Interact(actionIndex);
             DecreaseActionPoints();
         }
@@ -456,7 +459,17 @@ public abstract class TacticsMove : MonoBehaviour
         remainingActionPoints--;
         if (remainingActionPoints == 0)
         {
-            TurnManager.EndTurn(); //modificare qui se vogliamo aggiungere altre azioni
+            TurnManager.EndTurn(); 
         }
+    }
+
+    public bool IsInteractingWithObject()
+    {
+        return interactingWithObject;
+    }
+
+    public void SetInteractingWithObject(bool value)
+    {
+        interactingWithObject = value;
     }
 }
