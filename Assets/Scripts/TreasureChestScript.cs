@@ -23,13 +23,7 @@ public class TreasureChestScript : Item {
         Debug.Log("YOU FUCKIN' WIN");
     }
 
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
-	// Update is called once per frame
 	void Update () {
-		
+        base.Update();
 	}
 }

@@ -8784,7 +8784,7 @@ Prefab:
         type: 2}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: eb3ccd6eb7d07724f9b78f5717251969, type: 3}
+      objectReference: {fileID: 2100000, guid: 8de8ae5f24a623f4580cff069c02a089, type: 2}
     - target: {fileID: 1292822528423070, guid: 6446eb7fdaf2d62418c4f34d33343561, type: 2}
       propertyPath: m_Layer
       value: 10
@@ -13334,7 +13334,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4774862535822550, guid: 5d303fb124374dd469ea6c7f118e2225, type: 2}
       propertyPath: m_LocalPosition.z
-      value: -14
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4774862535822550, guid: 5d303fb124374dd469ea6c7f118e2225, type: 2}
       propertyPath: m_LocalRotation.x
