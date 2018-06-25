@@ -26,11 +26,11 @@ public class RayCastUtils {
     }
 
     //cast a ray from source to target of length distance, using layerMask and ignoring all hits that happen after one happened on an object on layerMask2
-    public static List<RaycastHit> RaycastTo(Vector3 source, Vector3 target, int layerMask, int layerMask2, float distance)
+    public static List<RaycastHit> RaycastTo(Vector3 source, Vector3 target, int checkOnThisLayermask, int ignoreHitsAfterThisLayerMask, float distance)
     {
         List<RaycastHit> raycasts = new List<RaycastHit>();
         Vector3 relativePosition = target - source;
-        RaycastHit[] hits =Physics.RaycastAll(source, relativePosition, distance, layerMask);
+        RaycastHit[] hits =Physics.RaycastAll(source, relativePosition, distance, checkOnThisLayermask);
 
         foreach (RaycastHit hit in hits)
         {
@@ -46,7 +46,7 @@ public class RayCastUtils {
         {
             if (!obstructed)
             {
-                if (layerMask2 == (layerMask2 | 1 << hit.collider.gameObject.layer))
+                if (ignoreHitsAfterThisLayerMask == (ignoreHitsAfterThisLayerMask | 1 << hit.collider.gameObject.layer))
                 {
                     obstructed = true;
                 }

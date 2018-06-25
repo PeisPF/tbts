@@ -17,18 +17,15 @@ public class PlayerMove : TacticsMove
 
     public LayerMask layerMask;
 
-    public LayerMask fogAndWalls;
+    //public LayerMask fogAndWalls;
 
-    public LayerMask lineOfSightObstructing;
+   // public LayerMask lineOfSightObstructing;
 
-    private Transform rayCastTarget;
+   // private Transform rayCastTarget;
 
-    private bool checkedFogInCurrentPosition = false;
+    //private bool checkedFogInCurrentPosition = false;
 
-    public void SetCheckedFogInCurrentPosition(bool value)
-    {
-        this.checkedFogInCurrentPosition = value;
-    }
+    
 
 
 
@@ -36,7 +33,7 @@ public class PlayerMove : TacticsMove
     void Start()
     {
         Init();
-        rayCastTarget = new GameObject().transform;
+        //rayCastTarget = new GameObject().transform;
     }
 
     public override void SetShowPath(bool value)
@@ -44,7 +41,7 @@ public class PlayerMove : TacticsMove
         showingPath = value;
     }
 
-    private void CheckFog()
+    /*private void CheckFog()
     {
         List<RaycastHit> actualHits = new List<RaycastHit>();
         rayCastTarget.position = this.transform.position + new Vector3(0.1f, 0, 0);
@@ -61,7 +58,7 @@ public class PlayerMove : TacticsMove
         foreach (RaycastHit hit in actualHits){
             Destroy(hit.collider.gameObject);
         }
-    }
+    }*/
 
     // Update is called once per frame
     void Update()
@@ -74,11 +71,11 @@ public class PlayerMove : TacticsMove
         }
         else
         {
-            if (!checkedFogInCurrentPosition)
+            /*if (!checkedFogInCurrentPosition)
             {
                 CheckFog();
                 checkedFogInCurrentPosition = true;
-            }
+            }*/
             
             if (!moving && !showingPath)
             {
@@ -91,7 +88,7 @@ public class PlayerMove : TacticsMove
                 if (!showingPath)
                 {
                     Move();
-                    checkedFogInCurrentPosition = false;
+                    //checkedFogInCurrentPosition = false;
                 }
                 else
                 {
@@ -118,17 +115,11 @@ public class PlayerMove : TacticsMove
 
     }
 
-    Ray getActualRay(Vector3 tap_position)
-    {
-        Ray result = Camera.main.ScreenPointToRay(tap_position);
-        return result; 
-    }
-
     void DoAction(bool pathLit)
     {
 
         //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Ray ray = getActualRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, float.PositiveInfinity, layerMask.value))
@@ -161,7 +152,7 @@ public class PlayerMove : TacticsMove
                 }
             }
         }
-        checkedFogInCurrentPosition = false;
+        //checkedFogInCurrentPosition = false;
     }
 
     private void SwitchTurn(RaycastHit hit)
@@ -170,7 +161,7 @@ public class PlayerMove : TacticsMove
         if (p != this)
         {
             ResetPath();
-            TurnManager.SwitchTurn(p);
+            //TurnManager.SwitchTurn(p);
         }
         else
         {
@@ -197,8 +188,8 @@ public class PlayerMove : TacticsMove
     void DoRightMouseButton()
     {
         RaycastHit hit;
-        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Ray ray = getActualRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Ray ray = getActualRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, float.PositiveInfinity, layerMask.value))
         {
             Debug.Log("hit " + hit.collider.tag);
@@ -242,8 +233,8 @@ public class PlayerMove : TacticsMove
                 else
                 {
                     //normal click
-                    //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    Ray ray = getActualRay(Input.mousePosition);
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    //Ray ray = getActualRay(Input.mousePosition);
 
                     RaycastHit hit;
                     if (Physics.Raycast(ray, out hit, float.PositiveInfinity, layerMask.value))

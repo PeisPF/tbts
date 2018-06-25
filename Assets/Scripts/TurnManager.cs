@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class TurnManager : MonoBehaviour {
 
-    static Dictionary<string, List<TacticsMove>> units = new Dictionary<string, List<TacticsMove>>();
+    static Dictionary<string, List<UnitActionScript>> units = new Dictionary<string, List<UnitActionScript>>();
     static Queue<string> turnKey = new Queue<string>();
-    static Queue<TacticsMove> turnTeam = new Queue<TacticsMove>();
+    static Queue<UnitActionScript> turnTeam = new Queue<UnitActionScript>();
 
 	// Use this for initialization
 	void Start () {
@@ -16,7 +16,7 @@ public class TurnManager : MonoBehaviour {
     {
         if (turnTeam!=null && turnTeam.Count > 0)
         {
-            TacticsMove tact = turnTeam.Peek();
+            UnitActionScript tact = turnTeam.Peek();
             if (tact != null)
             {
                 return tact.GetComponentInParent<Collider>();
@@ -35,9 +35,9 @@ public class TurnManager : MonoBehaviour {
 
     static void InitTeamTurnQueue()
     {
-        List<TacticsMove> teamList = units[turnKey.Peek()];
+        List<UnitActionScript> teamList = units[turnKey.Peek()];
 
-        foreach (TacticsMove unit in teamList)
+        foreach (UnitActionScript unit in teamList)
         {
             turnTeam.Enqueue(unit);
         }
@@ -45,15 +45,15 @@ public class TurnManager : MonoBehaviour {
         StartTurn();
     }
 
-    public static void SwitchTurn(PlayerMove player)
+    public static void SwitchTurn(PlayerActionScript player)
     {
-        TacticsMove unit = turnTeam.Peek();
+        UnitActionScript unit = turnTeam.Peek();
         if (turnTeam.Contains(player))
         {
-            TacticsMove[] tempTurns = turnTeam.ToArray();
-            turnTeam = new Queue<TacticsMove>();
+            UnitActionScript[] tempTurns = turnTeam.ToArray();
+            turnTeam = new Queue<UnitActionScript>();
             turnTeam.Enqueue(player);
-            foreach (TacticsMove tact in tempTurns)
+            foreach (UnitActionScript tact in tempTurns)
             {
                // Debug.Log("checking: "+tact+" != "+player+" ->"+ (tact != player));
                 if (tact != player)
@@ -79,7 +79,7 @@ public class TurnManager : MonoBehaviour {
     private static void PrintTurnQueue()
     {
         string debugString = "action queue ";
-        foreach (TacticsMove item in turnTeam.ToArray())
+        foreach (UnitActionScript item in turnTeam.ToArray())
         {
             debugString += item.name + ",";
         }
@@ -101,7 +101,7 @@ public class TurnManager : MonoBehaviour {
 
     public static void EndTurn()
     {
-        TacticsMove unit = turnTeam.Dequeue();
+        UnitActionScript unit = turnTeam.Dequeue();
         unit.EndTurn();
         if (turnTeam.Count > 0)
         {
@@ -117,12 +117,12 @@ public class TurnManager : MonoBehaviour {
     }
 
 
-    public static void AddUnit(TacticsMove unit)
+    public static void AddUnit(UnitActionScript unit)
     {
-        List<TacticsMove> list;
+        List<UnitActionScript> list;
         if (!units.ContainsKey(unit.tag))
         {
-            list = new List<TacticsMove>();
+            list = new List<UnitActionScript>();
             units[unit.tag] = list;
 
             if (!turnKey.Contains(unit.tag))
@@ -140,7 +140,7 @@ public class TurnManager : MonoBehaviour {
         list.Add(unit);
     }
 
-    public static void RemoveUnit(TacticsMove unit)
+    public static void RemoveUnit(UnitActionScript unit)
     {
         //implementarla se un'unità può essere rimossa dal gioco
     }

@@ -56,6 +56,7 @@ public class TileStatus : MonoBehaviour {
         {
             path = false;
         }
+        UpdateMaterial();
     }
 
     private TileMaterialScript GetTileMaterialScript()

@@ -10,7 +10,7 @@ public abstract class TacticsMove : MonoBehaviour
     GameObject[] tiles;
 
     public bool moving = false;
-    //public bool showingPath = false;
+    public bool showingPath = false;
 
     public int move = 5;
     public float jumpHeight = 2;
@@ -45,7 +45,7 @@ public abstract class TacticsMove : MonoBehaviour
     {
         tiles = GameObject.FindGameObjectsWithTag("Tile");
         halfHeight = GetComponent<Collider>().bounds.extents.y;
-        TurnManager.AddUnit(this);
+        //TurnManager.AddUnit(this);
     }
 
     public void GetCurrentTile()
@@ -80,6 +80,10 @@ public abstract class TacticsMove : MonoBehaviour
 
     public void FindSelectableTiles()
     {
+        foreach (TileBFSScript tile in selectableTiles){
+            tile.Reset();
+            tile.GetComponent<TileStatus>().Reset();
+        }
         ComputeAdjacencyLists(jumpHeight, null);
         GetCurrentTile();
 
@@ -112,105 +116,110 @@ public abstract class TacticsMove : MonoBehaviour
 
     public abstract void SetShowPath(bool value);
 
-    protected TileBFSScript FindEndTile(TileBFSScript t)
-    {
-        Stack<TileBFSScript> tempPath = new Stack<TileBFSScript>();
 
-        TileBFSScript next = t.GetParent();
-
-        while (next != null)
-        {
-            tempPath.Push(next);
-            next = next.GetParent();
-        }
-
-        if (tempPath.Count <= move)
-        {
-            return t.GetParent();
-        }
-
-        TileBFSScript endTile = null;
-        for (int i = 0; i <= move; i++)
-        {
-            endTile = tempPath.Pop();
-        }
-        return endTile;
-    }
     /**
      * Questo è per A*, per adesso lo commento
      **/
-   /* protected bool FindPath(Tile target)
-    {
-        ComputeAdjacencyLists(jumpHeight, target);
-        GetCurrentTile();
+    /* 
 
-        List<Tile> openList = new List<Tile>();
-        List<Tile> closedList = new List<Tile>();
+          protected TileBFSScript FindEndTile(TileBFSScript t)
+     {
+         Stack<TileBFSScript> tempPath = new Stack<TileBFSScript>();
 
-        openList.Add(currentTile);
+         TileBFSScript next = t.GetParent();
 
-        currentTile.h = Vector3.Distance(currentTile.transform.position, target.transform.position);
-        currentTile.f = currentTile.h; //g vale 0
+         while (next != null)
+         {
+             tempPath.Push(next);
+             next = next.GetParent();
+         }
 
-        while (openList.Count > 0)
-        {
-            Tile t = findLowestF(openList);
-            closedList.Add(t);
+         if (tempPath.Count <= move)
+         {
+             return t.GetParent();
+         }
 
-            if (t == target)
-            {
-                actualTargetTile = FindEndTile(t);
-                MoveToTile(actualTargetTile);
-                return true;
-            }
+         TileBFSScript endTile = null;
+         for (int i = 0; i <= move; i++)
+         {
+             endTile = tempPath.Pop();
+         }
+         return endTile;
+     }
 
-            foreach (Tile tile in t.adjacencyList)
-            {
-                if (closedList.Contains(tile))
-                {
-                    //do nothing, already processed
-                }
-                else if (openList.Contains(tile))
-                {
-                    float tempg = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
-                    if (tempg < tile.g)
-                    {
-                        //found a faster way
-                        tile.parent = t;
-                        tile.g = tempg;
-                        tile.f = tile.g + tile.h;
-                    }
-                }
-                else
-                {
-                    tile.parent = t;
-                    tile.g = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
-                    tile.h = Vector3.Distance(tile.transform.position, target.transform.position);
-                    tile.f = tile.g + tile.h;
-                    openList.Add(tile);
-                }
-            }
 
-        }
-        Debug.Log("Path not found");
-        return false;
-    }
+         protected bool FindPath(Tile target)
+     {
+         ComputeAdjacencyLists(jumpHeight, target);
+         GetCurrentTile();
 
-    private Tile findLowestF(List<Tile> list)
-    {
-        Tile lowest = list[0];
+         List<Tile> openList = new List<Tile>();
+         List<Tile> closedList = new List<Tile>();
 
-        foreach (Tile tile in list)
-        {
-            if (tile.f < lowest.f)
-            {
-                lowest = tile;
-            }
-        }
+         openList.Add(currentTile);
 
-        list.Remove(lowest);
-        return lowest;
-    }*/
+         currentTile.h = Vector3.Distance(currentTile.transform.position, target.transform.position);
+         currentTile.f = currentTile.h; //g vale 0
+
+         while (openList.Count > 0)
+         {
+             Tile t = findLowestF(openList);
+             closedList.Add(t);
+
+             if (t == target)
+             {
+                 actualTargetTile = FindEndTile(t);
+                 MoveToTile(actualTargetTile);
+                 return true;
+             }
+
+             foreach (Tile tile in t.adjacencyList)
+             {
+                 if (closedList.Contains(tile))
+                 {
+                     //do nothing, already processed
+                 }
+                 else if (openList.Contains(tile))
+                 {
+                     float tempg = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
+                     if (tempg < tile.g)
+                     {
+                         //found a faster way
+                         tile.parent = t;
+                         tile.g = tempg;
+                         tile.f = tile.g + tile.h;
+                     }
+                 }
+                 else
+                 {
+                     tile.parent = t;
+                     tile.g = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
+                     tile.h = Vector3.Distance(tile.transform.position, target.transform.position);
+                     tile.f = tile.g + tile.h;
+                     openList.Add(tile);
+                 }
+             }
+
+         }
+         Debug.Log("Path not found");
+         return false;
+     }
+
+     private Tile findLowestF(List<Tile> list)
+     {
+         Tile lowest = list[0];
+
+         foreach (Tile tile in list)
+         {
+             if (tile.f < lowest.f)
+             {
+                 lowest = tile;
+             }
+         }
+
+         list.Remove(lowest);
+         return lowest;
+     }*/
 
     public void MoveToTile(TileBFSScript tile)
     {

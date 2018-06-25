@@ -58,7 +58,7 @@ public class DoorScript : Item
         }
         if (TurnManager.GetCurrentPlayer()!=null && TurnManager.GetCurrentPlayer().GetComponent<PlayerMove>() != null)
         {
-            TurnManager.GetCurrentPlayer().GetComponent<PlayerMove>().SetCheckedFogInCurrentPosition(false);
+            TurnManager.GetCurrentPlayer().GetComponent<PlayerController>().SetCheckedFogInCurrentPosition(false);
         }
     }
 
