@@ -3830,30 +3830,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f64a475fd3847cc4383064a360af7418, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turn: 0
-  selectableTiles: []
-  tiles: []
-  moving: 0
-  move: 5
-  jumpHeight: 2
-  moveSpeed: 2
-  jumpVelocity: 4.5
-  actionPointsPerTurn: 2
-  interactionReach: 1
-  remainingActionPoints: 0
-  fallingDown: 0
-  jumpingUp: 0
-  movingToEdge: 0
-  jumpTarget: {x: 0, y: 0, z: 0}
-  currentTile: {fileID: 0}
-  velocity: {x: 0, y: 0, z: 0}
-  heading: {x: 0, y: 0, z: 0}
-  onlyTilesLayerMask:
-    m_Bits: 0
-  actualTargetTile: {fileID: 0}
-  interactingWithObject: 0
-  halfHeight: 0
-  target: {fileID: 0}
 --- !u!136 &532520140
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -12890,6 +12866,97 @@ Transform:
   m_PrefabParentObject: {fileID: 4530903184650706, guid: 6d8b1592142d4424e823d11d5e9d97d0,
     type: 2}
   m_PrefabInternal: {fileID: 624237592}
+--- !u!1 &1829141429 stripped
+GameObject:
+  m_PrefabParentObject: {fileID: 1023995423858664, guid: 5d303fb124374dd469ea6c7f118e2225,
+    type: 2}
+  m_PrefabInternal: {fileID: 1867497686}
+--- !u!114 &1829141434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1829141429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 21d63bcc5e6e4b14fa84ae67a1defbc6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1829141435
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1829141429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b7b7c06fe4ce6844eabfadbdc6a512aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1829141436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1829141429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5633176a2e91c6643a7ad0a85191f0c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentTile: {fileID: 0}
+  onlyTilesLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  move: 5
+  jumpHeight: 2
+--- !u!114 &1829141437
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1829141429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fcb35df9af757340b3faf4dc8d250b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  remainingActionPoints: 0
+  actionPointsPerTurn: 2
+  moveSpeed: 2
+  jumpVelocity: 4.5
+  interactionReach: 1
+  layerMask:
+    serializedVersion: 2
+    m_Bits: 4294964735
+--- !u!114 &1829141438
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1829141429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ee6852082e90a4583d77cb79d1c38b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1829141439
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1829141429}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 32f337b550f88684da78989b844aa9b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogAndWalls:
+    serializedVersion: 2
+    m_Bits: 5632
+  lineOfSightObstructing:
+    serializedVersion: 2
+    m_Bits: 1536
 --- !u!1 &1832233703
 GameObject:
   m_ObjectHideFlags: 0
@@ -13315,6 +13382,11 @@ Prefab:
       value: 1536
       objectReference: {fileID: 0}
     - target: {fileID: 23221375660461206, guid: 5d303fb124374dd469ea6c7f118e2225,
+        type: 2}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114455568681549716, guid: 5d303fb124374dd469ea6c7f118e2225,
         type: 2}
       propertyPath: m_Enabled
       value: 0
