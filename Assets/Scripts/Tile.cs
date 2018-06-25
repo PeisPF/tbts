@@ -5,18 +5,16 @@ using UnityEngine;
 public class Tile : MonoBehaviour
 {
 
-    public bool walkable = true;
+    /*public bool walkable = true;
     public bool current = false;
     public bool target = false;
     public bool selectable = false;
-    public bool path = false;
+    public bool path = false;*/
 
-    public List<Tile> adjacencyList = new List<Tile>();
+    //public List<Tile> adjacencyList = new List<Tile>();
 
     //BFS
-    public bool visited = false;
-    public Tile parent = null;
-    public int distance = 0;
+    
 
     //for A*
     public float f = 0; //g+h
@@ -33,7 +31,7 @@ public class Tile : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    /*void Update()
     {
         if (walkable)
         {
@@ -70,33 +68,30 @@ public class Tile : MonoBehaviour
              //Replace this with whatever you want for your base color at emission level '1'
             GetComponent<Renderer>().material.SetColor("_EmissionColor", baseColor * emission);
         }
-    }
+    }*/
 
-    public void Reset()
+    /*public void Reset()
     {
         Reset(false);
-    }
+    }*/
 
     public void Reset(bool alsoPath)
     {
-        adjacencyList.Clear();
+       
+        /* current = false;
+         target = false;
+         selectable = false;
+         if (alsoPath)
+         {
+             path = false;
+         }*/
 
-        current = false;
-        target = false;
-        selectable = false;
-        if (alsoPath)
-        {
-            path = false;
-        }
 
-        visited = false;
-        parent = null;
-        distance = 0;
 
         f = g = h = 0;
     }
 
-    public void FindNeighbors(float jumpHeight, Tile target)
+    /*public void FindNeighbors(float jumpHeight, Tile target)
     {
         Reset();
 
@@ -104,9 +99,9 @@ public class Tile : MonoBehaviour
         CheckTile(-Vector3.forward, jumpHeight, target);
         CheckTile(Vector3.right, jumpHeight, target);
         CheckTile(-Vector3.right, jumpHeight, target);
-    }
+    }*/
 
-    public void CheckTile(Vector3 direction, float jumpHeight, Tile target)
+    /*public void CheckTile(Vector3 direction, float jumpHeight, Tile target)
     {
         Vector3 halfExtents = new Vector3(0.25f, 1 + jumpHeight / 2.0f, 0.25f);
         Collider[] colliders = Physics.OverlapBox(transform.position + direction, halfExtents); //ritorna un array di colliders presenti in una posizione centrata sul primo elemento e con un range pari a halfextents
@@ -123,5 +118,5 @@ public class Tile : MonoBehaviour
                 }
             }
         }
-    }
+    }*/
 }

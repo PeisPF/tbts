@@ -13,7 +13,7 @@ public class PlayerMove : TacticsMove
 
     public GUIElement actionPanel;
 
-    private Tile pathDestination;
+    private TileBFSScript pathDestination;
 
     public LayerMask layerMask;
 
@@ -79,6 +79,7 @@ public class PlayerMove : TacticsMove
                 CheckFog();
                 checkedFogInCurrentPosition = true;
             }
+            
             if (!moving && !showingPath)
             {
                 CheckMouse();
@@ -102,10 +103,11 @@ public class PlayerMove : TacticsMove
 
     void CheckHighlightPath(RaycastHit hit)
     {
-        Tile t = hit.collider.GetComponent<Tile>();
-        if (t.selectable)
+        Debug.Log("CheckHighlightPath");
+        TileStatus t = hit.collider.GetComponent<TileStatus>();
+        if (t.IsSelectable())
         {
-            pathDestination = t;
+            pathDestination = t.GetComponent<TileBFSScript>();
             HighlightPathTo(t);
         }
 
@@ -151,8 +153,8 @@ public class PlayerMove : TacticsMove
             {
                 if (hit.collider.tag == "Tile")
                 {
-                    Tile t = hit.collider.GetComponent<Tile>();
-                    if (t.path)
+                    TileStatus t = hit.collider.GetComponent<TileStatus>();
+                    if (t.IsPath())
                     {
                         MoveToTile(pathDestination);
                     }
@@ -185,10 +187,10 @@ public class PlayerMove : TacticsMove
 
     void DoMove(RaycastHit hit)
     {
-        Tile t = hit.collider.GetComponent<Tile>();
-        if ((t.path && showingPath) || (t.selectable && !showingPath))
+        TileStatus t = hit.collider.GetComponent<TileStatus>();
+        if ((t.IsPath() && showingPath) || (t.IsSelectable() && !showingPath))
         {
-            MoveToTile(t);
+            MoveToTile(t.GetComponent<TileBFSScript>());
         }
     }
 

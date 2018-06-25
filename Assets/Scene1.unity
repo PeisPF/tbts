@@ -1702,15 +1702,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -2710,15 +2701,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -3849,6 +3831,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turn: 0
+  selectableTiles: []
+  tiles: []
   moving: 0
   move: 5
   jumpHeight: 2
@@ -3857,10 +3841,19 @@ MonoBehaviour:
   actionPointsPerTurn: 2
   interactionReach: 1
   remainingActionPoints: 0
+  fallingDown: 0
+  jumpingUp: 0
+  movingToEdge: 0
+  jumpTarget: {x: 0, y: 0, z: 0}
+  currentTile: {fileID: 0}
+  velocity: {x: 0, y: 0, z: 0}
+  heading: {x: 0, y: 0, z: 0}
   onlyTilesLayerMask:
-    serializedVersion: 2
     m_Bits: 0
   actualTargetTile: {fileID: 0}
+  interactingWithObject: 0
+  halfHeight: 0
+  target: {fileID: 0}
 --- !u!136 &532520140
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4208,15 +4201,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -5830,15 +5814,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -9009,15 +8984,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -9311,15 +9277,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -11607,15 +11564,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -11908,15 +11856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -12345,15 +12284,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -12762,15 +12692,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -13015,15 +12936,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0
@@ -13334,7 +13246,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4774862535822550, guid: 5d303fb124374dd469ea6c7f118e2225, type: 2}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -14
       objectReference: {fileID: 0}
     - target: {fileID: 4774862535822550, guid: 5d303fb124374dd469ea6c7f118e2225, type: 2}
       propertyPath: m_LocalRotation.x
@@ -14109,15 +14021,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkable: 1
-  current: 0
-  target: 0
-  selectable: 0
-  path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
   f: 0
   g: 0
   h: 0

@@ -1,11 +1,17 @@
-﻿using System;
+﻿/**
+ * 
+ * Classe commentata perchè per adesso non serve
+ * 
+ * */
+
+/*using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCMove : TacticsMove
 {
-    GameObject target;
+    /*GameObject target;
 
     // Use this for initialization
     void Start()
@@ -75,3 +81,4 @@ public class NPCMove : TacticsMove
         //throw new System.NotImplementedException();
     }
 }
+*/
