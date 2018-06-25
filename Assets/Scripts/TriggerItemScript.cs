@@ -31,10 +31,11 @@ public abstract class TriggerItemScript : Item {
 
     public abstract void ShowAsDisactivated();
     public abstract void ShowAsActivated();
-
+    
     // Update is called once per frame
     void Update()
     {
+        base.Update();
         if (moving)
         {
             if (activated)
