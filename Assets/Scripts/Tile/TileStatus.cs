@@ -107,7 +107,7 @@ public class TileStatus : MonoBehaviour {
 
     private void UpdateMaterial()
     {
-        GetTileMaterialScript().SetMaterial(walkable, current, path, target, selectable);
+        GetTileMaterialScript().SetMaterial();
     }
 
 
