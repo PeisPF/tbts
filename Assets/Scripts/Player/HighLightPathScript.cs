@@ -2,9 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HighLightPathScript : MonoBehaviour {
+public class HighLightPathScript : MonoBehaviour
+{
 
     Stack<TileBFSScript> path = new Stack<TileBFSScript>();
+
+    private PlayerStatusScript playerStatusScript;
+
+    private PlayerStatusScript GetPlayerStatusScript()
+    {
+        if (playerStatusScript == null)
+        {
+            playerStatusScript = this.GetComponent<PlayerStatusScript>();
+        }
+        return playerStatusScript;
+    }
 
     //private TileBFSScript pathDestination;
 
@@ -41,8 +53,8 @@ public class HighLightPathScript : MonoBehaviour {
     public void DoHighLightPathTo(TileStatus tile)
     {
         tile.SetTarget(true);
-        this.GetComponent<PlayerStatusScript>().SetMoving(false);
-        this.GetComponent<PlayerStatusScript>().SetShowingPath(true);
+        GetPlayerStatusScript().SetMoving(false);
+        GetPlayerStatusScript().SetShowingPath(true);
 
         TileStatus next = tile;
         while (next != null)

@@ -22,6 +22,29 @@ public class PlayerActionScript : UnitActionScript {
 
     private TileBFSScript pathDestination;
 
+    private PlayerStatusScript playerStatusScript;
+
+    private PlayerStatusScript GetPlayerStatusScript()
+    {
+        if (playerStatusScript == null)
+        {
+            playerStatusScript = this.GetComponent<PlayerStatusScript>();
+        }
+        return playerStatusScript;
+    }
+
+    private PlayerBFSScript playerBFSScript;
+
+    private PlayerBFSScript GetPlayerBFSScript()
+    {
+        if (playerBFSScript == null)
+        {
+            playerBFSScript = this.GetComponent<PlayerBFSScript>();
+        }
+        return playerBFSScript;
+    }
+
+
     public void SetPathDestination(TileBFSScript dest)
     {
         this.pathDestination = dest;
@@ -39,17 +62,18 @@ public class PlayerActionScript : UnitActionScript {
 
     public override void DoReset()
     {
-        this.GetComponent<PlayerStatusScript>().SetMoving(false);
-        this.GetComponent<PlayerStatusScript>().SetShowingPath(false);
+        GetPlayerStatusScript().SetMoving(false);
+        GetPlayerStatusScript().SetShowingPath(false);
         //SetShowPath(false);
     }
 
     public void Move()
     {
+        //
         Debug.Log("Move() called");
-        if (this.GetComponent<PlayerBFSScript>().GetPath().Count > 0)
+        if (GetPlayerBFSScript().GetPath().Count > 0)
         {
-            TileBFSScript t = this.GetComponent<PlayerBFSScript>().GetPath().Peek();
+            TileBFSScript t = GetPlayerBFSScript().GetPath().Peek();
             Vector3 target = t.transform.position;
 
             target.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y; //per non finire sottoterra puntiamo SOPRA (metà altezza dell'omino più metà del tile)
@@ -75,21 +99,29 @@ public class PlayerActionScript : UnitActionScript {
             {
                 //Tile center reached
                 transform.position = target;
-                this.GetComponent<PlayerBFSScript>().GetPath().Pop();
+                GetPlayerBFSScript().GetPath().Pop();
             }
         }
         else
         {
-            this.GetComponent<PlayerBFSScript>().RemoveSelectableTiles();
-            this.GetComponent<PlayerStatusScript>().SetMoving(false);
-            this.GetComponent<PlayerStatusScript>().SetShowingPath(false);
+            EndAction(true);
+        }
+    }
+
+    private void EndAction(bool consumeAction)
+    {
+        GetPlayerBFSScript().RemoveSelectableTiles();
+        GetPlayerStatusScript().SetMoving(false);
+        GetPlayerStatusScript().SetShowingPath(false);
+        if (consumeAction)
+        {
             DecreaseActionPoints();
         }
     }
 
     public void DoAction(bool pathLit)
     {
-        Debug.Log("DoAction("+ pathLit + ") called");
+        //Debug.Log("DoAction("+ pathLit + ") called");
         //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -100,6 +132,7 @@ public class PlayerActionScript : UnitActionScript {
             if (hit.collider.tag == "Player")
             {
                 SwitchTurn(hit);
+                EndAction(false);
             }
             else if (!pathLit)
             {
@@ -129,17 +162,17 @@ public class PlayerActionScript : UnitActionScript {
 
     public void MoveToTile(TileBFSScript tile)
     {
-        Debug.Log("MoveToTile(" + tile + ") called");
-        this.GetComponent<PlayerBFSScript>().GetPath().Clear();
+        //Debug.Log("MoveToTile(" + tile + ") called");
+        GetPlayerBFSScript().GetPath().Clear();
         Debug.Log("status "+ tile.GetComponent<TileStatus>());
         tile.GetComponent<TileStatus>().SetTarget(true);
-        this.GetComponent<PlayerStatusScript>().SetMoving(true);
-        this.GetComponent<PlayerStatusScript>().SetShowingPath(true);
+        GetPlayerStatusScript().SetMoving(true);
+        GetPlayerStatusScript().SetShowingPath(true);
 
         TileBFSScript next = tile;
         while (next != null)
         {
-            this.GetComponent<PlayerBFSScript>().GetPath().Push(next);
+            GetPlayerBFSScript().GetPath().Push(next);
             next = next.GetParent();
         }
     }
@@ -149,7 +182,7 @@ public class PlayerActionScript : UnitActionScript {
         PlayerActionScript p = hit.collider.GetComponent<PlayerActionScript>();
         if (p != this)
         {
-            this.GetComponent<PlayerBFSScript>().ResetPath();
+            EndAction(false);
             TurnManager.SwitchTurn(p);
         }
     }
@@ -163,9 +196,9 @@ public class PlayerActionScript : UnitActionScript {
 
     void DoMove(RaycastHit hit)
     {
-        Debug.Log("DoMove(" + hit + ") called");
+        //Debug.Log("DoMove(" + hit + ") called");
         TileStatus t = hit.collider.GetComponent<TileStatus>();
-        if ((t.IsPath() && this.GetComponent<PlayerStatusScript>().IsShowingPath()) || (t.IsSelectable() && !this.GetComponent<PlayerStatusScript>().IsShowingPath()))
+        if ((t.IsPath() && GetPlayerStatusScript().IsShowingPath()) || (t.IsSelectable() && !GetPlayerStatusScript().IsShowingPath()))
         {
             MoveToTile(t.GetComponent<TileBFSScript>());
         }
@@ -173,18 +206,18 @@ public class PlayerActionScript : UnitActionScript {
 
     public void InteractWithItem(Item item, int actionIndex)
     {
-        float distance = Vector3.Distance(this.GetComponent<PlayerBFSScript>().GetCurrentTile().transform.position, item.transform.position);
+        float distance = Vector3.Distance(GetPlayerBFSScript().GetCurrentTile().transform.position, item.transform.position);
         if (distance <= interactionReach + item.GetInteractionReach())
         {
-            this.GetComponent<PlayerStatusScript>().SetInteractingWithObject(true);
+            GetPlayerStatusScript().SetInteractingWithObject(true);
             item.Interact(actionIndex);
-            DecreaseActionPoints();
+            EndAction(true);
         }
         else
         {
             Debug.Log("item too far away: " + distance);
         }
-
+        
     }
 
 

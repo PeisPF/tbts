@@ -109,6 +109,7 @@ public class TurnManager : MonoBehaviour {
         }
         else
         {
+            Debug.Log("Turn ended");
             string team = turnKey.Dequeue();
             turnKey.Enqueue(team);
             InitTeamTurnQueue();
