@@ -46,6 +46,7 @@ public class PlayerActionScript : UnitActionScript {
 
     public void Move()
     {
+        Debug.Log("Move() called");
         if (this.GetComponent<PlayerBFSScript>().GetPath().Count > 0)
         {
             TileBFSScript t = this.GetComponent<PlayerBFSScript>().GetPath().Peek();
@@ -81,13 +82,14 @@ public class PlayerActionScript : UnitActionScript {
         {
             this.GetComponent<PlayerBFSScript>().RemoveSelectableTiles();
             this.GetComponent<PlayerStatusScript>().SetMoving(false);
+            this.GetComponent<PlayerStatusScript>().SetShowingPath(false);
             DecreaseActionPoints();
         }
     }
 
     public void DoAction(bool pathLit)
     {
-
+        Debug.Log("DoAction("+ pathLit + ") called");
         //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -127,6 +129,7 @@ public class PlayerActionScript : UnitActionScript {
 
     public void MoveToTile(TileBFSScript tile)
     {
+        Debug.Log("MoveToTile(" + tile + ") called");
         this.GetComponent<PlayerBFSScript>().GetPath().Clear();
         Debug.Log("status "+ tile.GetComponent<TileStatus>());
         tile.GetComponent<TileStatus>().SetTarget(true);
@@ -160,6 +163,7 @@ public class PlayerActionScript : UnitActionScript {
 
     void DoMove(RaycastHit hit)
     {
+        Debug.Log("DoMove(" + hit + ") called");
         TileStatus t = hit.collider.GetComponent<TileStatus>();
         if ((t.IsPath() && this.GetComponent<PlayerStatusScript>().IsShowingPath()) || (t.IsSelectable() && !this.GetComponent<PlayerStatusScript>().IsShowingPath()))
         {

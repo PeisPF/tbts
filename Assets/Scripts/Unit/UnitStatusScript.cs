@@ -16,6 +16,11 @@ public class UnitStatusScript : MonoBehaviour {
         this.moving = moving;
     }
 
+    public bool IsInteractingWithObject()
+    {
+        return this.interactingWithObject;
+    }
+
     public void SetInteractingWithObject(bool value)
     {
         this.interactingWithObject = value;

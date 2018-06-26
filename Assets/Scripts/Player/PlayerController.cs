@@ -49,17 +49,16 @@ public class PlayerController : MonoBehaviour {
                 this.GetComponent<CheckFogScript>().CheckFog();
                 checkedFogInCurrentPosition = true;
             }
-
+            Debug.Log("moving: " + GetPlayerStatusScript().IsMoving()+", showingPath: " + GetPlayerStatusScript().IsShowingPath());
             if (!GetPlayerStatusScript().IsMoving()&& !GetPlayerStatusScript().IsShowingPath())
             {
                 CheckMouse();
-                //BFSUtils.FindSelectableTiles(allTiles, selectableTiles, currentTile, jumpHeight, move);
                 this.GetComponent<PlayerBFSScript>().FindSelectableTiles();
             }
 
             else
             {
-                if (!GetPlayerStatusScript().IsShowingPath())
+                if (GetPlayerStatusScript().IsMoving())
                 {
                     this.GetComponent<PlayerActionScript>().Move();
                     checkedFogInCurrentPosition = false;
