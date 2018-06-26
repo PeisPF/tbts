@@ -22,6 +22,11 @@ public class PlayerActionScript : UnitActionScript {
 
     private TileBFSScript pathDestination;
 
+    public void SetPathDestination(TileBFSScript dest)
+    {
+        this.pathDestination = dest;
+    }
+
     private void Start()
     {
         Init();   
@@ -123,6 +128,7 @@ public class PlayerActionScript : UnitActionScript {
     public void MoveToTile(TileBFSScript tile)
     {
         this.GetComponent<PlayerBFSScript>().GetPath().Clear();
+        Debug.Log("status "+ tile.GetComponent<TileStatus>());
         tile.GetComponent<TileStatus>().SetTarget(true);
         this.GetComponent<PlayerStatusScript>().SetMoving(true);
         this.GetComponent<PlayerStatusScript>().SetShowingPath(true);

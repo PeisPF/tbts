@@ -87,7 +87,7 @@ public class TileStatus : MonoBehaviour {
 
     public void SetTarget(bool target)
     {
-        Debug.Log("Set target to: " + this.name);
+        //Debug.Log("Set target to: " + this.name);
         this.target = target;
         UpdateMaterial();
     }

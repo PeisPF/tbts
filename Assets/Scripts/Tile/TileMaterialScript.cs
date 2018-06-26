@@ -4,16 +4,16 @@ using UnityEngine;
 
 public class TileMaterialScript : MonoBehaviour
 {
-    private float minEmission = 0.0f;
-    private float maxEmission = 0.2f;
-    private Color baseColor;
+    public float minEmission = 0.0f;
+    public float maxEmission = 0.2f;
+    public Color baseColor;
 
     private TileController controller;
 
     private void Start()
     {
         this.controller = this.gameObject.GetComponent<TileController>();
-        SetEmission(0.2f, 0.2f, Color.black);
+        SetEmission(0.0f, 0.0f, Color.black);
     }
 
     public void MakeMaterialGlow()
@@ -42,8 +42,8 @@ public class TileMaterialScript : MonoBehaviour
     public void SetMaterial(/*bool walkable, bool current, bool path, bool target, bool selectable*/)
     {
         Color baseColor = Color.black;
-        float minEmissionModifier = 0f;
-        float maxEmissionModifier = 0f;
+        float minEmission = 0f;
+        float maxEmission = 0.2f;
         if (GetComponent<TileStatus>().walkable)
         {
             if (GetComponent<TileStatus>().current)
@@ -53,8 +53,8 @@ public class TileMaterialScript : MonoBehaviour
             else if (GetComponent<TileStatus>().path)
             {
                 baseColor = Color.yellow;
-                minEmissionModifier = 0.5f;
-                maxEmissionModifier = 0.5f;
+                minEmission = 0.5f;
+                maxEmission = 0.7f;
             }
             else if (GetComponent<TileStatus>().target)
             {
@@ -67,9 +67,9 @@ public class TileMaterialScript : MonoBehaviour
             else
             {
                 baseColor = Color.black;
-                minEmissionModifier = 0.2f;
+                //minEmissionModifier = 0.2f;
             }
-            SetEmission(minEmission+ minEmissionModifier, maxEmission+ maxEmissionModifier, baseColor);
+            SetEmission(minEmission, maxEmission, baseColor);
         }
         else
         {

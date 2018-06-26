@@ -83,7 +83,7 @@ public class PlayerBFSScript : MonoBehaviour {
 
     public void FindSelectableTiles()
     {
-        selectableTiles.Clear();
+        //selectableTiles.Clear();
         foreach (TileBFSScript tile in selectableTiles)
         {
             tile.Reset();

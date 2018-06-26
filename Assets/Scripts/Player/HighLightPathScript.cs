@@ -6,7 +6,7 @@ public class HighLightPathScript : MonoBehaviour {
 
     Stack<TileBFSScript> path = new Stack<TileBFSScript>();
 
-    private TileBFSScript pathDestination;
+    //private TileBFSScript pathDestination;
 
     public void CheckHighlightPath(RaycastHit hit)
     {
@@ -14,7 +14,8 @@ public class HighLightPathScript : MonoBehaviour {
         TileStatus t = hit.collider.GetComponent<TileStatus>();
         if (t.IsSelectable())
         {
-            pathDestination = t.GetComponent<TileBFSScript>();
+            this.GetComponent<PlayerActionScript>().SetPathDestination(t.GetComponent<TileBFSScript>());
+            //pathDestination = t.GetComponent<TileBFSScript>();
             HighlightPathTo(t);
         }
     }
