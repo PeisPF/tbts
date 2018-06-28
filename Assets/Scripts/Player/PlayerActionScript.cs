@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerActionScript : UnitActionScript {
+    private readonly float TARGET_DISTANCE_ERROR_THRESHDOLD = 0.5f;
+    private readonly float MOVE_SPEED = 2;
 
     float halfHeight = 0;
     Vector3 velocity = new Vector3();
     Vector3 heading = new Vector3();//direzione in cui è girato il tizio
     
-    public float moveSpeed = 2;
+
     public float jumpVelocity = 4.5f;
     public int interactionReach = 1;
 
@@ -34,6 +36,7 @@ public class PlayerActionScript : UnitActionScript {
     }
 
     private PlayerBFSScript playerBFSScript;
+
 
     private PlayerBFSScript GetPlayerBFSScript()
     {
@@ -73,21 +76,22 @@ public class PlayerActionScript : UnitActionScript {
         Debug.Log("Move() called");
         if (GetPlayerBFSScript().GetPath().Count > 0)
         {
-            TileBFSScript t = GetPlayerBFSScript().GetPath().Peek();
-            Vector3 target = t.transform.position;
+            TileBFSScript nextTileBFS = GetPlayerBFSScript().GetPath().Peek();
+            Vector3 nextTilePosition = nextTileBFS.transform.position;
+            Collider nextTileCollider = nextTileBFS.GetComponent<Collider>();
 
-            target.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y; //per non finire sottoterra puntiamo SOPRA (metà altezza dell'omino più metà del tile)
+            nextTilePosition.y = CalculateFloorLevel(nextTilePosition, nextTileCollider); 
 
-            if (Vector3.Distance(transform.position, target) >= 0.05f)
+            if (IsDistantFromTargetAbove(nextTilePosition, TARGET_DISTANCE_ERROR_THRESHDOLD))
             {
-                bool jump = transform.position.y != target.y;
+                bool jump = this.transform.position.y != nextTilePosition.y;
                 if (jump)
                 {
-                    Jump(target);
+                    Jump(nextTilePosition);
                 }
                 else
                 {
-                    CalculateHeading(target);
+                    CalculateHeading(nextTilePosition);
                     SetHorizontalVelocity();
                 }
 
@@ -98,14 +102,30 @@ public class PlayerActionScript : UnitActionScript {
             else
             {
                 //Tile center reached
-                transform.position = target;
-                GetPlayerBFSScript().GetPath().Pop();
+                TerminateMoveInExactPosition(nextTilePosition);
             }
         }
         else
         {
             EndAction(true);
         }
+    }
+
+    private void TerminateMoveInExactPosition(Vector3 nextTilePosition)
+    {
+        transform.position = nextTilePosition;
+        GetPlayerBFSScript().GetPath().Pop();
+    }
+
+    private float CalculateFloorLevel(Vector3 nextTilePosition, Collider nextTileCollider)
+    {
+        //per non finire sottoterra puntiamo SOPRA (metà altezza dell'omino più metà del tile)
+        return nextTilePosition.y + this.halfHeight + nextTileCollider.bounds.extents.y;
+    }
+
+    private bool IsDistantFromTargetAbove(Vector3 target, float threashold)
+    {
+        return Vector3.Distance(transform.position, target) >= threashold;
     }
 
     private void EndAction(bool consumeAction)
@@ -276,7 +296,7 @@ public class PlayerActionScript : UnitActionScript {
             jumpingUp = true;
             movingToEdge = true;
 
-            velocity = heading * moveSpeed / 3.0f;
+            velocity = heading * MOVE_SPEED / 3.0f;
 
             float difference = targetY - transform.position.y;
             velocity.y = jumpVelocity * (0.5f + difference / 2.0f);
@@ -335,7 +355,7 @@ public class PlayerActionScript : UnitActionScript {
 
     void SetHorizontalVelocity()
     {
-        velocity = heading * moveSpeed;
+        velocity = heading * MOVE_SPEED;
     }
 
 }
