@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -26,7 +27,7 @@ public class PlayerActionScript : UnitActionScript
     private TileBFSScript pathDestination;
 
     private PlayerStatusScript playerStatusScript;
-
+    
     private PlayerStatusScript GetPlayerStatusScript()
     {
         if (playerStatusScript == null)
@@ -47,6 +48,18 @@ public class PlayerActionScript : UnitActionScript
         }
         return playerBFSScript;
     }
+
+    private PlayerController playerController;
+
+    private PlayerController GetPlayerController()
+    {
+        if (playerController == null)
+        {
+            playerController = this.GetComponent<PlayerController>();
+        }
+        return playerController;
+    }
+
 
 
     public void SetPathDestination(TileBFSScript dest)
@@ -234,7 +247,7 @@ public class PlayerActionScript : UnitActionScript
         {
             GetPlayerStatusScript().SetInteractingWithObject(true);
             TurnPlayerTo(itemPosition);
-            item.Interact(actionIndex);
+            item.Interact(actionIndex, this.GetPlayerController());
             EndAction(true);
         }
         else
@@ -244,6 +257,7 @@ public class PlayerActionScript : UnitActionScript
 
     }
 
+    
     private void TurnPlayerTo(Vector3 itemPosition)
     {
         Vector3 itemPositionOnPlane = new Vector3(0, itemPosition.y, 0);

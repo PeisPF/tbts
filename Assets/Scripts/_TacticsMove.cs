@@ -466,7 +466,7 @@ public abstract class TacticsMove : MonoBehaviour
         if (distance<= interactionReach+item.GetInteractionReach())
         {
             interactingWithObject = true;
-            item.Interact(actionIndex);
+            //item.Interact(actionIndex); non compila più
             DecreaseActionPoints();
         }
         else

@@ -26,7 +26,7 @@ public abstract class TriggerItemScript : Item {
         Debug.Log("interacted with " + this.name);
         activated = !activated;
         moving = true;
-        itemTriggered.Interact(triggeredItemInteractionIndex);
+        itemTriggered.Interact(triggeredItemInteractionIndex, null);
     }
 
     public abstract void ShowAsDisactivated();

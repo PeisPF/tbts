@@ -56,10 +56,13 @@ public class DoorScript : Item
                 }
             }
         }
-        if (TurnManager.GetCurrentPlayer()!=null && TurnManager.GetCurrentPlayer().GetComponent<PlayerController>() != null)
+        if (unitThatTriggered != null)
         {
-            TurnManager.GetCurrentPlayer().GetComponent<PlayerController>().SetCheckedFogInCurrentPosition(false);
+            //potrebbe essere null, se arriva da un trigger
+            unitThatTriggered.ForceCheckFog();
+            unitThatTriggered.SetCheckedFogInCurrentPosition(false);
         }
+        
     }
 
     public override string[] InitActions()

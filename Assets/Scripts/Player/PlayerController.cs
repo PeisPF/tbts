@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour {
 
     private bool checkedFogInCurrentPosition = false;
 
-    
+    private bool forceCheckFog = false; //questo serve per forzare l'update della linea di visuale in caso di apertura porta
 
     //public LayerMask layerMask;
 
@@ -63,7 +63,11 @@ public class PlayerController : MonoBehaviour {
         this.checkedFogInCurrentPosition = value;
     }
 
-    
+    public void ForceCheckFog()
+    {
+        this.forceCheckFog = true;
+        this.checkedFogInCurrentPosition = false;
+    }
 
     // Use this for initialization
     void Start () {
@@ -85,10 +89,14 @@ public class PlayerController : MonoBehaviour {
     void Update()
     {
         //Debug.DrawRay(transform.position, transform.forward);
-
+        if (forceCheckFog)
+        {
+            CheckFog();
+        }
         if (TurnManager.GetCurrentPlayer() == this.GetComponent<Collider>())
         {
             CheckFog();
+            forceCheckFog = false; //posso settarlo a false perchè se è il mio turno il problema della porta che si apre è risolto
 
 
 
