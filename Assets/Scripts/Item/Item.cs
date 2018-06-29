@@ -11,6 +11,8 @@ public abstract class Item : UserActionScript {
     public bool isHovered;
     public bool colorShouldChange;
 
+    protected PlayerController unitThatTriggered;
+
     // Use this for initialization
     void Start () {
         actions = InitActions();
@@ -41,8 +43,9 @@ public abstract class Item : UserActionScript {
         
 	}
 
-    public void Interact(int index)
+    public void Interact(int index, PlayerController unitThatTriggered)
     {
+        this.unitThatTriggered = unitThatTriggered;
         if (index == 0)
         {
             Interact1();
