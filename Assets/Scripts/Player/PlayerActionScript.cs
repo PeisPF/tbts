@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerActionScript : UnitActionScript {
+public class PlayerActionScript : UnitActionScript
+{
     private readonly float TARGET_DISTANCE_ERROR_THRESHDOLD = 0.05f;
     private readonly float MOVE_SPEED = 2;
 
     float halfHeight = 0;
     Vector3 velocity = new Vector3();
     Vector3 heading = new Vector3();//direzione in cui è girato il tizio
-    
+
 
     public float jumpVelocity = 4.5f;
     public int interactionReach = 1;
@@ -55,7 +56,7 @@ public class PlayerActionScript : UnitActionScript {
 
     private void Start()
     {
-        Init();   
+        Init();
     }
     protected void Init()
     {
@@ -80,7 +81,7 @@ public class PlayerActionScript : UnitActionScript {
             Vector3 nextTilePosition = nextTileBFS.transform.position;
             Collider nextTileCollider = nextTileBFS.GetComponent<Collider>();
 
-            nextTilePosition.y = CalculateFloorLevel(nextTilePosition, nextTileCollider); 
+            nextTilePosition.y = CalculateFloorLevel(nextTilePosition, nextTileCollider);
 
             if (IsDistantFromTargetAbove(nextTilePosition, TARGET_DISTANCE_ERROR_THRESHDOLD))
             {
@@ -184,7 +185,7 @@ public class PlayerActionScript : UnitActionScript {
     {
         //Debug.Log("MoveToTile(" + tile + ") called");
         GetPlayerBFSScript().GetPath().Clear();
-        Debug.Log("status "+ tile.GetComponent<TileStatus>());
+        Debug.Log("status " + tile.GetComponent<TileStatus>());
         tile.GetComponent<TileStatus>().SetTarget(true);
         GetPlayerStatusScript().SetMoving(true);
         GetPlayerStatusScript().SetShowingPath(true);
@@ -226,18 +227,28 @@ public class PlayerActionScript : UnitActionScript {
 
     public void InteractWithItem(Item item, int actionIndex)
     {
-        float distance = Vector3.Distance(GetPlayerBFSScript().GetCurrentTile().transform.position, item.transform.position);
-        if (distance <= interactionReach + item.GetInteractionReach())
+        Vector3 currentTilePosition = GetPlayerBFSScript().GetCurrentTile().transform.position;
+        Vector3 itemPosition = item.transform.position;
+        float distanceFromItem = Vector3.Distance(currentTilePosition, itemPosition);
+        if (distanceFromItem <= interactionReach + item.GetInteractionReach())
         {
             GetPlayerStatusScript().SetInteractingWithObject(true);
+            TurnPlayerTo(itemPosition);
             item.Interact(actionIndex);
             EndAction(true);
         }
         else
         {
-            Debug.Log("item too far away: " + distance);
+            Debug.Log("item too far away: " + distanceFromItem);
         }
-        
+
+    }
+
+    private void TurnPlayerTo(Vector3 itemPosition)
+    {
+        Vector3 itemPositionOnPlane = new Vector3(0, itemPosition.y, 0);
+        this.CalculateHeading(itemPositionOnPlane);
+        this.transform.LookAt(this.heading);
     }
 
 
@@ -349,8 +360,12 @@ public class PlayerActionScript : UnitActionScript {
 
     void CalculateHeading(Vector3 target)
     {
-        heading = target - transform.position;
+        Vector3 orientationVector = target - this.transform.position;
+        heading = orientationVector;
         heading.Normalize();
+
+        /*heading = target - transform.position;
+        heading.Normalize();*/
     }
 
     void SetHorizontalVelocity()
