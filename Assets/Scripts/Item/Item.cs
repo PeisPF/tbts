@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Item : MonoBehaviour {
+public abstract class Item : UserActionScript {
     public abstract float GetInteractionReach();
 
     public string[] actions;
@@ -96,5 +96,25 @@ public abstract class Item : MonoBehaviour {
     {
         this.colorShouldChange = true;
         this.isHovered = false;
+    }
+
+    public void ShowActionsToolTip()
+    {
+
+    }
+
+    public override void DoRightClickAction()
+    {
+        ShowActionsToolTip();
+    }
+
+    public override void DoLeftClickAction()
+    {
+        throw new NotImplementedException();
+    }
+
+    public override void DoDoubleClickAction()
+    {
+        throw new NotImplementedException();
     }
 }

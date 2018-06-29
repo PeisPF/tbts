@@ -84,7 +84,7 @@ public class PlayerController : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        Debug.DrawRay(transform.position, transform.forward);
+        //Debug.DrawRay(transform.position, transform.forward);
 
         if (TurnManager.GetCurrentPlayer() == this.GetComponent<Collider>())
         {
@@ -128,17 +128,14 @@ public class PlayerController : MonoBehaviour {
         if (Physics.Raycast(ray, out hit, float.PositiveInfinity, GetPlayerActionScript().layerMask.value))
         {
             Debug.Log("hit " + hit.collider.tag);
-            if (hit.collider.tag == "Tile")
+            UserActionScript userActionScript = hit.collider.GetComponent<UserActionScript>();
+            if (userActionScript != null)
             {
-                this.GetComponent<HighLightPathScript>().CheckHighlightPath(hit);
-            }
-            else if (hit.collider.tag == "Items")
-            {
-                if (!GetPlayerStatusScript().IsShowingPath())
+                if (userActionScript is HighLightPathScript)
                 {
-                    //this.GetComponent<PlayerBFSScript>().ResetPath();
-                    this.GetComponent<PlayerActionScript>().ShowActionsToolTip(hit);
+                    ((HighLightPathScript)userActionScript).SetPlayerStatusScript(GetPlayerStatusScript());
                 }
+                userActionScript.DoRightClickAction();
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class UnitActionScript : MonoBehaviour {
+public abstract class UnitActionScript : UserActionScript {
     //qua dentro va spostata tutta la logica a comune tra giocatori e NPC
     public int remainingActionPoints;
     private bool turn;
