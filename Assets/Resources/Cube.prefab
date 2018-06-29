@@ -22,7 +22,10 @@ GameObject:
   - component: {fileID: 33323469091979366}
   - component: {fileID: 23293619944277344}
   - component: {fileID: 65910730953098526}
-  - component: {fileID: 114210391223515892}
+  - component: {fileID: 114800500644900032}
+  - component: {fileID: 114119326239013432}
+  - component: {fileID: 114138105414088470}
+  - component: {fileID: 114213467094364198}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Tile
@@ -97,7 +100,7 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &114210391223515892
+--- !u!114 &114119326239013432
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -105,7 +108,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 1258061903538200}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3122385730386747b53236a1d707838, type: 3}
+  m_Script: {fileID: 11500000, guid: d18f63f5f6c47f04aa28701e212c00ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114138105414088470
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1258061903538200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 381218f343517cb4ca2db33c9158178b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   walkable: 1
@@ -113,10 +127,25 @@ MonoBehaviour:
   target: 0
   selectable: 0
   path: 0
-  adjacencyList: []
-  visited: 0
-  parent: {fileID: 0}
-  distance: 0
-  f: 0
-  g: 0
-  h: 0
+--- !u!114 &114213467094364198
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1258061903538200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31dd52cd7b762224496e450b4266016d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &114800500644900032
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1258061903538200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f90d19d278a87cd458c39e9f78fe9e75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

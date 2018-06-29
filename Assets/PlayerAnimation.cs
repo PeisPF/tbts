@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerAnimation : MonoBehaviour
 {
     private Animator mAnimator;
-    private PlayerMove mv;
+    private PlayerStatusScript mv;
     // Use this for initialization
     void Start()
     {
@@ -24,7 +24,7 @@ public class PlayerAnimation : MonoBehaviour
     {
         if (mv == null)
         {
-            mv = this.gameObject.GetComponentInParent<PlayerMove>();
+            mv = this.gameObject.GetComponentInParent<PlayerStatusScript>();
         }
 
 

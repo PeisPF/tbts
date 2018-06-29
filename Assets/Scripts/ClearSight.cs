@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 public class ClearSight : MonoBehaviour
 {
-    public static List<Tile> tilesToClear;
+    public static List<TileBFSScript> tilesToClear;
     private List<RaycastHit> actualHits = new List<RaycastHit>();
     public LayerMask layerMask;
 
@@ -19,7 +19,7 @@ public class ClearSight : MonoBehaviour
             actualHits.AddRange(RaycastTo(target));
             if (tilesToClear != null)
             {
-                foreach (Tile tile in tilesToClear)
+                foreach (TileBFSScript tile in tilesToClear)
                 {
                     actualHits.AddRange(RaycastTo(tile.transform));
                 }

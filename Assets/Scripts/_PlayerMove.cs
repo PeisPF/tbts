@@ -13,22 +13,19 @@ public class PlayerMove : TacticsMove
 
     public GUIElement actionPanel;
 
-    private Tile pathDestination;
+    private TileBFSScript pathDestination;
 
     public LayerMask layerMask;
 
-    public LayerMask fogAndWalls;
+    //public LayerMask fogAndWalls;
 
-    public LayerMask lineOfSightObstructing;
+   // public LayerMask lineOfSightObstructing;
 
-    private Transform rayCastTarget;
+   // private Transform rayCastTarget;
 
-    private bool checkedFogInCurrentPosition = false;
+    //private bool checkedFogInCurrentPosition = false;
 
-    public void SetCheckedFogInCurrentPosition(bool value)
-    {
-        this.checkedFogInCurrentPosition = value;
-    }
+    
 
 
 
@@ -36,7 +33,7 @@ public class PlayerMove : TacticsMove
     void Start()
     {
         Init();
-        rayCastTarget = new GameObject().transform;
+        //rayCastTarget = new GameObject().transform;
     }
 
     public override void SetShowPath(bool value)
@@ -44,7 +41,7 @@ public class PlayerMove : TacticsMove
         showingPath = value;
     }
 
-    private void CheckFog()
+    /*private void CheckFog()
     {
         List<RaycastHit> actualHits = new List<RaycastHit>();
         rayCastTarget.position = this.transform.position + new Vector3(0.1f, 0, 0);
@@ -61,7 +58,7 @@ public class PlayerMove : TacticsMove
         foreach (RaycastHit hit in actualHits){
             Destroy(hit.collider.gameObject);
         }
-    }
+    }*/
 
     // Update is called once per frame
     void Update()
@@ -74,11 +71,12 @@ public class PlayerMove : TacticsMove
         }
         else
         {
-            if (!checkedFogInCurrentPosition)
+            /*if (!checkedFogInCurrentPosition)
             {
                 CheckFog();
                 checkedFogInCurrentPosition = true;
-            }
+            }*/
+            
             if (!moving && !showingPath)
             {
                 CheckMouse();
@@ -90,7 +88,7 @@ public class PlayerMove : TacticsMove
                 if (!showingPath)
                 {
                     Move();
-                    checkedFogInCurrentPosition = false;
+                    //checkedFogInCurrentPosition = false;
                 }
                 else
                 {
@@ -102,10 +100,11 @@ public class PlayerMove : TacticsMove
 
     void CheckHighlightPath(RaycastHit hit)
     {
-        Tile t = hit.collider.GetComponent<Tile>();
-        if (t.selectable)
+        Debug.Log("CheckHighlightPath");
+        TileStatus t = hit.collider.GetComponent<TileStatus>();
+        if (t.IsSelectable())
         {
-            pathDestination = t;
+            pathDestination = t.GetComponent<TileBFSScript>();
             HighlightPathTo(t);
         }
 
@@ -116,17 +115,11 @@ public class PlayerMove : TacticsMove
 
     }
 
-    Ray getActualRay(Vector3 tap_position)
-    {
-        Ray result = Camera.main.ScreenPointToRay(tap_position);
-        return result; 
-    }
-
     void DoAction(bool pathLit)
     {
 
         //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Ray ray = getActualRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, float.PositiveInfinity, layerMask.value))
@@ -151,15 +144,15 @@ public class PlayerMove : TacticsMove
             {
                 if (hit.collider.tag == "Tile")
                 {
-                    Tile t = hit.collider.GetComponent<Tile>();
-                    if (t.path)
+                    TileStatus t = hit.collider.GetComponent<TileStatus>();
+                    if (t.IsPath())
                     {
                         MoveToTile(pathDestination);
                     }
                 }
             }
         }
-        checkedFogInCurrentPosition = false;
+        //checkedFogInCurrentPosition = false;
     }
 
     private void SwitchTurn(RaycastHit hit)
@@ -168,7 +161,7 @@ public class PlayerMove : TacticsMove
         if (p != this)
         {
             ResetPath();
-            TurnManager.SwitchTurn(p);
+            //TurnManager.SwitchTurn(p);
         }
         else
         {
@@ -185,18 +178,18 @@ public class PlayerMove : TacticsMove
 
     void DoMove(RaycastHit hit)
     {
-        Tile t = hit.collider.GetComponent<Tile>();
-        if ((t.path && showingPath) || (t.selectable && !showingPath))
+        TileStatus t = hit.collider.GetComponent<TileStatus>();
+        if ((t.IsPath() && showingPath) || (t.IsSelectable() && !showingPath))
         {
-            MoveToTile(t);
+            MoveToTile(t.GetComponent<TileBFSScript>());
         }
     }
 
     void DoRightMouseButton()
     {
         RaycastHit hit;
-        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Ray ray = getActualRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        //Ray ray = getActualRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, float.PositiveInfinity, layerMask.value))
         {
             Debug.Log("hit " + hit.collider.tag);
@@ -240,8 +233,8 @@ public class PlayerMove : TacticsMove
                 else
                 {
                     //normal click
-                    //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                    Ray ray = getActualRay(Input.mousePosition);
+                    Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                    //Ray ray = getActualRay(Input.mousePosition);
 
                     RaycastHit hit;
                     if (Physics.Raycast(ray, out hit, float.PositiveInfinity, layerMask.value))

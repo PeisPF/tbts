@@ -6,11 +6,11 @@ using UnityEngine;
 public abstract class TacticsMove : MonoBehaviour
 {
     public bool turn = false;
-    List<Tile> selectableTiles = new List<Tile>();
+    List<TileBFSScript> selectableTiles = new List<TileBFSScript>();
     GameObject[] tiles;
 
     public bool moving = false;
-    //public bool showingPath = false;
+    public bool showingPath = false;
 
     public int move = 5;
     public float jumpHeight = 2;
@@ -26,8 +26,8 @@ public abstract class TacticsMove : MonoBehaviour
     bool movingToEdge = false;
     Vector3 jumpTarget;
 
-    Stack<Tile> path = new Stack<Tile>();
-    Tile currentTile;
+    Stack<TileBFSScript> path = new Stack<TileBFSScript>();
+    TileBFSScript currentTile;
 
     Vector3 velocity = new Vector3();
     Vector3 heading = new Vector3();//direzione in cui è girato il tizio
@@ -45,22 +45,22 @@ public abstract class TacticsMove : MonoBehaviour
     {
         tiles = GameObject.FindGameObjectsWithTag("Tile");
         halfHeight = GetComponent<Collider>().bounds.extents.y;
-        TurnManager.AddUnit(this);
+        //TurnManager.AddUnit(this);
     }
 
     public void GetCurrentTile()
     {
         currentTile = GetTargetTile(gameObject);
-        currentTile.current = true;
+        currentTile.GetComponent<TileStatus>().SetCurrent(true);
     }
 
-    public Tile GetTargetTile(GameObject target)
+    public TileBFSScript GetTargetTile(GameObject target)
     {
         RaycastHit hit;
-        Tile tile = null;//Physics.Raycast(target.transform.position, -Vector3.up, out hit, onlyTilesLayerMask)
+        TileBFSScript tile = null;//Physics.Raycast(target.transform.position, -Vector3.up, out hit, onlyTilesLayerMask)
         if (Physics.Raycast(target.transform.position, -Vector3.up, out hit, onlyTilesLayerMask, onlyTilesLayerMask.value))
         {
-            tile = hit.collider.GetComponent<Tile>();
+            tile = hit.collider.GetComponent<TileBFSScript>();
         }
         else
         {
@@ -69,39 +69,43 @@ public abstract class TacticsMove : MonoBehaviour
         return tile;
     }
 
-    public void ComputeAdjacencyLists(float jumpHeight, Tile target)
+    public void ComputeAdjacencyLists(float jumpHeight, TileBFSScript target)
     {
         foreach (GameObject tile in tiles)
         {
-            Tile t = tile.GetComponent<Tile>();
+            TileBFSScript t = tile.GetComponent<TileBFSScript>();
             t.FindNeighbors(jumpHeight, target);
         }
     }
 
     public void FindSelectableTiles()
     {
+        foreach (TileBFSScript tile in selectableTiles){
+            tile.Reset();
+            tile.GetComponent<TileStatus>().Reset();
+        }
         ComputeAdjacencyLists(jumpHeight, null);
         GetCurrentTile();
 
-        Queue<Tile> process = new Queue<Tile>();
+        Queue<TileBFSScript> process = new Queue<TileBFSScript>();
         process.Enqueue(currentTile);
-        currentTile.visited = true;
+        currentTile.SetVisited(true);
         while (process.Count > 0)
         {
-            Tile t = process.Dequeue();
+            TileBFSScript t = process.Dequeue();
 
             selectableTiles.Add(t);
-            t.selectable = true;
+            t.GetComponent<TileStatus>().SetSelectable(true);
 
-            if (t.distance < move)
+            if (t.GetDistance() < move)
             {
-                foreach (Tile tile in t.adjacencyList)
+                foreach (TileBFSScript tile in t.GetAdjacencyList())
                 {
-                    if (!tile.visited)
+                    if (!tile.GetVisited())
                     {
-                        tile.parent = t;
-                        tile.visited = true;
-                        tile.distance = t.distance + 1;
+                        tile.SetParent(t);
+                        tile.SetVisited(true);
+                        tile.SetDistance(t.GetDistance() + 1);
                         process.Enqueue(tile);
                     }
                 }
@@ -112,124 +116,132 @@ public abstract class TacticsMove : MonoBehaviour
 
     public abstract void SetShowPath(bool value);
 
-    protected Tile FindEndTile(Tile t)
-    {
-        Stack<Tile> tempPath = new Stack<Tile>();
 
-        Tile next = t.parent;
+    /**
+     * Questo è per A*, per adesso lo commento
+     **/
+    /* 
 
-        while (next != null)
-        {
-            tempPath.Push(next);
-            next = next.parent;
-        }
+          protected TileBFSScript FindEndTile(TileBFSScript t)
+     {
+         Stack<TileBFSScript> tempPath = new Stack<TileBFSScript>();
 
-        if (tempPath.Count <= move)
-        {
-            return t.parent;
-        }
+         TileBFSScript next = t.GetParent();
 
-        Tile endTile = null;
-        for (int i = 0; i <= move; i++)
-        {
-            endTile = tempPath.Pop();
-        }
-        return endTile;
-    }
+         while (next != null)
+         {
+             tempPath.Push(next);
+             next = next.GetParent();
+         }
 
-    protected bool FindPath(Tile target)
-    {
-        ComputeAdjacencyLists(jumpHeight, target);
-        GetCurrentTile();
+         if (tempPath.Count <= move)
+         {
+             return t.GetParent();
+         }
 
-        List<Tile> openList = new List<Tile>();
-        List<Tile> closedList = new List<Tile>();
+         TileBFSScript endTile = null;
+         for (int i = 0; i <= move; i++)
+         {
+             endTile = tempPath.Pop();
+         }
+         return endTile;
+     }
 
-        openList.Add(currentTile);
 
-        currentTile.h = Vector3.Distance(currentTile.transform.position, target.transform.position);
-        currentTile.f = currentTile.h; //g vale 0
+         protected bool FindPath(Tile target)
+     {
+         ComputeAdjacencyLists(jumpHeight, target);
+         GetCurrentTile();
 
-        while (openList.Count > 0)
-        {
-            Tile t = findLowestF(openList);
-            closedList.Add(t);
+         List<Tile> openList = new List<Tile>();
+         List<Tile> closedList = new List<Tile>();
 
-            if (t == target)
-            {
-                actualTargetTile = FindEndTile(t);
-                MoveToTile(actualTargetTile);
-                return true;
-            }
+         openList.Add(currentTile);
 
-            foreach (Tile tile in t.adjacencyList)
-            {
-                if (closedList.Contains(tile))
-                {
-                    //do nothing, already processed
-                }
-                else if (openList.Contains(tile))
-                {
-                    float tempg = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
-                    if (tempg < tile.g)
-                    {
-                        //found a faster way
-                        tile.parent = t;
-                        tile.g = tempg;
-                        tile.f = tile.g + tile.h;
-                    }
-                }
-                else
-                {
-                    tile.parent = t;
-                    tile.g = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
-                    tile.h = Vector3.Distance(tile.transform.position, target.transform.position);
-                    tile.f = tile.g + tile.h;
-                    openList.Add(tile);
-                }
-            }
+         currentTile.h = Vector3.Distance(currentTile.transform.position, target.transform.position);
+         currentTile.f = currentTile.h; //g vale 0
 
-        }
-        Debug.Log("Path not found");
-        return false;
-    }
+         while (openList.Count > 0)
+         {
+             Tile t = findLowestF(openList);
+             closedList.Add(t);
 
-    private Tile findLowestF(List<Tile> list)
-    {
-        Tile lowest = list[0];
+             if (t == target)
+             {
+                 actualTargetTile = FindEndTile(t);
+                 MoveToTile(actualTargetTile);
+                 return true;
+             }
 
-        foreach (Tile tile in list)
-        {
-            if (tile.f < lowest.f)
-            {
-                lowest = tile;
-            }
-        }
+             foreach (Tile tile in t.adjacencyList)
+             {
+                 if (closedList.Contains(tile))
+                 {
+                     //do nothing, already processed
+                 }
+                 else if (openList.Contains(tile))
+                 {
+                     float tempg = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
+                     if (tempg < tile.g)
+                     {
+                         //found a faster way
+                         tile.parent = t;
+                         tile.g = tempg;
+                         tile.f = tile.g + tile.h;
+                     }
+                 }
+                 else
+                 {
+                     tile.parent = t;
+                     tile.g = t.g + Vector3.Distance(tile.transform.position, t.transform.position);
+                     tile.h = Vector3.Distance(tile.transform.position, target.transform.position);
+                     tile.f = tile.g + tile.h;
+                     openList.Add(tile);
+                 }
+             }
 
-        list.Remove(lowest);
-        return lowest;
-    }
+         }
+         Debug.Log("Path not found");
+         return false;
+     }
 
-    public void MoveToTile(Tile tile)
+     private Tile findLowestF(List<Tile> list)
+     {
+         Tile lowest = list[0];
+
+         foreach (Tile tile in list)
+         {
+             if (tile.f < lowest.f)
+             {
+                 lowest = tile;
+             }
+         }
+
+         list.Remove(lowest);
+         return lowest;
+     }*/
+
+    public void MoveToTile(TileBFSScript tile)
     {
         path.Clear();
-        tile.target = true;
+        tile.GetComponent<TileStatus>().SetTarget(true);
         moving = true;
         SetShowPath(false);
 
-        Tile next = tile;
+        TileBFSScript next = tile;
         while (next != null)
         {
             path.Push(next);
-            next = next.parent;
+            next = next.GetParent();
         }
     }
 
     public void ResetPath()
     {
-        foreach (Tile t in path)
+        Debug.Log("Reset Path");
+        foreach (TileBFSScript t in path)
         {
-            t.path = false;
+            t.GetComponent<TileStatus>().SetPath(false);
         }
 
         path.Clear();
@@ -241,24 +253,33 @@ public abstract class TacticsMove : MonoBehaviour
         SetShowPath(false);
     }
 
-    public void DoHighLightPathTo(Tile tile)
+    public void DoHighLightPathTo(TileStatus tile)
     {
-        tile.target = true;
+        tile.SetTarget(true);
         moving = false;
         SetShowPath(true);
 
-        Tile next = tile;
+        TileStatus next = tile;
         while (next != null)
         {
-            next.path = true;
-            next.target = false;
-            path.Push(next);
-            next = next.parent;
+            next.SetPath(true);
+            next.SetTarget(false);
+            path.Push(next.GetComponent<TileBFSScript>());
+            if (next.GetComponent<TileBFSScript>().GetParent())
+            {
+                next = next.GetComponent<TileBFSScript>().GetParent().GetComponent<TileStatus>();
+            }
+            else
+            {
+                next = null;
+            }
+            
         }
     }
 
-    public void HighlightPathTo(Tile tile)
+    public void HighlightPathTo(TileStatus tile)
     {
+        Debug.Log("HighlightPathTo " + tile.name);
         ResetPath();
         DoHighLightPathTo(tile);
     }
@@ -268,7 +289,7 @@ public abstract class TacticsMove : MonoBehaviour
     {
         if (path.Count > 0)
         {
-            Tile t = path.Peek();
+            TileBFSScript t = path.Peek();
             Vector3 target = t.transform.position;
 
             target.y += halfHeight + t.GetComponent<Collider>().bounds.extents.y; //per non finire sottoterra puntiamo SOPRA (metà altezza dell'omino più metà del tile)
@@ -315,12 +336,13 @@ public abstract class TacticsMove : MonoBehaviour
     {
         if (currentTile != null)
         {
-            currentTile.current = false;
+            currentTile.GetComponent<TileStatus>().SetCurrent(false);
             currentTile = null;
         }
-        foreach (Tile t in selectableTiles)
+        foreach (TileBFSScript t in selectableTiles)
         {
-            t.Reset(true);
+            t.GetComponent<TileStatus>().Reset(true);
+            t.Reset();
         }
         selectableTiles.Clear();
     }
