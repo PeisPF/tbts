@@ -338,4 +338,18 @@ public class PlayerActionScript : UnitActionScript {
         velocity = heading * moveSpeed;
     }
 
+    public override void DoRightClickAction()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void DoLeftClickAction()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public override void DoDoubleClickAction()
+    {
+        throw new System.NotImplementedException();
+    }
 }

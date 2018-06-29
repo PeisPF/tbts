@@ -26,6 +26,7 @@ GameObject:
   - component: {fileID: 114119326239013432}
   - component: {fileID: 114138105414088470}
   - component: {fileID: 114213467094364198}
+  - component: {fileID: 114625384517305206}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Tile
@@ -136,6 +137,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 31dd52cd7b762224496e450b4266016d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  minEmission: 0
+  maxEmission: 0.2
+  baseColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!114 &114625384517305206
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1258061903538200}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51ee6852082e90a4583d77cb79d1c38b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &114800500644900032

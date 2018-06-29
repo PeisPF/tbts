@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerBFSScript : MonoBehaviour {
-    List<TileBFSScript> selectableTiles = new List<TileBFSScript>();
+    HashSet<TileBFSScript> selectableTiles = new HashSet<TileBFSScript>();
     GameObject[] tiles;
     Stack<TileBFSScript> path = new Stack<TileBFSScript>();
 
@@ -118,7 +118,7 @@ public class PlayerBFSScript : MonoBehaviour {
                 }
             }
         }
-        //Debug.Log("FindSelectableTiles returns: "+selectableTiles.Count+" tiles");
+        Debug.Log("FindSelectableTiles returns: "+selectableTiles.Count+" tiles");
         ClearSight.tilesToClear = selectableTiles;
     }
 

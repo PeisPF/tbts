@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class TacticsMove : MonoBehaviour
 {
     public bool turn = false;
-    List<TileBFSScript> selectableTiles = new List<TileBFSScript>();
+    HashSet<TileBFSScript> selectableTiles = new HashSet<TileBFSScript>();
     GameObject[] tiles;
 
     public bool moving = false;
