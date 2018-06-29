@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerActionScript : UnitActionScript {
-    private readonly float TARGET_DISTANCE_ERROR_THRESHDOLD = 0.5f;
+    private readonly float TARGET_DISTANCE_ERROR_THRESHDOLD = 0.05f;
     private readonly float MOVE_SPEED = 2;
 
     float halfHeight = 0;
@@ -123,9 +123,9 @@ public class PlayerActionScript : UnitActionScript {
         return nextTilePosition.y + this.halfHeight + nextTileCollider.bounds.extents.y;
     }
 
-    private bool IsDistantFromTargetAbove(Vector3 target, float threashold)
+    private bool IsDistantFromTargetAbove(Vector3 target, float threshold)
     {
-        return Vector3.Distance(transform.position, target) >= threashold;
+        return Vector3.Distance(transform.position, target) >= threshold;
     }
 
     private void EndAction(bool consumeAction)
