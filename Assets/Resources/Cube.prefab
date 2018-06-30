@@ -26,7 +26,7 @@ GameObject:
   - component: {fileID: 114119326239013432}
   - component: {fileID: 114138105414088470}
   - component: {fileID: 114213467094364198}
-  - component: {fileID: 114625384517305206}
+  - component: {fileID: 114530338758297152}
   m_Layer: 0
   m_Name: Cube
   m_TagString: Tile
@@ -142,7 +142,7 @@ MonoBehaviour:
   minEmission: 0
   maxEmission: 0.2
   baseColor: {r: 0, g: 0, b: 0, a: 0}
---- !u!114 &114625384517305206
+--- !u!114 &114530338758297152
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

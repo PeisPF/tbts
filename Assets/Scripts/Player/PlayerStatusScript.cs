@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerStatusScript : UnitStatusScript
 {
+    private Stack<TileBFSScript> selectedPath = new Stack<TileBFSScript>();
+
     bool showingPath = false;
 
     public bool IsShowingPath()
@@ -14,5 +16,10 @@ public class PlayerStatusScript : UnitStatusScript
     public void SetShowingPath(bool showingPath)
     {
         this.showingPath = showingPath;
+    }
+
+    public Stack<TileBFSScript> GetSelectedPath()
+    {
+        return selectedPath;
     }
 }
