@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class HighLightPathScript : UserActionScript
 {
-
-    Stack<TileBFSScript> path = new Stack<TileBFSScript>();
-
     private PlayerStatusScript playerStatusScript;
+
+    private Stack<TileBFSScript> GetPath()
+    {
+        return playerStatusScript.GetSelectedPath();
+    }
 
     private PlayerStatusScript GetPlayerStatusScript()
     {
@@ -20,6 +22,7 @@ public class HighLightPathScript : UserActionScript
 
     public void SetPlayerStatusScript(PlayerStatusScript playerStatusScript)
     {
+        //Debug.Log("SetPlayerStatusScript called, path.Count: "+path.Count);
         this.playerStatusScript = playerStatusScript;
     }
 
@@ -39,20 +42,21 @@ public class HighLightPathScript : UserActionScript
 
     public void HighlightPathTo(TileStatus tile)
     {
-        Debug.Log("HighlightPathTo " + tile.name);
+        Debug.Log("HighlightPathTo " + tile.name+", path current size: "+ GetPath().Count);
         ResetPath();
         DoHighLightPathTo(tile);
     }
 
     public void ResetPath()
     {
-        Debug.Log("Reset Path");
-        foreach (TileBFSScript t in path)
+        Debug.Log("Reset Path, currently holding "+ GetPath().Count);
+        foreach (TileBFSScript t in GetPath())
         {
+            Debug.Log("removing path from " + t.name);
             t.GetComponent<TileStatus>().SetPath(false);
         }
 
-        path.Clear();
+        GetPath().Clear();
     }
 
     public void DoHighLightPathTo(TileStatus tile)
@@ -66,7 +70,8 @@ public class HighLightPathScript : UserActionScript
         {
             next.SetPath(true);
             next.SetTarget(false);
-            path.Push(next.GetComponent<TileBFSScript>());
+
+            GetPath().Push(next.GetComponent<TileBFSScript>());
             if (next.GetComponent<TileBFSScript>().GetParent())
             {
                 next = next.GetComponent<TileBFSScript>().GetParent().GetComponent<TileStatus>();
@@ -77,6 +82,7 @@ public class HighLightPathScript : UserActionScript
             }
 
         }
+        //Debug.Log("path.Count: "+path.Count);
     }
 
     public override void DoRightClickAction()

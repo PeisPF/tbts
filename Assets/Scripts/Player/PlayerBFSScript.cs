@@ -118,7 +118,7 @@ public class PlayerBFSScript : MonoBehaviour {
                 }
             }
         }
-        Debug.Log("FindSelectableTiles returns: "+selectableTiles.Count+" tiles");
+        //Debug.Log("FindSelectableTiles returns: "+selectableTiles.Count+" tiles");
         ClearSight.tilesToClear = selectableTiles;
     }
 
