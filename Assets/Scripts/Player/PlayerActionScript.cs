@@ -260,9 +260,10 @@ public class PlayerActionScript : UnitActionScript
     
     private void TurnPlayerTo(Vector3 itemPosition)
     {
-        Vector3 itemPositionOnPlane = new Vector3(0, itemPosition.y, 0);
-        this.CalculateHeading(itemPositionOnPlane);
-        this.transform.LookAt(this.heading);
+        Vector3 lookPos = itemPosition - this.transform.position;
+        lookPos.y = 0;
+        this.heading = lookPos;
+        this.transform.forward = lookPos;
     }
 
 
@@ -374,12 +375,10 @@ public class PlayerActionScript : UnitActionScript
 
     void CalculateHeading(Vector3 target)
     {
+        Debug.Log("Calculate heading to " + target);
         Vector3 orientationVector = target - this.transform.position;
         heading = orientationVector;
         heading.Normalize();
-
-        /*heading = target - transform.position;
-        heading.Normalize();*/
     }
 
     void SetHorizontalVelocity()
