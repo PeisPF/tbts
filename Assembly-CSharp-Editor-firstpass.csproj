@@ -67,11 +67,11 @@
     <Compile Include="Assets\Plugins\Substance\Livelink\Editor\Scripts\MaterialsManipulation.cs" />
     <Compile Include="Assets\Plugins\Substance\Livelink\Editor\Scripts\MeshLinkEditor.cs" />
     <Compile Include="Assets\Plugins\Substance\Livelink\Editor\Scripts\ShadersInfos.cs" />
-    <Reference Include="Unity.PackageManagerUI.Editor">
-      <HintPath>C:/Users/miche/Documents/Gioco/tbts/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/miche/Documents/Gioco/tbts/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
+    </Reference>
+    <Reference Include="Unity.PackageManagerUI.Editor">
+      <HintPath>C:/Users/miche/Documents/Gioco/tbts/Library/ScriptAssemblies/Unity.PackageManagerUI.Editor.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AIModule">
       <HintPath>C:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
