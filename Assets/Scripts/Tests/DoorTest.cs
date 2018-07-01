@@ -27,7 +27,7 @@ public class DoorTest{
     [UnityTest]
     public IEnumerator DoorWithUnitNextToItDoesNotMove()
     {
-        PlayerMove unit = new PlayerMove();
+        PlayerActionScript unit = new PlayerActionScript();
         var door = new GameObject().AddComponent<DoorScript>();
         unit.InteractWithItem(door, 1);
         // Use the Assert class to test conditions.
