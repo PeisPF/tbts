@@ -16,7 +16,13 @@ public class MapInitializer : MonoBehaviour {
         {
             instance = this;
         }
-        Object obj = Resources.Load("Cube");
+        Object obj = Resources.Load("TestMap");
+        Debug.Log("loaded obj: " + obj);
+        GameObject map = (GameObject)Instantiate(obj);
+        map.name = "mappa di test";
+        map.transform.position = Vector3.zero;
+
+        obj = Resources.Load("Cube");
         for (float x = -7; x < 7; x++)
         {
             for (float z = -15; z < 17; z++)
