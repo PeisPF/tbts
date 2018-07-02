@@ -905,10 +905,8 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 4729485156028068}
-  - component: {fileID: 114061592189659420}
-  - component: {fileID: 114706003182988648}
   m_Layer: 0
-  m_Name: Map
+  m_Name: TestMap
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -32533,18 +32531,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114061592189659420
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1124917715253202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ec1c2afaba1100942b4cb852f796c3ca, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  initialized: 0
 --- !u!114 &114253385492655928
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -32734,17 +32720,6 @@ MonoBehaviour:
   moving: 0
   allowedLocalOpen: 1
   fulcrum: {fileID: 4632410745548344}
---- !u!114 &114706003182988648
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1124917715253202}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e13ed45c1e99c59448aa28e0933bb3a0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!136 &136081478913512732
 CapsuleCollider:
   m_ObjectHideFlags: 1
