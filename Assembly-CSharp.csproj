@@ -60,12 +60,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\PlayerAnimation.cs" />
-    <Compile Include="Assets\RTS_Camera\Demo\DemoScene.cs" />
-    <Compile Include="Assets\RTS_Camera\Demo\TargetSelector.cs" />
-    <Compile Include="Assets\RTS_Camera\Scripts\RTS_Camera.cs" />
-    <None Include="Assets\RTS_Camera\Demo\Projectors\Guidelines.txt" />
-    <None Include="Assets\RTS_Camera\Demo\Projectors\Shaders\ProjectorLight.shader" />
-    <None Include="Assets\RTS_Camera\Demo\Projectors\Shaders\ProjectorMultiply.shader" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/Iacopo/Documents/Tactical Movement Tutorial/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
     </Reference>

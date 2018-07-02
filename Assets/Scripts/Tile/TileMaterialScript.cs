@@ -8,11 +8,11 @@ public class TileMaterialScript : MonoBehaviour
     public float maxEmission = 0.2f;
     public Color baseColor;
 
-    private TileController controller;
+    //private TileController controller;
 
     private void Start()
     {
-        this.controller = this.gameObject.GetComponent<TileController>();
+        //this.controller = this.gameObject.GetComponent<TileController>();
         SetEmission(0.0f, 0.0f, Color.black);
     }
 

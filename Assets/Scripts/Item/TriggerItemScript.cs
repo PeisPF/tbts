@@ -33,7 +33,7 @@ public abstract class TriggerItemScript : Item {
     public abstract void ShowAsActivated();
     
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         base.Update();
         if (moving)

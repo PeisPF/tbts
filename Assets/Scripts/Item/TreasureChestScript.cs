@@ -22,8 +22,4 @@ public class TreasureChestScript : Item {
     {
         Debug.Log("YOU FUCKIN' WIN");
     }
-
-	void Update () {
-        base.Update();
-	}
 }
