@@ -57,13 +57,13 @@ public class DoorScript : Item
                 }
             }
         }
-        if (unitThatTriggered != null)
+        /*if (unitThatTriggered != null)
         {
             //potrebbe essere null, se arriva da un trigger
             unitThatTriggered.ForceCheckFog();
             unitThatTriggered.SetCheckedFogInCurrentPosition(false);
-        }
-        
+        }*/
+
     }
 
     public override string[] InitActions()
@@ -113,7 +113,7 @@ public class DoorScript : Item
             }
             else
             {
-                
+
                 return 1.5f;
             }
         }

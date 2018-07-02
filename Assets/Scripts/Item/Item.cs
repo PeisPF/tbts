@@ -3,7 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Item : UserActionScript {
+public abstract class Item : UserActionScript
+{
     public abstract float GetInteractionReach();
 
     public string[] actions;
@@ -14,20 +15,22 @@ public abstract class Item : UserActionScript {
     protected PlayerController unitThatTriggered;
 
     // Use this for initialization
-    void Start () {
+    void Start()
+    {
         actions = InitActions();
         actionCosts = InitActionCosts();
         isHovered = false;
         colorShouldChange = false;
-	}
+    }
 
     public abstract int[] InitActionCosts();
     public abstract string[] InitActions();
 
 
-	// Update is called once per frame
-	protected void Update () {
-        
+    // Update is called once per frame
+    protected void Update()
+    {
+
         if (colorShouldChange)
         {
             Debug.Log("changing color on " + this.name);
@@ -37,12 +40,12 @@ public abstract class Item : UserActionScript {
             {
                 emission = 0.5f;
                 color = Color.yellow;
-            }          
+            }
             GetComponent<Renderer>().material.SetColor("_EmissionColor", color * emission);
             colorShouldChange = false;
         }
-        
-	}
+
+    }
 
     public void Interact(int index, PlayerController unitThatTriggered)
     {
@@ -51,7 +54,7 @@ public abstract class Item : UserActionScript {
         {
             Interact1();
         }
-        else if (index ==1)
+        else if (index == 1)
         {
             Interact2();
         }
