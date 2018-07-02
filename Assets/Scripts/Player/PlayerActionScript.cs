@@ -245,10 +245,13 @@ public class PlayerActionScript : UnitActionScript
         float distanceFromItem = Vector3.Distance(currentTilePosition, itemPosition);
         if (distanceFromItem <= interactionReach + item.GetInteractionReach())
         {
-            GetPlayerStatusScript().SetInteractingWithObject(true);
-            TurnPlayerTo(itemPosition);
-            item.Interact(actionIndex, this.GetPlayerController());
-            EndAction(true);
+            if (item.isActionPossible(this))
+            {
+                GetPlayerStatusScript().SetInteractingWithObject(true);
+                TurnPlayerTo(itemPosition);
+                item.Interact(actionIndex, this.GetPlayerController());
+                EndAction(true);
+            }
         }
         else
         {
@@ -399,5 +402,19 @@ public class PlayerActionScript : UnitActionScript
     public override void DoDoubleClickAction()
     {
         throw new System.NotImplementedException();
+    }
+
+    public bool actionIsPossible(Item item) {
+        bool possible = true;
+        if (item.GetType().ToString()=="DoorScript")
+        {
+            DoorScript door = (DoorScript)item;
+            if (door.open && Vector3.Distance(door.fulcrum.position,this.transform.position)<0.6f) {
+                possible = false;
+            }
+            else { possible = true; }
+        }
+       
+        return possible;
     }
 }

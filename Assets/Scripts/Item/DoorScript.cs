@@ -53,6 +53,7 @@ public class DoorScript : Item
                     moving = false;
                     open = true;
                     endrot = 0;
+
                 }
             }
         }
@@ -79,14 +80,42 @@ public class DoorScript : Item
 
     public override void Interact1()
     {
-        this.moving = true;
+        if (unitThatTriggered != null)
+        {
+            if (Vector3.Distance(unitThatTriggered.transform.position, this.transform.position) > 0.0f)
+            {
+                this.moving = true;
+            }
+        }
+        else
+        { this.moving = true; }
+    }
+
+    public override bool isActionPossible(PlayerActionScript player)
+    {
+        bool possible = true;
+        if (this.open && Vector3.Distance(this.fulcrum.position, player.transform.position) < 0.6f)
+        {
+            possible = false;
+        }
+        else { possible = true; }
+        return possible;
     }
 
     public override float GetInteractionReach()
     {
+
         if (allowedLocalOpen)
         {
-            return 1.0f;
+            if (!open)
+            {
+                return 1.0f;
+            }
+            else
+            {
+                
+                return 1.5f;
+            }
         }
         else
         {
