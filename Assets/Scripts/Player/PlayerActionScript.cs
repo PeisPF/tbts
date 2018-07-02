@@ -245,7 +245,7 @@ public class PlayerActionScript : UnitActionScript
         float distanceFromItem = Vector3.Distance(currentTilePosition, itemPosition);
         if (distanceFromItem <= interactionReach + item.GetInteractionReach())
         {
-            if (actionIsPossible(item))
+            if (item.isActionPossible(this))
             {
                 GetPlayerStatusScript().SetInteractingWithObject(true);
                 TurnPlayerTo(itemPosition);

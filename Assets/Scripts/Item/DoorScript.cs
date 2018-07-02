@@ -91,6 +91,17 @@ public class DoorScript : Item
         { this.moving = true; }
     }
 
+    public override bool isActionPossible(PlayerActionScript player)
+    {
+        bool possible = true;
+        if (this.open && Vector3.Distance(this.fulcrum.position, player.transform.position) < 0.6f)
+        {
+            possible = false;
+        }
+        else { possible = true; }
+        return possible;
+    }
+
     public override float GetInteractionReach()
     {
 

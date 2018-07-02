@@ -24,6 +24,7 @@ public abstract class Item : UserActionScript {
     public abstract int[] InitActionCosts();
     public abstract string[] InitActions();
 
+
 	// Update is called once per frame
 	protected void Update () {
         
@@ -85,6 +86,11 @@ public abstract class Item : UserActionScript {
         throw new NotImplementedException();
     }
     public virtual void Interact5()
+    {
+        throw new NotImplementedException();
+    }
+
+    public virtual bool isActionPossible(PlayerActionScript player)
     {
         throw new NotImplementedException();
     }
