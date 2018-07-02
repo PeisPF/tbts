@@ -5,7 +5,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
 
-    private bool checkedFogInCurrentPosition = false;
+    //private bool checkedFogInCurrentPosition = false;
 
     //private bool forceCheckFog = false; //questo serve per forzare l'update della linea di visuale in caso di apertura porta
 
@@ -119,7 +119,7 @@ public class PlayerController : MonoBehaviour
 
                     //move
                     GetPlayerActionScript().Move();
-                    checkedFogInCurrentPosition = false;
+                    //checkedFogInCurrentPosition = false;
                 }
                 else
                 {

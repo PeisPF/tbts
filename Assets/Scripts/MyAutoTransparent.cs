@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class MyAutoTransparent : MonoBehaviour
 {
-    private Shader m_OldShader = null;
-    private Color m_OldColor = Color.black;
-    private float m_Transparency = 0.3f;
     private const float m_TargetTransparancy = 0.3f;
     private const float m_FallOff = 0.1f; // returns to 100% in 0.1 sec
 

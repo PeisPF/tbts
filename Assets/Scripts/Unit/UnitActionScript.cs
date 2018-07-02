@@ -5,7 +5,6 @@ using UnityEngine;
 public abstract class UnitActionScript : UserActionScript {
     //qua dentro va spostata tutta la logica a comune tra giocatori e NPC
     public int remainingActionPoints;
-    private bool turn;
     public int actionPointsPerTurn = 2;
 
     public void BeginTurn()
@@ -20,12 +19,11 @@ public abstract class UnitActionScript : UserActionScript {
             remainingActionPoints = actionPointsPerTurn;
         }
         Debug.Log("unit " + this.name + " begins turn with " + remainingActionPoints + "action points ");
-        turn = true;
     }
 
     public void EndTurn()
     {
-        turn = false;
+    
     }
 
     public abstract void DoReset();

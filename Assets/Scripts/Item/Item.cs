@@ -28,9 +28,8 @@ public abstract class Item : UserActionScript
 
 
     // Update is called once per frame
-    protected void Update()
+    protected virtual void Update()
     {
-
         if (colorShouldChange)
         {
             Debug.Log("changing color on " + this.name);

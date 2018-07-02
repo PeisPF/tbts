@@ -14,17 +14,9 @@ public class DoorScript : Item
 
     public Transform fulcrum;
 
-    private Vector3 originalTransformPosition;
-
-    // Use this for initialization
-    void Start()
-    {
-        originalTransformPosition = transform.position;
-    }
-
     float endrot = 0;
     // Update is called once per frame
-    void Update()
+    protected override void Update()
     {
         base.Update();
         if (moving)
