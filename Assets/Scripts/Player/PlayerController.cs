@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
     private bool checkedFogInCurrentPosition = false;
 
-    private bool forceCheckFog = false; //questo serve per forzare l'update della linea di visuale in caso di apertura porta
+    //private bool forceCheckFog = false; //questo serve per forzare l'update della linea di visuale in caso di apertura porta
 
     //public LayerMask layerMask;
 
@@ -58,52 +59,53 @@ public class PlayerController : MonoBehaviour {
     }
 
 
-    public void SetCheckedFogInCurrentPosition(bool value)
-    {
-        this.checkedFogInCurrentPosition = value;
-    }
+    //public void SetCheckedFogInCurrentPosition(bool value)
+    //{
+    //   this.checkedFogInCurrentPosition = value;
+    //}
 
-    public void ForceCheckFog()
-    {
-        this.forceCheckFog = true;
-        this.checkedFogInCurrentPosition = false;
-    }
+    /* public void ForceCheckFog()
+     {
+         this.forceCheckFog = true;
+         this.checkedFogInCurrentPosition = false;
+     }*/
 
     // Use this for initialization
-    void Start () {
-		
-	}
+    void Start()
+    {
+
+    }
 
     private void CheckFog()
     {
-        if (!checkedFogInCurrentPosition)
-        {
-            GetCheckFogScript().CheckFog();
-            checkedFogInCurrentPosition = true;
-        }
+        //if (!checkedFogInCurrentPosition)
+        //{
+        GetCheckFogScript().CheckFog();
+        //  checkedFogInCurrentPosition = true;
+        //}
     }
-    
+
 
 
     // Update is called once per frame
     void Update()
     {
         //Debug.DrawRay(transform.position, transform.forward);
-        if (forceCheckFog)
-        {
-            CheckFog();
-        }
+        //if (forceCheckFog)
+        //{
+        CheckFog();
+        //}
         if (TurnManager.GetCurrentPlayer() == this.GetComponent<Collider>())
         {
-            CheckFog();
-            forceCheckFog = false; //posso settarlo a false perchè se è il mio turno il problema della porta che si apre è risolto
+            //CheckFog();
+            //forceCheckFog = false; //posso settarlo a false perchè se è il mio turno il problema della porta che si apre è risolto
 
 
 
             //Debug.Log("moving: " + GetPlayerStatusScript().IsMoving()+", showingPath: " + GetPlayerStatusScript().IsShowingPath());
 
             //if the player is not moving and the path is not chosen, highlight selectable tiles and wait for input
-            if (!GetPlayerStatusScript().IsMoving()&& !GetPlayerStatusScript().IsShowingPath())
+            if (!GetPlayerStatusScript().IsMoving() && !GetPlayerStatusScript().IsShowingPath())
             {
                 GetPlayerBFSScript().FindSelectableTiles();
                 CheckMouse();
@@ -111,7 +113,7 @@ public class PlayerController : MonoBehaviour {
 
             else
             {
-                
+
                 if (GetPlayerStatusScript().IsMoving())
                 {
 
