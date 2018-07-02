@@ -29,4 +29,9 @@ public class LeverScript : TriggerItemScript {
     {
         transform.RotateAround(fulcrum.position, transform.right.normalized, 30);
     }
+
+    public override bool isActionPossible(PlayerActionScript player)
+    {
+        return true;
+    }
 }
