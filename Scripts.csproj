@@ -71,6 +71,7 @@
     <Compile Include="Assets\Scripts\Item\TriggerItemScript.cs" />
     <Compile Include="Assets\Scripts\MapInitializer.cs" />
     <Compile Include="Assets\Scripts\Menu\ButtonScript.cs" />
+    <Compile Include="Assets\Scripts\Menu\LoadNextSceneOnClick.cs" />
     <Compile Include="Assets\Scripts\Menu\SceneSwitcher.cs" />
     <Compile Include="Assets\Scripts\MyAutoTransparent.cs" />
     <Compile Include="Assets\Scripts\NPCMove.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStatusScript.cs" />
     <Compile Include="Assets\Scripts\Player\TorchLight.cs" />
+    <Compile Include="Assets\Scripts\PlayerStartingPointScript.cs" />
     <Compile Include="Assets\Scripts\RayCastUtils.cs" />
     <Compile Include="Assets\Scripts\TacticsCamera.cs" />
     <Compile Include="Assets\Scripts\Tile\HighLightPathScript.cs" />

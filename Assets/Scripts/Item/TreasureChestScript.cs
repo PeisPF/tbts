@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TreasureChestScript : Item {
     public override float GetInteractionReach()
@@ -21,5 +22,11 @@ public class TreasureChestScript : Item {
     public override void Interact1()
     {
         Debug.Log("YOU FUCKIN' WIN");
+        SceneManager.LoadScene(3);
+    }
+
+    public override bool isActionPossible(PlayerActionScript player)
+    {
+        return true;
     }
 }
