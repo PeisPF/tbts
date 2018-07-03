@@ -1394,7 +1394,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   remainingActionPoints: 0
-  actionPointsPerTurn: 2
+  actionPointsPerTurn: 1000
   jumpVelocity: 4.5
   interactionReach: 1
   layerMask:
