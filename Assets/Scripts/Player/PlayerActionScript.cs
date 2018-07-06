@@ -24,7 +24,14 @@ public class PlayerActionScript : UnitActionScript
 
     public LayerMask layerMask;
 
+    public LayerMask moveLayerMask;
+
     private TileBFSScript pathDestination;
+
+    public TileBFSScript GetPathDestionation()
+    {
+        return this.pathDestination;
+    }
 
     private PlayerStatusScript playerStatusScript;
     
@@ -84,7 +91,7 @@ public class PlayerActionScript : UnitActionScript
         //SetShowPath(false);
     }
 
-    public void Move()
+    public bool Move()
     {
         //
         Debug.Log("Move() called");
@@ -122,7 +129,9 @@ public class PlayerActionScript : UnitActionScript
         else
         {
             EndAction(true);
+            return true;
         }
+        return false;
     }
 
     private void TerminateMoveInExactPosition(Vector3 nextTilePosition)
@@ -191,10 +200,9 @@ public class PlayerActionScript : UnitActionScript
                 }
             }
         }
-        //checkedFogInCurrentPosition = false;
     }
 
-    public void MoveToTile(TileBFSScript tile)
+    public bool MoveToTile(TileBFSScript tile)
     {
         //Debug.Log("MoveToTile(" + tile + ") called");
         GetPlayerBFSScript().GetPath().Clear();
@@ -209,6 +217,7 @@ public class PlayerActionScript : UnitActionScript
             GetPlayerBFSScript().GetPath().Push(next);
             next = next.GetParent();
         }
+        return true;
     }
 
     public void SwitchTurn(RaycastHit hit)
