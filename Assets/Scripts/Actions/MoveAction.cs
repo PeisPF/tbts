@@ -62,46 +62,12 @@ public class MoveAction : Action {
         this.selectionEnded = true;
     }
 
-
-
-
-    //metodi e variabili di utilità per recuperare gli altri script attivi sull'unità
-
-    private PlayerActionScript playerActionScript;
-    private PlayerStatusScript playerStatusScript;
-    private PlayerBFSScript playerBFSScript;
-
-    private PlayerActionScript GetPlayerActionScript()
-    {
-        if (this.playerActionScript == null)
-        {
-            this.playerActionScript = TurnManager.GetCurrentPlayer().GetComponent<PlayerActionScript>();
-        }
-        return this.playerActionScript;
-    }
-     
-
-    private PlayerBFSScript GetPlayerBFSScript()
-    {
-        if (this.playerBFSScript == null)
-        {
-            this.playerBFSScript = TurnManager.GetCurrentPlayer().GetComponent<PlayerBFSScript>();
-        }
-        return this.playerBFSScript;
-    }
-
-    private PlayerStatusScript GetPlayerStatusScript()
-    {
-        if (this.playerStatusScript == null)
-        {
-            this.playerStatusScript = TurnManager.GetCurrentPlayer().GetComponent<PlayerStatusScript>();
-        }
-        return this.playerStatusScript;
-    }
-
     protected override bool EndAction()
     {
-        //TODO: ripulire i selectable tiles
+        GetPlayerBFSScript().RemoveSelectableTiles();
+        GetPlayerStatusScript().SetMoving(false);
+        GetPlayerStatusScript().SetShowingPath(false);
         return true;
     }
+
 }

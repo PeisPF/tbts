@@ -128,7 +128,8 @@ public class PlayerActionScript : UnitActionScript
         }
         else
         {
-            EndAction(true);
+            //EndAction(true);
+            Debug.Log("Move ended");
             return true;
         }
         return false;
@@ -151,7 +152,7 @@ public class PlayerActionScript : UnitActionScript
         return Vector3.Distance(transform.position, target) >= threshold;
     }
 
-    private void EndAction(bool consumeAction)
+    /*private void EndAction(bool consumeAction)
     {
         GetPlayerBFSScript().RemoveSelectableTiles();
         GetPlayerStatusScript().SetMoving(false);
@@ -160,7 +161,7 @@ public class PlayerActionScript : UnitActionScript
         {
             DecreaseActionPoints();
         }
-    }
+    }*/
 
     public void DoAction(bool pathLit)
     {
@@ -175,7 +176,7 @@ public class PlayerActionScript : UnitActionScript
             if (hit.collider.tag == "Player")
             {
                 SwitchTurn(hit);
-                EndAction(false);
+                //EndAction(false);
             }
             else if (!pathLit)
             {
@@ -225,7 +226,7 @@ public class PlayerActionScript : UnitActionScript
         PlayerActionScript p = hit.collider.GetComponent<PlayerActionScript>();
         if (p != this)
         {
-            EndAction(false);
+            //EndAction(false);
             TurnManager.SwitchTurn(p);
         }
     }
@@ -259,7 +260,7 @@ public class PlayerActionScript : UnitActionScript
                 GetPlayerStatusScript().SetInteractingWithObject(true);
                 TurnPlayerTo(itemPosition);
                 item.Interact(actionIndex, this.GetPlayerController());
-                EndAction(true);
+                //EndAction(true);
             }
         }
         else
@@ -285,15 +286,18 @@ public class PlayerActionScript : UnitActionScript
 
     }
 
-
-    private void DecreaseActionPoints()
+    public void DecreaseActionPoints(int amount)
     {
-        remainingActionPoints--;
+        remainingActionPoints-=amount;
         if (remainingActionPoints == 0)
         {
             TurnManager.EndTurn();
         }
     }
+    /*private void DecreaseActionPoints()
+    {
+        DecreaseActionPoints(1);
+    }*/
 
     void Jump(Vector3 target)
     {
