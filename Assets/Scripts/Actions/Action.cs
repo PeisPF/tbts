@@ -15,6 +15,11 @@ public abstract class Action
         return 1;
     }
 
+    public bool IsSelectionEnded()
+    {
+        return selectionEnded;
+    }
+
     protected abstract bool SelectionPhase(); //displays selection on screen
 
     protected abstract bool StartAction(); //performs the setup of the action
@@ -55,6 +60,7 @@ public abstract class Action
         }
         else {
             EndAction();
+            return true;
         }
         
         return false;

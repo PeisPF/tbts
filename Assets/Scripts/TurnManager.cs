@@ -39,7 +39,6 @@ public class TurnManager : MonoBehaviour {
 
         foreach (UnitActionScript unit in teamList)
         {
-
             unit.ResetActionPoints();
             turnTeam.Enqueue(unit);
         }

@@ -8,7 +8,13 @@ public class NewPlayerController : MonoBehaviour {
 
     public void SetCurrentAction(Action action)
     {
+        Debug.Log("setting current action: " + action);
         this.currentAction = action;
+    }
+
+    public Action GetCurrentAction()
+    {
+        return currentAction;
     }
 
     private PlayerStatusScript playerStatusScript;
