@@ -42,6 +42,7 @@ GameObject:
   - component: {fileID: 114018241708926942}
   - component: {fileID: 114916956224715224}
   - component: {fileID: 114300447068861584}
+  - component: {fileID: 114058369185100988}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1322,10 +1323,10 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.599
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -1335,7 +1336,7 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 4294963199
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -1357,9 +1358,20 @@ MonoBehaviour:
   currentTile: {fileID: 0}
   onlyTilesLayerMask:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 8192
   move: 5
   jumpHeight: 2
+--- !u!114 &114058369185100988
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1023995423858664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6c2e6b4a9ad2f9742b73de33b0f60e25, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114222644389847552
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1400,6 +1412,9 @@ MonoBehaviour:
   layerMask:
     serializedVersion: 2
     m_Bits: 4294964735
+  moveLayerMask:
+    serializedVersion: 2
+    m_Bits: 8192
 --- !u!114 &114462669319958478
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1434,7 +1449,7 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1023995423858664}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b7b7c06fe4ce6844eabfadbdc6a512aa, type: 3}
   m_Name: 

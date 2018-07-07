@@ -6,6 +6,13 @@ public class SwitchTurnGUIAction : GUIActionScript
 {
     protected override Action GetNewAction()
     {
-        return new SwitchTurnAction();
+        UnitFrameGUIScript script = this.transform.parent.GetComponent<UnitFrameGUIScript>();
+        Debug.Log("script: " + script);
+        PlayerStatusScript statusScript = script.GetPlayer();
+        Debug.Log("statusScript: " + statusScript);
+        PlayerActionScript actionScript = statusScript.GetComponent<PlayerActionScript>();
+        Debug.Log("actionScript: " + actionScript);
+
+        return new SwitchTurnAction(actionScript);
     }
 }

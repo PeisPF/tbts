@@ -5,52 +5,36 @@ using UnityEngine;
 
 public class SwitchTurnAction : Action
 {
+    private PlayerActionScript target;
 
-    private bool skippedFirstClick = false;
+    protected override int GetCost()
+    {
+        return 0;
+    }
+
+    public SwitchTurnAction(PlayerActionScript target)
+    {
+        this.target = target;
+    }
 
     protected override bool DoActualAction()
     {
-        throw new System.NotImplementedException();
+        TurnManager.SwitchTurn(target);
+        return true;
     }
 
     protected override bool SelectionPhase()
     {
-        return CheckMouseForSelection();
-    }
-
-    private bool CheckMouseForSelection()
-    {
-        if (skippedFirstClick)
-        {
-            if (Input.GetMouseButtonUp(0))
-            {
-                //SetDestination();
-                return true;
-            }
-            else
-            {
-                HighlightUnitsInSameTeam();
-            }
-        }
-        else
-        {
-            skippedFirstClick = true; //purtroppo altrimenti l'azione mi viene triggerata al click sulla GUI
-        }
-        return false;
-    }
-
-    private void HighlightUnitsInSameTeam()
-    {
-        throw new NotImplementedException();
+        return true;
     }
 
     protected override bool StartAction()
     {
-        throw new System.NotImplementedException();
+        return true;
     }
 
     protected override bool EndAction()
     {
-        throw new NotImplementedException();
+        return true;
     }
 }
