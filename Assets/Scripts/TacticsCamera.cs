@@ -41,6 +41,7 @@ public class TacticsCamera : MonoBehaviour
 
     private void AdjustCameraZoomWithMouseWheel()
     {
+        //for ortographic
         if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
         {
             Camera.main.orthographicSize = Mathf.Min(Camera.main.orthographicSize + zoomSpeed, 8);
@@ -50,6 +51,17 @@ public class TacticsCamera : MonoBehaviour
         {
             Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize - zoomSpeed, 3);
         }
+
+        //for perspective
+        /*if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
+        {
+            Camera.main.fieldOfView = Mathf.Min(Camera.main.fieldOfView + zoomSpeed, 30);
+
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
+        {
+            Camera.main.fieldOfView = Mathf.Max(Camera.main.fieldOfView - zoomSpeed, 7);
+        }*/
     }
 
     private void TurnCamera(float value)

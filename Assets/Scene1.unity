@@ -2315,7 +2315,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 15.4
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -2360,7 +2360,7 @@ MonoBehaviour:
   moveSpeed: 10
   offset: {x: 12.4, y: 20, z: -13.3}
   rotationSpeed: 80
-  zoomSpeed: 0.2
+  zoomSpeed: 0.8
   rotationVector: {x: 0, y: 0, z: 0}
 --- !u!114 &119955295
 MonoBehaviour:
