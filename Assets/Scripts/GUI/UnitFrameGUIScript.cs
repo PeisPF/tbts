@@ -52,7 +52,7 @@ public class UnitFrameGUIScript : MonoBehaviour {
             for (int i = 0; i < actionPoints; i++)
             {
                 GameObject go = (GameObject)Instantiate(obj);
-                go.transform.parent = actionPointsLayoutGroup.transform;
+                go.transform.SetParent(actionPointsLayoutGroup.transform, false);
             }
             previousActionPoints = actionPoints;
         }

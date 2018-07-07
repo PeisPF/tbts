@@ -64,7 +64,7 @@ public class MapInitializer : MonoBehaviour {
         UnityEngine.Object obj = Resources.Load("UI/UnitPanel");
         GameObject go = (GameObject)Instantiate(obj);
         go.GetComponent<UnitFrameGUIScript>().SetPlayer(playerObject.GetComponent<PlayerStatusScript>());
-        go.transform.parent = unitFrames.transform;
+        go.transform.SetParent(unitFrames.transform, false);
     }
 
     private static GameObject InstantiatePlayer(UnityEngine.Object player, PlayerStartingPointScript pos)
