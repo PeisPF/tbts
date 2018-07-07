@@ -30,7 +30,6 @@ public class HighLightPathScript : UserActionScript
 
     public void CheckHighlightPath(/*RaycastHit hit*/)
     {
-        Debug.Log("CheckHighlightPath");
         TileStatus t = this.GetComponent<TileStatus>();
         if (t.IsSelectable())
         {
@@ -42,17 +41,14 @@ public class HighLightPathScript : UserActionScript
 
     public void HighlightPathTo(TileStatus tile)
     {
-        Debug.Log("HighlightPathTo " + tile.name+", path current size: "+ GetPath().Count);
         ResetPath();
         DoHighLightPathTo(tile);
     }
 
     public void ResetPath()
     {
-        Debug.Log("Reset Path, currently holding "+ GetPath().Count);
         foreach (TileBFSScript t in GetPath())
         {
-            Debug.Log("removing path from " + t.name);
             t.GetComponent<TileStatus>().SetPath(false);
         }
 

@@ -7,16 +7,26 @@ public abstract class UnitActionScript : UserActionScript {
     public int remainingActionPoints;
     public int actionPointsPerTurn = 2;
 
+    public int GetRemainingActionPoints()
+    {
+        return remainingActionPoints;
+    }
+
     public void BeginTurn()
     {
         BeginTurn(true);
+    }
+
+    public void ResetActionPoints()
+    {
+        remainingActionPoints = actionPointsPerTurn;
     }
 
     public void BeginTurn(bool resetActionPoints)
     {
         if (resetActionPoints || remainingActionPoints == 0)
         {
-            remainingActionPoints = actionPointsPerTurn;
+            ResetActionPoints();
         }
         Debug.Log("unit " + this.name + " begins turn with " + remainingActionPoints + "action points ");
     }

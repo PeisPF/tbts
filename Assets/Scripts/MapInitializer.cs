@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class MapInitializer : MonoBehaviour {
     public bool initialized;
     private static MapInitializer instance;
+    public Transform unitFrames;
 
     public static MapInitializer GetInstance()
     {
@@ -14,7 +16,7 @@ public class MapInitializer : MonoBehaviour {
 
     private GameObject LoadMap()
     {
-        Object obj = Resources.Load("TestMap");
+        UnityEngine.Object obj = Resources.Load("TestMap");
         Debug.Log("loaded obj: " + obj);
         GameObject map = (GameObject)Instantiate(obj);
         map.name = "mappa di test";
@@ -24,7 +26,7 @@ public class MapInitializer : MonoBehaviour {
 
     private void LoadTiles()
     {
-        Object obj = Resources.Load("Cube");
+        UnityEngine.Object obj = Resources.Load("Cube");
         for (float x = -7; x < 7; x++)
         {
             for (float z = -15; z < 17; z++)
@@ -49,11 +51,26 @@ public class MapInitializer : MonoBehaviour {
     private void LoadPlayerUnits(GameObject map)
     {
         PlayerStartingPointScript[] playerStartingPoints = map.GetComponentsInChildren<PlayerStartingPointScript>();
-        Object obj = Resources.Load("Player");
+        UnityEngine.Object obj = Resources.Load("Player");
         foreach (PlayerStartingPointScript pos in playerStartingPoints)
         {
-            GameObject go = (GameObject)Instantiate(obj);
-            go.transform.position = pos.transform.position;
+            GameObject go = InstantiatePlayer(obj, pos);
+            InstantiateGUIItem(go);
         }
+    }
+
+    private void InstantiateGUIItem(GameObject playerObject)
+    {
+        UnityEngine.Object obj = Resources.Load("UI/UnitPanel");
+        GameObject go = (GameObject)Instantiate(obj);
+        go.GetComponent<UnitFrameGUIScript>().SetPlayer(playerObject.GetComponent<PlayerStatusScript>());
+        go.transform.parent = unitFrames.transform;
+    }
+
+    private static GameObject InstantiatePlayer(UnityEngine.Object player, PlayerStartingPointScript pos)
+    {
+        GameObject go = (GameObject)Instantiate(player);
+        go.transform.position = pos.transform.position;
+        return go;
     }
 }

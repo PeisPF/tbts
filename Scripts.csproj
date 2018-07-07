@@ -59,11 +59,20 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\Actions\Action.cs" />
+    <Compile Include="Assets\Scripts\Actions\MoveAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\SkipAction.cs" />
+    <Compile Include="Assets\Scripts\Actions\SwitchTurnAction.cs" />
     <Compile Include="Assets\Scripts\AutoTransparent.cs" />
     <Compile Include="Assets\Scripts\ClearSight.cs" />
     <Compile Include="Assets\Scripts\Common\UserActionScript.cs" />
     <Compile Include="Assets\Scripts\FogInitializer.cs" />
     <Compile Include="Assets\Scripts\FogScript.cs" />
+    <Compile Include="Assets\Scripts\GUI\GUIActionScript.cs" />
+    <Compile Include="Assets\Scripts\GUI\MoveGUIAction.cs" />
+    <Compile Include="Assets\Scripts\GUI\SkipGUIAction.cs" />
+    <Compile Include="Assets\Scripts\GUI\SwitchTurnGUIAction.cs" />
+    <Compile Include="Assets\Scripts\GUI\UnitFrameGUIScript.cs" />
     <Compile Include="Assets\Scripts\Item\DoorScript.cs" />
     <Compile Include="Assets\Scripts\Item\Item.cs" />
     <Compile Include="Assets\Scripts\Item\LeverScript.cs" />
@@ -76,6 +85,7 @@
     <Compile Include="Assets\Scripts\MyAutoTransparent.cs" />
     <Compile Include="Assets\Scripts\NPCMove.cs" />
     <Compile Include="Assets\Scripts\Player\CheckFogScript.cs" />
+    <Compile Include="Assets\Scripts\Player\NewPlayerController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerActionScript.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerBFSScript.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
