@@ -12,6 +12,9 @@ public abstract class Item : UserActionScript
     public bool isHovered;
     public bool colorShouldChange;
 
+    private Color color;
+    private float emission;
+
     protected PlayerController unitThatTriggered;
 
     // Use this for initialization
@@ -21,10 +24,20 @@ public abstract class Item : UserActionScript
         actionCosts = InitActionCosts();
         isHovered = false;
         colorShouldChange = false;
+        color = Color.black;
+        emission = 1.0f;
     }
 
     public abstract int[] InitActionCosts();
     public abstract string[] InitActions();
+
+    public void ChangeColor(Color color, float emission)
+    {
+        Debug.Log("setting color to: " + color);
+        this.colorShouldChange = true;
+        this.color = color;
+        this.emission = emission;
+    }
 
 
     // Update is called once per frame
@@ -32,14 +45,14 @@ public abstract class Item : UserActionScript
     {
         if (colorShouldChange)
         {
-            Debug.Log("changing color on " + this.name);
+            /*Debug.Log("changing color on " + this.name);
             Color color = Color.black;
             float emission = 1f;
             if (this.isHovered)
             {
                 emission = 0.5f;
                 color = Color.yellow;
-            }
+            }*/
             GetComponent<Renderer>().material.SetColor("_EmissionColor", color * emission);
             colorShouldChange = false;
         }
@@ -97,16 +110,24 @@ public abstract class Item : UserActionScript
         throw new NotImplementedException();
     }
 
+    public bool ShouldChangeColor()
+    {
+        Action currentAction = TurnManager.GetCurrentPlayer().GetComponent<NewPlayerController>().GetCurrentAction();
+        return currentAction is InteractAction && !currentAction.IsSelectionEnded();
+    }
+
     public void OnMouseEnter()
     {
-        this.colorShouldChange = true;
-        this.isHovered = true;
+        this.colorShouldChange = ShouldChangeColor();
+        this.color = Color.yellow;
+        this.emission = 0.5f;
     }
 
     public void OnMouseExit()
     {
-        this.colorShouldChange = true;
-        this.isHovered = false;
+        this.colorShouldChange = ShouldChangeColor();
+        this.color = Color.black;
+        this.emission = 1f;
     }
 
     public void ShowActionsToolTip()

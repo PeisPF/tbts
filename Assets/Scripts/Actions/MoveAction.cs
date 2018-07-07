@@ -30,7 +30,6 @@ public class MoveAction : Action {
         {
             if (Input.GetMouseButtonUp(0))
             {
-                SetDestination();
                 return true;
             }
             else
@@ -55,11 +54,6 @@ public class MoveAction : Action {
             t.SetPlayerStatusScript(GetPlayerStatusScript()); //per adesso lo passo così
             t.CheckHighlightPath();
         }
-    }
-
-    private void SetDestination()
-    {
-        this.selectionEnded = true;
     }
 
     protected override bool EndAction()

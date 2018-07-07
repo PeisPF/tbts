@@ -25,6 +25,7 @@ public class PlayerActionScript : UnitActionScript
     public LayerMask layerMask;
 
     public LayerMask moveLayerMask;
+    public LayerMask interactLayerMask;
 
     private TileBFSScript pathDestination;
 
@@ -34,7 +35,7 @@ public class PlayerActionScript : UnitActionScript
     }
 
     private PlayerStatusScript playerStatusScript;
-    
+
     private PlayerStatusScript GetPlayerStatusScript()
     {
         if (playerStatusScript == null)
@@ -248,7 +249,7 @@ public class PlayerActionScript : UnitActionScript
         }
     }
 
-    public void InteractWithItem(Item item, int actionIndex)
+    public bool IsInteractionPossible(Item item)
     {
         Vector3 currentTilePosition = GetPlayerBFSScript().GetCurrentTile().transform.position;
         Vector3 itemPosition = item.transform.position;
@@ -257,20 +258,33 @@ public class PlayerActionScript : UnitActionScript
         {
             if (item.isActionPossible(this))
             {
-                GetPlayerStatusScript().SetInteractingWithObject(true);
-                TurnPlayerTo(itemPosition);
-                item.Interact(actionIndex, this.GetPlayerController());
-                //EndAction(true);
+                return true;
             }
+        }
+        return false;
+
+    }
+
+    public bool InteractWithItem(Item item, int actionIndex)
+    {
+        Vector3 currentTilePosition = GetPlayerBFSScript().GetCurrentTile().transform.position;
+        Vector3 itemPosition = item.transform.position;
+        float distanceFromItem = Vector3.Distance(currentTilePosition, itemPosition);
+        if (IsInteractionPossible(item))
+        {
+            GetPlayerStatusScript().SetInteractingWithObject(true);
+            TurnPlayerTo(itemPosition);
+            item.Interact(actionIndex, this.GetPlayerController());
+            return true;
         }
         else
         {
             Debug.Log("item too far away: " + distanceFromItem);
         }
-
+        return false;
     }
 
-    
+
     private void TurnPlayerTo(Vector3 itemPosition)
     {
         Vector3 lookPos = itemPosition - this.transform.position;
@@ -288,7 +302,7 @@ public class PlayerActionScript : UnitActionScript
 
     public void DecreaseActionPoints(int amount)
     {
-        remainingActionPoints-=amount;
+        remainingActionPoints -= amount;
         if (remainingActionPoints == 0)
         {
             TurnManager.EndTurn();
@@ -417,17 +431,19 @@ public class PlayerActionScript : UnitActionScript
         throw new System.NotImplementedException();
     }
 
-    public bool actionIsPossible(Item item) {
+    public bool actionIsPossible(Item item)
+    {
         bool possible = true;
-        if (item.GetType().ToString()=="DoorScript")
+        if (item.GetType().ToString() == "DoorScript")
         {
             DoorScript door = (DoorScript)item;
-            if (door.open && Vector3.Distance(door.fulcrum.position,this.transform.position)<0.6f) {
+            if (door.open && Vector3.Distance(door.fulcrum.position, this.transform.position) < 0.6f)
+            {
                 possible = false;
             }
             else { possible = true; }
         }
-       
+
         return possible;
     }
 }

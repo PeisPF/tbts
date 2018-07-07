@@ -1415,6 +1415,9 @@ MonoBehaviour:
   moveLayerMask:
     serializedVersion: 2
     m_Bits: 8192
+  interactLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
 --- !u!114 &114462669319958478
 MonoBehaviour:
   m_ObjectHideFlags: 1

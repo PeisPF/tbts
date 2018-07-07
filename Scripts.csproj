@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Actions\Action.cs" />
+    <Compile Include="Assets\Scripts\Actions\InteractAction.cs" />
     <Compile Include="Assets\Scripts\Actions\MoveAction.cs" />
     <Compile Include="Assets\Scripts\Actions\SkipAction.cs" />
     <Compile Include="Assets\Scripts\Actions\SwitchTurnAction.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Assets\Scripts\FogInitializer.cs" />
     <Compile Include="Assets\Scripts\FogScript.cs" />
     <Compile Include="Assets\Scripts\GUI\GUIActionScript.cs" />
+    <Compile Include="Assets\Scripts\GUI\InteractGUIAction.cs" />
     <Compile Include="Assets\Scripts\GUI\MoveGUIAction.cs" />
     <Compile Include="Assets\Scripts\GUI\SkipGUIAction.cs" />
     <Compile Include="Assets\Scripts\GUI\SwitchTurnGUIAction.cs" />

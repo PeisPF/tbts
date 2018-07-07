@@ -22,6 +22,10 @@ public class PlayerBFSScript : MonoBehaviour {
 
     public TileBFSScript GetCurrentTile()
     {
+        if (currentTile ==null)
+        {
+            SelectCurrentTile();
+        }
         return currentTile;
     }
 
