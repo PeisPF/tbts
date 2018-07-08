@@ -12,6 +12,16 @@ public class PlayerActionScript : UnitActionScript
     Vector3 velocity = new Vector3();
     Vector3 heading = new Vector3();//direzione in cui è girato il tizio
 
+    private Action[] availableActions;
+
+    public Action[] GetAvailableAction()
+    {
+        return this.availableActions;
+    }
+    public void SetAvailableActions(Action[] availableActions)
+    {
+        this.availableActions = availableActions;
+    }
 
     public float jumpVelocity = 4.5f;
     private float interactionReach;
