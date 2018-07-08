@@ -2,8 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
-public class MapInitializer : MonoBehaviour {
+public class MapInitializer : MonoBehaviour
+{
     public bool initialized;
     private static MapInitializer instance;
     public Transform unitFrames;
@@ -12,7 +14,7 @@ public class MapInitializer : MonoBehaviour {
     {
         return instance;
     }
-	// Use this for initialization
+    // Use this for initialization
 
     private GameObject LoadMap()
     {
@@ -37,7 +39,8 @@ public class MapInitializer : MonoBehaviour {
         }
     }
 
-	void Start () {
+    void Start()
+    {
         if (instance == null)
         {
             instance = this;
@@ -51,12 +54,28 @@ public class MapInitializer : MonoBehaviour {
     private void LoadPlayerUnits(GameObject map)
     {
         PlayerStartingPointScript[] playerStartingPoints = map.GetComponentsInChildren<PlayerStartingPointScript>();
-        UnityEngine.Object obj = Resources.Load("Player");
+        UnityEngine.Object obj = Resources.Load("Unit/Player");
+        int i = 0;
         foreach (PlayerStartingPointScript pos in playerStartingPoints)
         {
-            GameObject go = InstantiatePlayer(obj, pos);
+            UnitJSONData data = ReadDataFromJSON(i);
+            GameObject go = InstantiatePlayer(obj, pos, data);
             InstantiateGUIItem(go);
+            i++;
         }
+    }
+
+    private UnitJSONData ReadDataFromJSON(int i)
+    {
+        string path = "Assets/Resources/Text/Units/" + i + ".json";
+
+        //Read the text from directly from the test.txt file
+        StreamReader reader = new StreamReader(path);
+        string jsonString = reader.ReadToEnd();
+        Debug.Log(jsonString);
+        reader.Close();
+        UnitJSONData data = JsonUtility.FromJson<UnitJSONData>(jsonString);
+        return data;
     }
 
     private void InstantiateGUIItem(GameObject playerObject)
@@ -67,10 +86,13 @@ public class MapInitializer : MonoBehaviour {
         go.transform.SetParent(unitFrames.transform, false);
     }
 
-    private static GameObject InstantiatePlayer(UnityEngine.Object player, PlayerStartingPointScript pos)
+    private static GameObject InstantiatePlayer(UnityEngine.Object player, PlayerStartingPointScript pos, UnitJSONData data)
     {
         GameObject go = (GameObject)Instantiate(player);
         go.transform.position = pos.transform.position;
+        go.GetComponent<PlayerActionScript>().SetActionPointsPerTurn(data.actionPointsPerTurn);
+        go.GetComponent<PlayerActionScript>().SetInteractionReach(data.interactionReach);
+        go.GetComponent<PlayerBFSScript>().SetMove(data.move);
         return go;
     }
 }

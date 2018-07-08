@@ -12,7 +12,19 @@ public class PlayerBFSScript : MonoBehaviour {
     public LayerMask onlyTilesLayerMask;
 
 
-    public int move = 5;
+    private int move;
+
+    public int GetMove()
+    {
+        return this.move;
+    }
+
+    public void SetMove(int move)
+    {
+        this.move = move;
+    }
+
+
     public float jumpHeight = 2;
 
     private void Start()

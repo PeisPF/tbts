@@ -14,7 +14,7 @@ public class PlayerActionScript : UnitActionScript
 
 
     public float jumpVelocity = 4.5f;
-    public int interactionReach = 1;
+    private float interactionReach;
 
 
     bool fallingDown = false;
@@ -58,6 +58,16 @@ public class PlayerActionScript : UnitActionScript
     }
 
     private PlayerController playerController;
+
+    public void SetInteractionReach(float interactionReach)
+    {
+        this.interactionReach = interactionReach;
+    }
+
+    public float GetInteractionReach()
+    {
+        return this.interactionReach;
+    }
 
     private PlayerController GetPlayerController()
     {
@@ -254,7 +264,7 @@ public class PlayerActionScript : UnitActionScript
         Vector3 currentTilePosition = GetPlayerBFSScript().GetCurrentTile().transform.position;
         Vector3 itemPosition = item.transform.position;
         float distanceFromItem = Vector3.Distance(currentTilePosition, itemPosition);
-        if (distanceFromItem <= interactionReach + item.GetInteractionReach())
+        if (distanceFromItem <= GetInteractionReach() + item.GetInteractionReach())
         {
             if (item.isActionPossible(this))
             {
