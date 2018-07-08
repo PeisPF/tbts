@@ -9,5 +9,6 @@ public class UnitJSONData{
     public int actionPointsPerTurn;
     public int move;
 	public float interactionReach;
+    public string[] availableActions;
 	
 }

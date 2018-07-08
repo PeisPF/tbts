@@ -12,15 +12,32 @@ public class PlayerActionScript : UnitActionScript
     Vector3 velocity = new Vector3();
     Vector3 heading = new Vector3();//direzione in cui è girato il tizio
 
-    private Action[] availableActions;
+    private GameObject actionButtons;
 
-    public Action[] GetAvailableAction()
+    private List<UnityEngine.Object> availableActions;
+
+    public List<UnityEngine.Object> GetAvailableActions()
     {
         return this.availableActions;
     }
-    public void SetAvailableActions(Action[] availableActions)
+    public void SetAvailableActions(List<UnityEngine.Object> availableActions)
     {
         this.availableActions = availableActions;
+    }
+
+    public override void BeginTurn(bool resetActionPoints)
+    {
+        base.BeginTurn(resetActionPoints);
+        InstantiateActionButtonsOnGUI();
+    }
+
+    private void InstantiateActionButtonsOnGUI()
+    {
+        foreach (UnityEngine.Object obj in GetAvailableActions())
+        {
+            GameObject go = (GameObject)Instantiate(obj);
+            go.transform.SetParent(actionButtons.transform, false);
+        }
     }
 
     public float jumpVelocity = 4.5f;
@@ -101,6 +118,7 @@ public class PlayerActionScript : UnitActionScript
     }
     protected void Init()
     {
+        actionButtons = GameObject.FindGameObjectWithTag("UnitActions");
         halfHeight = GetComponent<Collider>().bounds.extents.y;
         TurnManager.AddUnit(this);
     }
@@ -465,5 +483,18 @@ public class PlayerActionScript : UnitActionScript
         }
 
         return possible;
+    }
+
+    public override void EndTurn()
+    {
+        CleanUpUI();
+    }
+
+    private void CleanUpUI()
+    {
+        foreach (Transform child in actionButtons.transform)
+        {
+            Destroy(child.gameObject);
+        }
     }
 }

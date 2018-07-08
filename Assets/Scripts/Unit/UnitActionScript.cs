@@ -27,7 +27,7 @@ public abstract class UnitActionScript : UserActionScript {
         remainingActionPoints = actionPointsPerTurn;
     }
 
-    public void BeginTurn(bool resetActionPoints)
+    public virtual void BeginTurn(bool resetActionPoints)
     {
         if (resetActionPoints || remainingActionPoints == 0)
         {
@@ -36,10 +36,7 @@ public abstract class UnitActionScript : UserActionScript {
         Debug.Log("unit " + this.name + " begins turn with " + remainingActionPoints + "action points ");
     }
 
-    public void EndTurn()
-    {
-    
-    }
+    public abstract void EndTurn();
 
     public abstract void DoReset();
 }

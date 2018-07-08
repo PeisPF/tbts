@@ -35,6 +35,7 @@ public class MapInitializer : MonoBehaviour
             {
                 GameObject go = (GameObject)Instantiate(obj);
                 go.transform.position = new Vector3(x, 0, z) + this.transform.position;
+                go.transform.SetParent(this.transform, false);
             }
         }
     }
@@ -93,6 +94,19 @@ public class MapInitializer : MonoBehaviour
         go.GetComponent<PlayerActionScript>().SetActionPointsPerTurn(data.actionPointsPerTurn);
         go.GetComponent<PlayerActionScript>().SetInteractionReach(data.interactionReach);
         go.GetComponent<PlayerBFSScript>().SetMove(data.move);
+        go.GetComponent<PlayerActionScript>().SetAvailableActions(GetAvailableActionsFromJSON(data));
         return go;
+    }
+
+    private static List<UnityEngine.Object> GetAvailableActionsFromJSON(UnitJSONData data)
+    {
+        List<UnityEngine.Object> gameObjects = new List<UnityEngine.Object>();
+        foreach (string objectName in data.availableActions)
+        {
+            UnityEngine.Object obj = Resources.Load("UI/Action Buttons/"+objectName);
+            //GameObject go = (GameObject)Instantiate(obj);
+            gameObjects.Add(obj);
+        }
+        return gameObjects;
     }
 }
