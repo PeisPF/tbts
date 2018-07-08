@@ -1,5 +1,6 @@
 {
 	"actionPointsPerTurn" : 2,
 	"move" : 5,
-	"interactionReach" : 1
+	"interactionReach" : 1,
+	"availableActions" : ["SkipTurn Action Button", "Guard Action Button", "Move Action Button", "Interact Action Button", "Attack Action Button"]
 }

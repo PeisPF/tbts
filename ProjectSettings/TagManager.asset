@@ -10,6 +10,7 @@ TagManager:
   - Items
   - ActionPanel
   - Fog
+  - UnitActions
   layers:
   - Default
   - TransparentFX

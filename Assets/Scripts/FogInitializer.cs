@@ -24,7 +24,7 @@ public class FogInitializer : MonoBehaviour {
             {
                 GameObject go = (GameObject)Instantiate(obj);
                 go.transform.position = new Vector3(x, 1.55f, z) + this.transform.position;
-                //go.transform.parent = this.transform;
+                go.transform.SetParent(this.transform, false);
             }
         }
         initialized = true;
