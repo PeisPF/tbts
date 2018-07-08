@@ -5,7 +5,12 @@ using UnityEngine;
 public abstract class UnitActionScript : UserActionScript {
     //qua dentro va spostata tutta la logica a comune tra giocatori e NPC
     public int remainingActionPoints;
-    public int actionPointsPerTurn = 2;
+    protected int actionPointsPerTurn = 2;
+
+    public void SetActionPointsPerTurn(int actionPointsPerTurn)
+    {
+        this.actionPointsPerTurn = actionPointsPerTurn;
+    }
 
     public int GetRemainingActionPoints()
     {
