@@ -5,6 +5,6 @@ using UnityEngine;
 public class InteractGUIAction : GUIActionScript {
     protected override Action GetNewAction()
     {
-        return new InteractAction();
+        return new InteractAction(selectionSound,continuousSound,endActionSound);
     }
 }

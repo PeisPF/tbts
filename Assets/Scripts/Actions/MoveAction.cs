@@ -7,14 +7,18 @@ public class MoveAction : Action {
 
     private bool skippedFirstClick = false;
 
+    public MoveAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound) : base(selectionSound, continuousSound, endActionSound)
+    {
+    }
+
     protected override bool StartAction()
     {
-        return GetPlayerActionScript().MoveToTile(GetPlayerActionScript().GetPathDestionation());
+        return base.StartAction() && GetPlayerActionScript().MoveToTile(GetPlayerActionScript().GetPathDestionation());
     }
 
     protected override bool DoActualAction()
     {
-        return GetPlayerActionScript().Move();
+        return base.DoActualAction() && GetPlayerActionScript().Move();
     }
 
 
@@ -61,7 +65,7 @@ public class MoveAction : Action {
         GetPlayerBFSScript().RemoveSelectableTiles();
         GetPlayerStatusScript().SetMoving(false);
         GetPlayerStatusScript().SetShowingPath(false);
-        return true;
+        return base.EndAction()&&true;
     }
 
 }

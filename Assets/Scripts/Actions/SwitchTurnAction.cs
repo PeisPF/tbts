@@ -12,7 +12,7 @@ public class SwitchTurnAction : Action
         return 0;
     }
 
-    public SwitchTurnAction(PlayerActionScript target)
+    public SwitchTurnAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound, PlayerActionScript target) : base(selectionSound, continuousSound, endActionSound)
     {
         this.target = target;
     }
@@ -20,7 +20,7 @@ public class SwitchTurnAction : Action
     protected override bool DoActualAction()
     {
         TurnManager.SwitchTurn(target);
-        return true;
+        return base.DoActualAction();
     }
 
     protected override bool SelectionPhase()
@@ -28,13 +28,4 @@ public class SwitchTurnAction : Action
         return true;
     }
 
-    protected override bool StartAction()
-    {
-        return true;
-    }
-
-    protected override bool EndAction()
-    {
-        return true;
-    }
 }

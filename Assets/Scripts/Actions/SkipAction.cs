@@ -3,14 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SkipAction : Action {
-    protected override bool DoActualAction()
+    public SkipAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound) : base(selectionSound, continuousSound, endActionSound)
     {
-        return true;
-    }
-
-    protected override bool EndAction()
-    {
-        return true;
     }
 
     protected override bool SelectionPhase()
@@ -18,10 +12,6 @@ public class SkipAction : Action {
         return true;
     }
 
-    protected override bool StartAction()
-    {
-        return true;
-    }
 
     
 }
