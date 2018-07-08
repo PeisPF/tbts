@@ -7,16 +7,21 @@ public class InteractAction : Action
 {
     private bool skippedFirstClick = false;
     Item target;
+
+    public InteractAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound) : base(selectionSound, continuousSound, endActionSound)
+    {
+    }
+
     protected override bool DoActualAction()
     {
-        return GetPlayerActionScript().InteractWithItem(target, 0);
+        return base.DoActualAction() && GetPlayerActionScript().InteractWithItem(target, 0);
     }
 
     protected override bool EndAction()
     {
         Debug.Log("resetting color to black");
         ResetCurrentTargetColor();
-        return true;
+        return base.EndAction() &&true;
     }
 
     private void ResetCurrentTargetColor()
@@ -68,10 +73,5 @@ public class InteractAction : Action
             
         }
         return false;
-    }
-
-    protected override bool StartAction()
-    {
-        return true;
     }
 }

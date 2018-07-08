@@ -10,6 +10,17 @@ public abstract class Action
     protected bool actionStarted;
     protected bool actionEnded;
 
+    private AudioSource selectionSound;
+    private AudioSource continuousSound;
+    private AudioSource endActionSound;
+
+    public Action(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound)
+    {
+        this.selectionSound = selectionSound;
+        this.continuousSound = continuousSound;
+        this.endActionSound = endActionSound;
+    }
+
     protected virtual int GetCost()
     {
         return 1;
@@ -22,11 +33,40 @@ public abstract class Action
 
     protected abstract bool SelectionPhase(); //displays selection on screen
 
-    protected abstract bool StartAction(); //performs the setup of the action
+    protected virtual bool StartAction()
+    {
+        PlaySound(selectionSound);
+        return true;
+    }//performs the setup of the action
 
-    protected abstract bool DoActualAction(); //plays the action continous phase
+    private void StopSound(AudioSource sound)
+    {
+        if (sound!=null && sound.isPlaying)
+        {
+            sound.Stop();
+        }
+    }
 
-    protected abstract bool EndAction();//performs the cleanup after the action
+    private void PlaySound(AudioSource sound)
+    {
+        if (sound != null && !sound.isPlaying)
+        {
+            sound.Play();
+        }
+    }
+
+    protected virtual bool DoActualAction()
+    {
+        PlaySound(continuousSound);
+        return true;
+    }//plays the action continous phase
+
+    protected virtual bool EndAction()
+    {
+        StopSound(continuousSound);
+        PlaySound(endActionSound);
+        return true;
+    }//performs the cleanup after the action
 
     //method returns true when logic is over
     public bool DoAction()

@@ -6,6 +6,6 @@ public class MoveGUIAction : GUIActionScript
 {
     protected override Action GetNewAction()
     {
-        return new MoveAction();
+        return new MoveAction(selectionSound, continuousSound, endActionSound);
     }
 }
