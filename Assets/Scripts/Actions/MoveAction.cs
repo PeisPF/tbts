@@ -7,7 +7,8 @@ public class MoveAction : Action {
 
     private bool skippedFirstClick = false;
 
-    public MoveAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound) : base(selectionSound, continuousSound, endActionSound)
+
+    public MoveAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound ) : base(selectionSound, continuousSound, endActionSound)
     {
     }
 
@@ -64,6 +65,7 @@ public class MoveAction : Action {
     {
         GetPlayerBFSScript().RemoveSelectableTiles();
         GetPlayerStatusScript().SetMoving(false);
+        GetPlayerStatusScript().SetShowingPath(false);
         return base.EndAction()&&true;
     }
 

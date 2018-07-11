@@ -14,7 +14,7 @@ public class InteractAction : Action
 
     protected override bool DoActualAction()
     {
-        return base.DoActualAction() && GetPlayerActionScript().InteractWithItem(target);
+        return base.DoActualAction() && GetPlayerActionScript().InteractWithItem(target, 0);
     }
 
     protected override bool EndAction()

@@ -61,6 +61,31 @@ public class PlayerActionScript : UnitActionScript
         return this.pathDestination;
     }
 
+    private PlayerStatusScript playerStatusScript;
+
+    private PlayerStatusScript GetPlayerStatusScript()
+    {
+        if (playerStatusScript == null)
+        {
+            playerStatusScript = this.GetComponent<PlayerStatusScript>();
+        }
+        return playerStatusScript;
+    }
+
+    private PlayerBFSScript playerBFSScript;
+
+
+    private PlayerBFSScript GetPlayerBFSScript()
+    {
+        if (playerBFSScript == null)
+        {
+            playerBFSScript = this.GetComponent<PlayerBFSScript>();
+        }
+        return playerBFSScript;
+    }
+
+    private PlayerController playerController;
+
     public void SetInteractionReach(float interactionReach)
     {
         this.interactionReach = interactionReach;
@@ -69,6 +94,15 @@ public class PlayerActionScript : UnitActionScript
     public float GetInteractionReach()
     {
         return this.interactionReach;
+    }
+
+    private PlayerController GetPlayerController()
+    {
+        if (playerController == null)
+        {
+            playerController = this.GetComponent<PlayerController>();
+        }
+        return playerController;
     }
 
 
@@ -92,6 +126,8 @@ public class PlayerActionScript : UnitActionScript
     public override void DoReset()
     {
         GetPlayerStatusScript().SetMoving(false);
+        GetPlayerStatusScript().SetShowingPath(false);
+        //SetShowPath(false);
     }
 
     public bool Move()
@@ -155,6 +191,57 @@ public class PlayerActionScript : UnitActionScript
         return Vector3.Distance(transform.position, target) >= threshold;
     }
 
+    /*private void EndAction(bool consumeAction)
+    {
+        GetPlayerBFSScript().RemoveSelectableTiles();
+        GetPlayerStatusScript().SetMoving(false);
+        GetPlayerStatusScript().SetShowingPath(false);
+        if (consumeAction)
+        {
+            DecreaseActionPoints();
+        }
+    }*/
+
+    public void DoAction(bool pathLit)
+    {
+        //Debug.Log("DoAction("+ pathLit + ") called");
+        //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, float.PositiveInfinity, layerMask.value))
+        {
+            Debug.Log("hit " + hit.collider.tag);
+            if (hit.collider.tag == "Player")
+            {
+                SwitchTurn(hit);
+                //EndAction(false);
+            }
+            else if (!pathLit)
+            {
+                if (hit.collider.tag == "Tile")
+                {
+                    DoMove(hit);
+                }
+                else if (hit.collider.tag == "Items")
+                {
+                    DoInteract(hit, 0);
+                }
+            }
+            else
+            {
+                if (hit.collider.tag == "Tile")
+                {
+                    TileStatus t = hit.collider.GetComponent<TileStatus>();
+                    if (t.IsPath())
+                    {
+                        MoveToTile(pathDestination);
+                    }
+                }
+            }
+        }
+    }
+
     public bool MoveToTile(TileBFSScript tile)
     {
         //Debug.Log("MoveToTile(" + tile + ") called");
@@ -162,7 +249,7 @@ public class PlayerActionScript : UnitActionScript
         Debug.Log("status " + tile.GetComponent<TileStatus>());
         tile.GetComponent<TileStatus>().SetTarget(true);
         GetPlayerStatusScript().SetMoving(true);
-        //GetPlayerStatusScript().SetShowingPath(true);
+        GetPlayerStatusScript().SetShowingPath(true);
 
         TileBFSScript next = tile;
         while (next != null)
@@ -171,6 +258,33 @@ public class PlayerActionScript : UnitActionScript
             next = next.GetParent();
         }
         return true;
+    }
+
+    public void SwitchTurn(RaycastHit hit)
+    {
+        PlayerActionScript p = hit.collider.GetComponent<PlayerActionScript>();
+        if (p != this)
+        {
+            //EndAction(false);
+            TurnManager.SwitchTurn(p);
+        }
+    }
+
+    void DoInteract(RaycastHit hit, int index)
+    {
+        Item t = hit.collider.GetComponent<Item>();
+        InteractWithItem(t, index);
+    }
+
+
+    void DoMove(RaycastHit hit)
+    {
+        //Debug.Log("DoMove(" + hit + ") called");
+        TileStatus t = hit.collider.GetComponent<TileStatus>();
+        if ((t.IsPath() && GetPlayerStatusScript().IsShowingPath()) || (t.IsSelectable() && !GetPlayerStatusScript().IsShowingPath()))
+        {
+            MoveToTile(t.GetComponent<TileBFSScript>());
+        }
     }
 
     public bool IsInteractionPossible(Item item)
@@ -189,7 +303,7 @@ public class PlayerActionScript : UnitActionScript
 
     }
 
-    public bool InteractWithItem(Item item)
+    public bool InteractWithItem(Item item, int actionIndex)
     {
         Vector3 currentTilePosition = GetPlayerBFSScript().GetCurrentTile().transform.position;
         Vector3 itemPosition = item.transform.position;
@@ -198,7 +312,7 @@ public class PlayerActionScript : UnitActionScript
         {
             GetPlayerStatusScript().SetInteractingWithObject(true);
             TurnPlayerTo(itemPosition);
-            item.Interact(this.GetPlayerController());
+            item.Interact(actionIndex, this.GetPlayerController());
             return true;
         }
         else
@@ -219,6 +333,10 @@ public class PlayerActionScript : UnitActionScript
 
 
 
+    public void ShowActionsToolTip(RaycastHit hit)
+    {
+
+    }
 
     public void DecreaseActionPoints(int amount)
     {
@@ -228,45 +346,10 @@ public class PlayerActionScript : UnitActionScript
             TurnManager.EndTurn();
         }
     }
-
-    void CalculateHeading(Vector3 target)
+    /*private void DecreaseActionPoints()
     {
-        Debug.Log("Calculate heading to " + target);
-        Vector3 orientationVector = target - this.transform.position;
-        heading = orientationVector;
-        heading.Normalize();
-    }
-
-    public bool actionIsPossible(Item item)
-    {
-        bool possible = true;
-        if (item.GetType().ToString() == "DoorScript")
-        {
-            DoorScript door = (DoorScript)item;
-            if (door.open && Vector3.Distance(door.fulcrum.position, this.transform.position) < 0.6f)
-            {
-                possible = false;
-            }
-            else { possible = true; }
-        }
-
-        return possible;
-    }
-
-    public override void EndTurn()
-    {
-        CleanUpUI();
-    }
-
-    private void CleanUpUI()
-    {
-        foreach (Transform child in actionButtons.transform)
-        {
-            Destroy(child.gameObject);
-        }
-    }
-
-    //SCRIPT PER IL SALTO, SONO AL MOMENTO INUTILI MA NON BUTTIAMOLI CHE POTREBBERO SERVIRE
+        DecreaseActionPoints(1);
+    }*/
 
     void Jump(Vector3 target)
     {
@@ -358,52 +441,60 @@ public class PlayerActionScript : UnitActionScript
 
 
 
-
+    void CalculateHeading(Vector3 target)
+    {
+        Debug.Log("Calculate heading to " + target);
+        Vector3 orientationVector = target - this.transform.position;
+        heading = orientationVector;
+        heading.Normalize();
+    }
 
     void SetHorizontalVelocity()
     {
         velocity = heading * MOVE_SPEED;
     }
-    //FINE SCRIPT PER IL SALTO
 
-
-
-
-    //SCRIPT DI UTILITA' PER RECUPERO ALTRI COMPONENT
-
-
-    private PlayerStatusScript playerStatusScript;
-
-    protected PlayerStatusScript GetPlayerStatusScript()
+    public override void DoRightClickAction()
     {
-        if (playerStatusScript == null)
-        {
-            playerStatusScript = this.GetComponent<PlayerStatusScript>();
-        }
-        return playerStatusScript;
+        throw new System.NotImplementedException();
     }
 
-    private PlayerBFSScript playerBFSScript;
-
-
-    protected PlayerBFSScript GetPlayerBFSScript()
+    public override void DoLeftClickAction()
     {
-        if (playerBFSScript == null)
-        {
-            playerBFSScript = this.GetComponent<PlayerBFSScript>();
-        }
-        return playerBFSScript;
+        throw new System.NotImplementedException();
     }
 
-    private NewPlayerController playerController;
-
-    protected NewPlayerController GetPlayerController()
+    public override void DoDoubleClickAction()
     {
-        if (playerController == null)
-        {
-            playerController = this.GetComponent<NewPlayerController>();
-        }
-        return playerController;
+        throw new System.NotImplementedException();
     }
 
+    public bool actionIsPossible(Item item)
+    {
+        bool possible = true;
+        if (item.GetType().ToString() == "DoorScript")
+        {
+            DoorScript door = (DoorScript)item;
+            if (door.open && Vector3.Distance(door.fulcrum.position, this.transform.position) < 0.6f)
+            {
+                possible = false;
+            }
+            else { possible = true; }
+        }
+
+        return possible;
+    }
+
+    public override void EndTurn()
+    {
+        CleanUpUI();
+    }
+
+    private void CleanUpUI()
+    {
+        foreach (Transform child in actionButtons.transform)
+        {
+            Destroy(child.gameObject);
+        }
+    }
 }

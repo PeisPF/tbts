@@ -14,6 +14,8 @@ public abstract class Action
     private AudioSource continuousSound;
     private AudioSource endActionSound;
 
+    //private CPC_CameraPath cameraPath;
+
     public Action(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound)
     {
         this.selectionSound = selectionSound;
@@ -31,17 +33,26 @@ public abstract class Action
         return selectionEnded;
     }
 
+    public void StartCameraMovement()
+    {
+        Camera.main.GetComponent<TacticsCamera>().Suspend();
+    }
+    public void StopCameraMovement()
+    {
+        Camera.main.GetComponent<TacticsCamera>().Resume();
+    }
     protected abstract bool SelectionPhase(); //displays selection on screen
 
     protected virtual bool StartAction()
     {
         PlaySound(selectionSound);
+        StartCameraMovement();
         return true;
     }//performs the setup of the action
 
     private void StopSound(AudioSource sound)
     {
-        if (sound!=null && sound.isPlaying)
+        if (sound != null && sound.isPlaying)
         {
             sound.Stop();
         }
@@ -65,6 +76,7 @@ public abstract class Action
     {
         StopSound(continuousSound);
         PlaySound(endActionSound);
+        StopCameraMovement();
         return true;
     }//performs the cleanup after the action
 
@@ -98,11 +110,12 @@ public abstract class Action
                 }
             }
         }
-        else {
+        else
+        {
             EndAction();
             return true;
         }
-        
+
         return false;
     }
 

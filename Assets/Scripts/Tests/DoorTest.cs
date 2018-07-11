@@ -29,7 +29,7 @@ public class DoorTest{
     {
         PlayerActionScript unit = new PlayerActionScript();
         var door = new GameObject().AddComponent<DoorScript>();
-        unit.InteractWithItem(door);
+        unit.InteractWithItem(door, 1);
         // Use the Assert class to test conditions.
         // yield to skip a frame
         yield return null;

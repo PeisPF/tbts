@@ -58,7 +58,19 @@ public class DoorScript : Item
 
     }
 
-    public override void Interact()
+    public override string[] InitActions()
+    {
+        //successivamente leggeremo da un file di configurazione
+        return new string[] { "Open/Close", "Action2" };
+    }
+    public override int[] InitActionCosts()
+    {
+        //successivamente leggeremo da un file di configurazione
+        return new int[] { 1, 20 };
+    }
+
+
+    public override void Interact1()
     {
         if (unitThatTriggered != null)
         {

@@ -5,17 +5,28 @@ using UnityEngine;
 public abstract class TriggerItemScript : Item {
 
     public Item itemTriggered; //l'oggetto che viene attivato
+    public int triggeredItemInteractionIndex; //l'indice nella lista di azioni possibili per l'oggetto attivato
 
     public bool activated = false;
     public bool moving = false;
 
+    public override string[] InitActions()
+    {
+        //successivamente leggeremo da un file di configurazione
+        return new string[] { "Use"};
+    }
+    public override int[] InitActionCosts()
+    {
+        //successivamente leggeremo da un file di configurazione
+        return new int[] { 1 };
+    }
 
-    public override void Interact()
+    public override void Interact1()
     {
         Debug.Log("interacted with " + this.name);
         activated = !activated;
         moving = true;
-        itemTriggered.Interact();
+        itemTriggered.Interact(triggeredItemInteractionIndex, null);
     }
 
     public abstract void ShowAsDisactivated();

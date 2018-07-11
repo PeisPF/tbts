@@ -64,8 +64,12 @@
     <Compile Include="Assets\Scripts\Actions\MoveAction.cs" />
     <Compile Include="Assets\Scripts\Actions\SkipAction.cs" />
     <Compile Include="Assets\Scripts\Actions\SwitchTurnAction.cs" />
-    <Compile Include="Assets\Scripts\AutoTransparent\AutoTransparent.cs" />
-    <Compile Include="Assets\Scripts\AutoTransparent\ClearSight.cs" />
+    <Compile Include="Assets\Scripts\AutoTransparent.cs" />
+    <Compile Include="Assets\Scripts\Camera\CPC_CameraPath.cs" />
+    <Compile Include="Assets\Scripts\ClearSight.cs" />
+    <Compile Include="Assets\Scripts\Common\UserActionScript.cs" />
+    <Compile Include="Assets\Scripts\FogInitializer.cs" />
+    <Compile Include="Assets\Scripts\FogScript.cs" />
     <Compile Include="Assets\Scripts\GUI\GUIActionScript.cs" />
     <Compile Include="Assets\Scripts\GUI\InteractGUIAction.cs" />
     <Compile Include="Assets\Scripts\GUI\MoveGUIAction.cs" />
@@ -77,20 +81,21 @@
     <Compile Include="Assets\Scripts\Item\LeverScript.cs" />
     <Compile Include="Assets\Scripts\Item\TreasureChestScript.cs" />
     <Compile Include="Assets\Scripts\Item\TriggerItemScript.cs" />
-    <Compile Include="Assets\Scripts\Level\FogInitializer.cs" />
-    <Compile Include="Assets\Scripts\Level\FogScript.cs" />
-    <Compile Include="Assets\Scripts\Level\MapInitializer.cs" />
-    <Compile Include="Assets\Scripts\Level\PlayerStartingPointScript.cs" />
+    <Compile Include="Assets\Scripts\MapInitializer.cs" />
     <Compile Include="Assets\Scripts\Menu\ButtonScript.cs" />
     <Compile Include="Assets\Scripts\Menu\LoadNextSceneOnClick.cs" />
     <Compile Include="Assets\Scripts\Menu\SceneSwitcher.cs" />
+    <Compile Include="Assets\Scripts\MyAutoTransparent.cs" />
     <Compile Include="Assets\Scripts\NPCMove.cs" />
     <Compile Include="Assets\Scripts\Player\CheckFogScript.cs" />
     <Compile Include="Assets\Scripts\Player\NewPlayerController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerActionScript.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerBFSScript.cs" />
+    <Compile Include="Assets\Scripts\Player\PlayerController.cs" />
     <Compile Include="Assets\Scripts\Player\PlayerStatusScript.cs" />
     <Compile Include="Assets\Scripts\Player\TorchLight.cs" />
+    <Compile Include="Assets\Scripts\PlayerStartingPointScript.cs" />
+    <Compile Include="Assets\Scripts\RayCastUtils.cs" />
     <Compile Include="Assets\Scripts\TacticsCamera.cs" />
     <Compile Include="Assets\Scripts\Tile\HighLightPathScript.cs" />
     <Compile Include="Assets\Scripts\Tile\TileBFSScript.cs" />
@@ -101,7 +106,6 @@
     <Compile Include="Assets\Scripts\Unit\UnitActionScript.cs" />
     <Compile Include="Assets\Scripts\Unit\UnitJSONData.cs" />
     <Compile Include="Assets\Scripts\Unit\UnitStatusScript.cs" />
-    <Compile Include="Assets\Scripts\Utils\RayCastUtils.cs" />
     <Reference Include="UnityEngine.AIModule">
       <HintPath>K:/Program Files/Unity/Editor/Data/Managed/UnityEngine/UnityEngine.AIModule.dll</HintPath>
     </Reference>

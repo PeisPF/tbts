@@ -16,27 +16,37 @@ public class TacticsCamera : MonoBehaviour
     public Vector3 rotationVector = new Vector3();
 
     private Vector3 previousTargetPosition;
+    private Boolean suspended;
 
+    private Quaternion previousTransformRotation;
+    private Vector3 previousTransformPosition;
+    
+
+    public void Suspend()
+    {
+        /*previousTransformRotation =transform.rotation;
+        previousTransformPosition =transform.position;*/
+        this.suspended = true;
+    }
+
+    public void Resume()
+    {
+        /*transform.position = previousTransformPosition;
+        transform.rotation = previousTransformRotation;*/
+        this.suspended = false;
+    }
 
     public void Update()
     {
-        AdjustCameraZoomWithMouseWheel();
-        if (TurnManager.GetCurrentPlayer())
+        if (!suspended)
         {
-            CenterCameraOnCurrentPlayer();
+            AdjustCameraZoomWithMouseWheel();
+            if (TurnManager.GetCurrentPlayer())
+            {
+                CenterCameraOnCurrentPlayer();
+            }
         }
-        /*  if (Input.GetKey("e"))
-         {
-             Debug.Log("pressed");
-             TurnCamera(1);
-         }
-
-         if (Input.GetKey("q"))
-         {
-             Debug.Log("pressed");
-             TurnCamera(-1);
-         }
-     */
+        FollowPlayer();
     }
 
     private void AdjustCameraZoomWithMouseWheel()
@@ -51,17 +61,6 @@ public class TacticsCamera : MonoBehaviour
         {
             Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize - zoomSpeed, 3);
         }
-
-        //for perspective
-        /*if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
-        {
-            Camera.main.fieldOfView = Mathf.Min(Camera.main.fieldOfView + zoomSpeed, 30);
-
-        }
-        if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
-        {
-            Camera.main.fieldOfView = Mathf.Max(Camera.main.fieldOfView - zoomSpeed, 7);
-        }*/
     }
 
     private void TurnCamera(float value)
@@ -77,6 +76,12 @@ public class TacticsCamera : MonoBehaviour
 
         Vector3 targetPosition = TurnManager.GetCurrentPlayer().transform.position + offset;
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+    }
+
+    private void FollowPlayer()
+    {
+        Vector3 targetPosition = TurnManager.GetCurrentPlayer().transform.position;
+        transform.rotation = Quaternion.LookRotation((targetPosition - this.transform.position).normalized);
     }
 
     public void Start()
