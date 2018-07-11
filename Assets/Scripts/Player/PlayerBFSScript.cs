@@ -11,6 +11,8 @@ public class PlayerBFSScript : MonoBehaviour {
     public TileBFSScript currentTile;
     public LayerMask onlyTilesLayerMask;
 
+    
+
 
     private int move;
 

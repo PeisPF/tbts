@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HighLightPathScript : UserActionScript
+public class HighLightPathScript : MonoBehaviour
 {
     private PlayerStatusScript playerStatusScript;
 
@@ -59,7 +59,7 @@ public class HighLightPathScript : UserActionScript
     {
         tile.SetTarget(true);
         GetPlayerStatusScript().SetMoving(false);
-        GetPlayerStatusScript().SetShowingPath(true);
+        //GetPlayerStatusScript().SetShowingPath(true);
 
         TileStatus next = tile;
         while (next != null)
@@ -79,20 +79,5 @@ public class HighLightPathScript : UserActionScript
 
         }
         //Debug.Log("path.Count: "+path.Count);
-    }
-
-    public override void DoRightClickAction()
-    {
-        CheckHighlightPath();
-    }
-
-    public override void DoLeftClickAction()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public override void DoDoubleClickAction()
-    {
-        throw new System.NotImplementedException();
     }
 }

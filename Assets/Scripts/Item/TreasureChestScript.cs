@@ -9,17 +9,7 @@ public class TreasureChestScript : Item {
         return 1f;
     }
 
-    public override int[] InitActionCosts()
-    {
-        return new int[] { 1};
-    }
-
-    public override string[] InitActions()
-    {
-        return new string[] { "Open" };
-    }
-
-    public override void Interact1()
+    public override void Interact()
     {
         Debug.Log("YOU FUCKIN' WIN");
         SceneManager.LoadScene(3);
