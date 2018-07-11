@@ -11,7 +11,7 @@ public class TacticsCamera : MonoBehaviour
     public Vector3 offset = new Vector3(20, 20, -12);
     //public Vector3 offset = new Vector3(0, 10, -7.50f);
     public float rotationSpeed = 80;
-    public float zoomSpeed = 0.2f;
+    public float zoomSpeed = 1f;
 
     public Vector3 rotationVector = new Vector3();
 
@@ -24,23 +24,20 @@ public class TacticsCamera : MonoBehaviour
 
     public void Suspend()
     {
-        /*previousTransformRotation =transform.rotation;
-        previousTransformPosition =transform.position;*/
         this.suspended = true;
     }
 
     public void Resume()
     {
-        /*transform.position = previousTransformPosition;
-        transform.rotation = previousTransformRotation;*/
         this.suspended = false;
     }
 
     public void Update()
     {
+        AdjustCameraZoomWithMouseWheel();
         if (!suspended)
         {
-            AdjustCameraZoomWithMouseWheel();
+            
             if (TurnManager.GetCurrentPlayer())
             {
                 CenterCameraOnCurrentPlayer();
@@ -52,7 +49,7 @@ public class TacticsCamera : MonoBehaviour
     private void AdjustCameraZoomWithMouseWheel()
     {
         //for ortographic
-        if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
+        /*if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
         {
             Camera.main.orthographicSize = Mathf.Min(Camera.main.orthographicSize + zoomSpeed, 8);
 
@@ -60,6 +57,16 @@ public class TacticsCamera : MonoBehaviour
         if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
         {
             Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize - zoomSpeed, 3);
+        }*/
+        //for perspective
+        if (Input.GetAxis("Mouse ScrollWheel") < 0) // back
+        {
+            Camera.main.fieldOfView = Mathf.Min(Camera.main.fieldOfView + zoomSpeed, 30);
+
+        }
+        if (Input.GetAxis("Mouse ScrollWheel") > 0) // forward
+        {
+            Camera.main.fieldOfView = Mathf.Max(Camera.main.fieldOfView - zoomSpeed, 8);
         }
     }
 
