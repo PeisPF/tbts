@@ -64,7 +64,6 @@ public class MoveAction : Action {
     {
         GetPlayerBFSScript().RemoveSelectableTiles();
         GetPlayerStatusScript().SetMoving(false);
-        GetPlayerStatusScript().SetShowingPath(false);
         return base.EndAction()&&true;
     }
 
