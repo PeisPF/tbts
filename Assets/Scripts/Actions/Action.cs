@@ -14,11 +14,26 @@ public abstract class Action
     private AudioSource continuousSound;
     private AudioSource endActionSound;
 
+    private CPC_CameraPath cameraPath;
+
     public Action(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound)
     {
         this.selectionSound = selectionSound;
         this.continuousSound = continuousSound;
         this.endActionSound = endActionSound;
+    }
+
+    public Action(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound, CPC_CameraPath cameraPath)
+    {
+        this.selectionSound = selectionSound;
+        this.continuousSound = continuousSound;
+        this.endActionSound = endActionSound;
+        this.cameraPath = cameraPath;
+    }
+
+    protected virtual float GetCameraMovementDuration()
+    {
+        return 0;
     }
 
     protected virtual int GetCost()
@@ -31,11 +46,29 @@ public abstract class Action
         return selectionEnded;
     }
 
+    public void StartCameraMovement()
+    {
+        if (cameraPath != null)
+        {
+            Camera.main.GetComponent<TacticsCamera>().Suspend();
+            cameraPath.SetTarget(TurnManager.GetCurrentPlayer().transform);
+            cameraPath.PlayPath(GetCameraMovementDuration());
+        }
+    }
+    public void StopCameraMovement()
+    {
+        if (cameraPath != null)
+        {
+            cameraPath.StopPath();
+            Camera.main.GetComponent<TacticsCamera>().Resume();
+        }
+    }
     protected abstract bool SelectionPhase(); //displays selection on screen
 
     protected virtual bool StartAction()
     {
         PlaySound(selectionSound);
+        StartCameraMovement();
         return true;
     }//performs the setup of the action
 
@@ -65,6 +98,7 @@ public abstract class Action
     {
         StopSound(continuousSound);
         PlaySound(endActionSound);
+        StopCameraMovement();
         return true;
     }//performs the cleanup after the action
 

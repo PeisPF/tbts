@@ -65,6 +65,7 @@
     <Compile Include="Assets\Scripts\Actions\SkipAction.cs" />
     <Compile Include="Assets\Scripts\Actions\SwitchTurnAction.cs" />
     <Compile Include="Assets\Scripts\AutoTransparent.cs" />
+    <Compile Include="Assets\Scripts\Camera\CPC_CameraPath.cs" />
     <Compile Include="Assets\Scripts\ClearSight.cs" />
     <Compile Include="Assets\Scripts\Common\UserActionScript.cs" />
     <Compile Include="Assets\Scripts\FogInitializer.cs" />
