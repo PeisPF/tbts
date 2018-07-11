@@ -24,15 +24,15 @@ public class TacticsCamera : MonoBehaviour
 
     public void Suspend()
     {
-        previousTransformRotation =transform.rotation;
-        previousTransformPosition =transform.position;
+        /*previousTransformRotation =transform.rotation;
+        previousTransformPosition =transform.position;*/
         this.suspended = true;
     }
 
     public void Resume()
     {
-        transform.position = previousTransformPosition;
-        transform.rotation = previousTransformRotation;
+        /*transform.position = previousTransformPosition;
+        transform.rotation = previousTransformRotation;*/
         this.suspended = false;
     }
 
@@ -46,6 +46,7 @@ public class TacticsCamera : MonoBehaviour
                 CenterCameraOnCurrentPlayer();
             }
         }
+        FollowPlayer();
     }
 
     private void AdjustCameraZoomWithMouseWheel()
@@ -75,6 +76,12 @@ public class TacticsCamera : MonoBehaviour
 
         Vector3 targetPosition = TurnManager.GetCurrentPlayer().transform.position + offset;
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref velocity, smoothTime);
+    }
+
+    private void FollowPlayer()
+    {
+        Vector3 targetPosition = TurnManager.GetCurrentPlayer().transform.position;
+        transform.rotation = Quaternion.LookRotation((targetPosition - this.transform.position).normalized);
     }
 
     public void Start()

@@ -14,26 +14,13 @@ public abstract class Action
     private AudioSource continuousSound;
     private AudioSource endActionSound;
 
-    private CPC_CameraPath cameraPath;
+    //private CPC_CameraPath cameraPath;
 
     public Action(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound)
     {
         this.selectionSound = selectionSound;
         this.continuousSound = continuousSound;
         this.endActionSound = endActionSound;
-    }
-
-    public Action(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound, CPC_CameraPath cameraPath)
-    {
-        this.selectionSound = selectionSound;
-        this.continuousSound = continuousSound;
-        this.endActionSound = endActionSound;
-        this.cameraPath = cameraPath;
-    }
-
-    protected virtual float GetCameraMovementDuration()
-    {
-        return 0;
     }
 
     protected virtual int GetCost()
@@ -48,20 +35,11 @@ public abstract class Action
 
     public void StartCameraMovement()
     {
-        if (cameraPath != null)
-        {
-            Camera.main.GetComponent<TacticsCamera>().Suspend();
-            cameraPath.SetTarget(TurnManager.GetCurrentPlayer().transform);
-            cameraPath.PlayPath(GetCameraMovementDuration());
-        }
+        Camera.main.GetComponent<TacticsCamera>().Suspend();
     }
     public void StopCameraMovement()
     {
-        if (cameraPath != null)
-        {
-            cameraPath.StopPath();
-            Camera.main.GetComponent<TacticsCamera>().Resume();
-        }
+        Camera.main.GetComponent<TacticsCamera>().Resume();
     }
     protected abstract bool SelectionPhase(); //displays selection on screen
 
@@ -74,7 +52,7 @@ public abstract class Action
 
     private void StopSound(AudioSource sound)
     {
-        if (sound!=null && sound.isPlaying)
+        if (sound != null && sound.isPlaying)
         {
             sound.Stop();
         }
@@ -132,11 +110,12 @@ public abstract class Action
                 }
             }
         }
-        else {
+        else
+        {
             EndAction();
             return true;
         }
-        
+
         return false;
     }
 

@@ -7,13 +7,8 @@ public class MoveAction : Action {
 
     private bool skippedFirstClick = false;
 
-    protected override float GetCameraMovementDuration()
-    {
-        //Debug.Log("path length: " + TurnManager.GetCurrentPlayer().GetComponent<PlayerBFSScript>().GetPath().Count);
-        return 5;
-    }
 
-    public MoveAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound, CPC_CameraPath path) : base(selectionSound, continuousSound, endActionSound, path)
+    public MoveAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound ) : base(selectionSound, continuousSound, endActionSound)
     {
     }
 
