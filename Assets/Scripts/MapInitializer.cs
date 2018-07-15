@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
@@ -19,7 +18,7 @@ public class MapInitializer : MonoBehaviour
 
     private GameObject LoadMap()
     {
-        UnityEngine.Object obj = Resources.Load("TestMap");
+        Object obj = Resources.Load("TestMap");
         Debug.Log("loaded obj: " + obj);
         GameObject map = (GameObject)Instantiate(obj);
         map.name = "mappa di test";
@@ -27,16 +26,16 @@ public class MapInitializer : MonoBehaviour
         return map;
     }
 
-    private void LoadTiles()
+    private void LoadTiles(GameObject map)
     {
-        UnityEngine.Object obj = Resources.Load("Cube");
+        Object obj = Resources.Load("Cube");
         for (float x = -7; x < 7; x++)
         {
             for (float z = -15; z < 17; z++)
             {
                 GameObject go = (GameObject)Instantiate(obj);
                 go.transform.position = new Vector3(x, 0, z) + this.transform.position;
-                go.transform.SetParent(this.transform, false);
+                go.transform.SetParent(map.transform, false);
             }
         }
     }
@@ -51,8 +50,9 @@ public class MapInitializer : MonoBehaviour
         if (useTestMap)
         {
             map = LoadMap();
-            LoadTiles();
-            this.GetComponent<FogInitializer>().GenerateFog(-7,7,-15,17);
+            LoadTiles(map);
+            //RefreshColliders(map);
+            this.GetComponent<FogInitializer>().GenerateFog(-7, 7, -15, 17);
         }
         else
         {
@@ -64,10 +64,20 @@ public class MapInitializer : MonoBehaviour
         initialized = true;
     }
 
+    private static void RefreshColliders(GameObject map)
+    {
+        Collider[] colliders = map.GetComponentsInChildren<Collider>();
+        foreach (Collider collider in colliders)
+        {
+            collider.enabled = false;
+            collider.enabled = true;
+        }
+    }
+
     private void LoadPlayerUnits(GameObject map)
     {
         PlayerStartingPointScript[] playerStartingPoints = map.GetComponentsInChildren<PlayerStartingPointScript>();
-        UnityEngine.Object obj = Resources.Load("Unit/Player");
+        Object obj = Resources.Load("Unit/Player");
         int i = 0;
         foreach (PlayerStartingPointScript pos in playerStartingPoints)
         {
@@ -93,13 +103,13 @@ public class MapInitializer : MonoBehaviour
 
     private void InstantiateGUIItem(GameObject playerObject)
     {
-        UnityEngine.Object obj = Resources.Load("UI/UnitPanel");
+        Object obj = Resources.Load("UI/UnitPanel");
         GameObject go = (GameObject)Instantiate(obj);
         go.GetComponent<UnitFrameGUIScript>().SetPlayer(playerObject.GetComponent<PlayerStatusScript>());
         go.transform.SetParent(unitFrames.transform, false);
     }
 
-    private static GameObject InstantiatePlayer(UnityEngine.Object player, PlayerStartingPointScript pos, UnitJSONData data)
+    private static GameObject InstantiatePlayer(Object player, PlayerStartingPointScript pos, UnitJSONData data)
     {
         GameObject go = (GameObject)Instantiate(player);
         go.transform.position = pos.transform.position;
@@ -110,12 +120,12 @@ public class MapInitializer : MonoBehaviour
         return go;
     }
 
-    private static List<UnityEngine.Object> GetAvailableActionsFromJSON(UnitJSONData data)
+    private static List<Object> GetAvailableActionsFromJSON(UnitJSONData data)
     {
-        List<UnityEngine.Object> gameObjects = new List<UnityEngine.Object>();
+        List<Object> gameObjects = new List<Object>();
         foreach (string objectName in data.availableActions)
         {
-            UnityEngine.Object obj = Resources.Load("UI/Action Buttons/"+objectName);
+            Object obj = Resources.Load("UI/Action Buttons/"+objectName);
             //GameObject go = (GameObject)Instantiate(obj);
             gameObjects.Add(obj);
         }

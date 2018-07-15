@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class TileBFSScript : MonoBehaviour
 {
-
     private bool visited = false;
     private TileBFSScript parent = null;
     private int distance = 0;

@@ -21,12 +21,12 @@ GameObject:
   - component: {fileID: 4197514760220948}
   - component: {fileID: 33323469091979366}
   - component: {fileID: 23293619944277344}
-  - component: {fileID: 65910730953098526}
   - component: {fileID: 114800500644900032}
   - component: {fileID: 114119326239013432}
   - component: {fileID: 114138105414088470}
   - component: {fileID: 114213467094364198}
   - component: {fileID: 114530338758297152}
+  - component: {fileID: 65252412512880058}
   m_Layer: 13
   m_Name: Cube
   m_TagString: Tile
@@ -89,7 +89,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1258061903538200}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!65 &65910730953098526
+--- !u!65 &65252412512880058
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}

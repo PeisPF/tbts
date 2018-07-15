@@ -72,10 +72,13 @@ public class PlayerBFSScript : MonoBehaviour {
 
     public TileBFSScript GetTargetTile(GameObject target)
     {
+        Debug.Log(target.name);
+        Debug.DrawRay(target.transform.position, Vector3.down, Color.white, 60f, false);
         RaycastHit hit;
         TileBFSScript tile = null;//Physics.Raycast(target.transform.position, -Vector3.up, out hit, onlyTilesLayerMask)
         if (Physics.Raycast(target.transform.position, -Vector3.up, out hit, 2f, onlyTilesLayerMask.value))
         {
+            Debug.Log(hit.collider.gameObject.name);
             tile = hit.collider.GetComponent<TileBFSScript>();
         }
         else
