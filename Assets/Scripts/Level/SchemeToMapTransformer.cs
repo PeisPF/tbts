@@ -123,8 +123,6 @@ public class SchemeToMapTransformer : MonoBehaviour
     {
         TileScript2D up = GetUpTile(x, y);
         TileScript2D down = GetDownTile(x, y);
-        TileScript2D left = GetLeftTile(x, y);
-        TileScript2D right = GetRightTile(x, y);
         float degrees = 90;
         UnityEngine.Object obj = Resources.Load("Door");
         if (IsWall(up) && IsWall(down))

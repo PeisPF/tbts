@@ -52,11 +52,13 @@ public class MapInitializer : MonoBehaviour
         {
             map = LoadMap();
             LoadTiles();
+            this.GetComponent<FogInitializer>().GenerateFog(-7,7,-15,17);
         }
         else
         {
             MapGeneratorScript initializer = this.GetComponent<MapGeneratorScript>();
             map = initializer.GenerateMap();
+            this.GetComponent<FogInitializer>().GenerateFog(0, 0, initializer.WIDTH, initializer.HEIGTH);
         }
         LoadPlayerUnits(map);
         initialized = true;
