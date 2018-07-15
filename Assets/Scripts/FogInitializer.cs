@@ -8,6 +8,7 @@ public class FogInitializer : MonoBehaviour {
     // Use this for initialization
     public void GenerateFog(int xmin, int xmax, int ymin, int ymax)
     {
+        Debug.Log("generating fog");
         Object obj = Resources.Load("Fog_cube");
         for (float x = xmin; x < xmax; x++)
         {

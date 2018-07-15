@@ -58,7 +58,7 @@ public class MapInitializer : MonoBehaviour
         {
             MapGeneratorScript initializer = this.GetComponent<MapGeneratorScript>();
             map = initializer.GenerateMap();
-            this.GetComponent<FogInitializer>().GenerateFog(0, 0, initializer.WIDTH, initializer.HEIGTH);
+            this.GetComponent<FogInitializer>().GenerateFog(0, initializer.WIDTH, 0, initializer.HEIGTH);
         }
         LoadPlayerUnits(map);
         initialized = true;

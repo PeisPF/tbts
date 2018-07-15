@@ -48,7 +48,7 @@ public class SchemeToMapTransformer : MonoBehaviour
 
         GameObject go = (GameObject)Instantiate(obj);
         go.transform.position = tile.transform.position + new Vector3(0, .5f, 0);
-        go.transform.parent = map.transform;
+        go.transform.SetParent(map.transform, false);
 
     }
 
@@ -65,19 +65,19 @@ public class SchemeToMapTransformer : MonoBehaviour
 
         GameObject go = (GameObject)Instantiate(obj);
         go.transform.position = up.transform.position + new Vector3(0, 1f, 0);
-        go.transform.parent = map.transform;
+        go.transform.SetParent(map.transform, false);
 
         go = (GameObject)Instantiate(obj);
         go.transform.position = down.transform.position + new Vector3(0, 1f, 0);
-        go.transform.parent = map.transform;
+        go.transform.SetParent(map.transform, false);
 
         go = (GameObject)Instantiate(obj);
         go.transform.position = left.transform.position + new Vector3(0, 1f, 0);
-        go.transform.parent = map.transform;
+        go.transform.SetParent(map.transform, false);
 
         go = (GameObject)Instantiate(obj);
         go.transform.position = right.transform.position + new Vector3(0, 1f, 0);
-        go.transform.parent = map.transform;
+        go.transform.SetParent(map.transform, false);
 
     }
 
@@ -133,7 +133,7 @@ public class SchemeToMapTransformer : MonoBehaviour
         GameObject go = (GameObject)Instantiate(obj);
         go.transform.position = gameObject.transform.position + new Vector3(0, 1.5f, 0);
         go.transform.Rotate(Vector3.up, degrees);
-        go.transform.parent = map.transform;
+        go.transform.SetParent(map.transform, false);
 
     }
 
@@ -188,7 +188,7 @@ public class SchemeToMapTransformer : MonoBehaviour
             GameObject go = (GameObject)Instantiate(obj);
             go.transform.position = gameObject.transform.position + new Vector3(0, 1.5f, 0);
             go.transform.Rotate(Vector3.up, degrees);
-            go.transform.parent = map.transform;
+            go.transform.SetParent(map.transform, false);
 
         }
     }
@@ -208,7 +208,7 @@ public class SchemeToMapTransformer : MonoBehaviour
         UnityEngine.Object obj = Resources.Load("Cube");
         GameObject go = (GameObject)Instantiate(obj);
         go.transform.position = position;
-        go.transform.parent = map.transform;
+        go.transform.SetParent(map.transform, false);
     }
 
 
