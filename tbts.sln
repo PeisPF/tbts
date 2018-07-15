@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
+# Visual Studio for Mac
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tbts", "Scripts.csproj", "{7B0D7F32-3562-E6D1-101B-80C576C6703C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "tbts", "Assembly-CSharp.csproj", "{D0811D0E-F8FE-9BB0-F426-7EDF2B5C8847}"
