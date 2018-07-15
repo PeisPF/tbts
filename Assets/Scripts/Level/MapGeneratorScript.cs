@@ -105,7 +105,7 @@ public class MapGeneratorScript : MonoBehaviour
     private GameObject InstantiateItemInRoom(Room room, string itemName)
     {
         UnityEngine.Object obj = Resources.Load(itemName);
-        GameObject item = (GameObject)Instantiate(obj);
+        GameObject item = (GameObject)Utils.MyInstantiate(obj);
         item.transform.position = room.GetMedianPoint() + new Vector3(0, 1, 0);
         return item;
     }
@@ -366,7 +366,7 @@ public class MapGeneratorScript : MonoBehaviour
         {
             for (int z = 0; z < HEIGTH; z++)
             {
-                GameObject item = (GameObject)Instantiate(obj);
+                GameObject item = (GameObject)Utils.MyInstantiate(obj);
                 item.transform.position = new Vector3(x, 0, z);
                 item.transform.SetParent(map.transform);
                 tilesMap[x, z] = item;

@@ -14,7 +14,7 @@ public class FogInitializer : MonoBehaviour {
         {
             for (float z = ymin; z < ymax; z++)
             {
-                GameObject go = (GameObject)Instantiate(obj);
+                GameObject go = (GameObject)Utils.MyInstantiate(obj);
                 go.transform.position = new Vector3(x, 1.55f, z) + this.transform.position;
                 go.transform.SetParent(this.transform, false);
             }

@@ -46,7 +46,7 @@ public class SchemeToMapTransformer : MonoBehaviour
         int y = (int)arrivalPoint.transform.position.z;
         TileScript2D tile = tilesMap[x, y].GetComponent<TileScript2D>();
 
-        GameObject go = (GameObject)Instantiate(obj);
+        GameObject go = (GameObject)Utils.MyInstantiate(obj);
         go.transform.position = tile.transform.position + new Vector3(0, .5f, 0);
         go.transform.SetParent(map.transform, false);
 
@@ -63,19 +63,19 @@ public class SchemeToMapTransformer : MonoBehaviour
         TileScript2D left = GetLeftTile(x, y);
         TileScript2D right = GetRightTile(x, y);
 
-        GameObject go = (GameObject)Instantiate(obj);
+        GameObject go = (GameObject)Utils.MyInstantiate(obj);
         go.transform.position = up.transform.position + new Vector3(0, 1f, 0);
         go.transform.SetParent(map.transform, false);
 
-        go = (GameObject)Instantiate(obj);
+        go = (GameObject)Utils.MyInstantiate(obj);
         go.transform.position = down.transform.position + new Vector3(0, 1f, 0);
         go.transform.SetParent(map.transform, false);
 
-        go = (GameObject)Instantiate(obj);
+        go = (GameObject)Utils.MyInstantiate(obj);
         go.transform.position = left.transform.position + new Vector3(0, 1f, 0);
         go.transform.SetParent(map.transform, false);
 
-        go = (GameObject)Instantiate(obj);
+        go = (GameObject)Utils.MyInstantiate(obj);
         go.transform.position = right.transform.position + new Vector3(0, 1f, 0);
         go.transform.SetParent(map.transform, false);
 
@@ -130,7 +130,7 @@ public class SchemeToMapTransformer : MonoBehaviour
             degrees = 0;
         }
 
-        GameObject go = (GameObject)Instantiate(obj);
+        GameObject go = (GameObject)Utils.MyInstantiate(obj);
         go.transform.position = gameObject.transform.position + new Vector3(0, 1.5f, 0);
         go.transform.Rotate(Vector3.up, degrees);
         go.transform.SetParent(map.transform, false);
@@ -185,7 +185,7 @@ public class SchemeToMapTransformer : MonoBehaviour
 
         if (obj != null)
         {
-            GameObject go = (GameObject)Instantiate(obj);
+            GameObject go = (GameObject)Utils.MyInstantiate(obj);
             go.transform.position = gameObject.transform.position + new Vector3(0, 1.5f, 0);
             go.transform.Rotate(Vector3.up, degrees);
             go.transform.SetParent(map.transform, false);
@@ -206,7 +206,7 @@ public class SchemeToMapTransformer : MonoBehaviour
     private void CreateTile(Vector3 position)
     {
         UnityEngine.Object obj = Resources.Load("Cube");
-        GameObject go = (GameObject)Instantiate(obj);
+        GameObject go = (GameObject)Utils.MyInstantiate(obj);
         go.transform.position = position;
         go.transform.SetParent(map.transform, false);
     }
