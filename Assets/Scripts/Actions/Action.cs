@@ -23,7 +23,7 @@ public abstract class Action
         this.endActionSound = endActionSound;
     }
 
-    protected virtual int GetCost()
+    public virtual int GetCost()
     {
         return 1;
     }
