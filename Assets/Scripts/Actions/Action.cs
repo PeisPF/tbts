@@ -14,6 +14,17 @@ public abstract class Action
     private AudioSource continuousSound;
     private AudioSource endActionSound;
 
+
+    public virtual bool IsOver()
+    {
+        return true;
+    }
+
+    protected virtual bool ShouldResumeCheckOnFog()
+    {
+        return false;
+    }
+
     //private CPC_CameraPath cameraPath;
 
     public Action(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound)
@@ -23,7 +34,7 @@ public abstract class Action
         this.endActionSound = endActionSound;
     }
 
-    protected virtual int GetCost()
+    public virtual int GetCost()
     {
         return 1;
     }
@@ -68,6 +79,10 @@ public abstract class Action
 
     protected virtual bool DoActualAction()
     {
+        if (ShouldResumeCheckOnFog())
+        {
+            GetCheckFogScript().Resume();
+        }
         PlaySound(continuousSound);
         return true;
     }//plays the action continous phase
@@ -99,13 +114,17 @@ public abstract class Action
                 {
                     if (!actionEnded)
                     {
-                        actionEnded = DoActualAction();
+                        actionEnded = DoActualAction() ; 
                     }
                     else
                     {
-                        ConsumeActionPoints();
-                        EndAction();
-                        return true;
+                        if (this.IsOver())//si aspetta che chi ha subito l'azione setti la fine
+                        {
+                            ConsumeActionPoints();
+                            EndAction();
+                            return true;
+                        }
+                        
                     }
                 }
             }
@@ -142,6 +161,17 @@ public abstract class Action
     private PlayerActionScript playerActionScript;
     private PlayerStatusScript playerStatusScript;
     private PlayerBFSScript playerBFSScript;
+    private CheckFogScript checkFogScript;
+
+    protected CheckFogScript GetCheckFogScript()
+    {
+        if (this.checkFogScript == null)
+        {
+            this.checkFogScript = TurnManager.GetCurrentPlayer().GetComponent<CheckFogScript>();
+        }
+        return this.checkFogScript;
+    }
+
 
     protected PlayerActionScript GetPlayerActionScript()
     {

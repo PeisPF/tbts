@@ -59,48 +59,48 @@ public abstract class Item : UserActionScript
 
     }
 
-    public void Interact(int index, PlayerController unitThatTriggered)
+    public void Interact(int index, PlayerController unitThatTriggered, ActionWithCallback action)
     {
         this.unitThatTriggered = unitThatTriggered;
         if (index == 0)
         {
-            Interact1();
+            Interact1(action);
         }
         else if (index == 1)
         {
-            Interact2();
+            Interact2(action);
         }
         else if (index == 2)
         {
-            Interact3();
+            Interact3(action);
         }
         else if (index == 3)
         {
-            Interact4();
+            Interact4(action);
         }
         else if (index == 4)
         {
-            Interact5();
+            Interact5(action);
         }
     }
 
-    public virtual void Interact1()
+    public virtual void Interact1(ActionWithCallback action)
     {
         throw new NotImplementedException();
     }
-    public virtual void Interact2()
+    public virtual void Interact2(ActionWithCallback action)
     {
         throw new NotImplementedException();
     }
-    public virtual void Interact3()
+    public virtual void Interact3(ActionWithCallback action)
     {
         throw new NotImplementedException();
     }
-    public virtual void Interact4()
+    public virtual void Interact4(ActionWithCallback action)
     {
         throw new NotImplementedException();
     }
-    public virtual void Interact5()
+    public virtual void Interact5(ActionWithCallback action)
     {
         throw new NotImplementedException();
     }

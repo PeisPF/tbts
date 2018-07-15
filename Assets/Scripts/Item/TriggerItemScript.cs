@@ -21,12 +21,12 @@ public abstract class TriggerItemScript : Item {
         return new int[] { 1 };
     }
 
-    public override void Interact1()
+    public override void Interact1(ActionWithCallback action)
     {
         Debug.Log("interacted with " + this.name);
         activated = !activated;
         moving = true;
-        itemTriggered.Interact(triggeredItemInteractionIndex, null);
+        itemTriggered.Interact(triggeredItemInteractionIndex, null, action);
     }
 
     public abstract void ShowAsDisactivated();

@@ -9,6 +9,7 @@ public class MapInitializer : MonoBehaviour
     public bool initialized;
     private static MapInitializer instance;
     public Transform unitFrames;
+    public bool useTestMap;
 
     public static MapInitializer GetInstance()
     {
@@ -46,8 +47,19 @@ public class MapInitializer : MonoBehaviour
         {
             instance = this;
         }
-        GameObject map = LoadMap();
-        LoadTiles();
+        GameObject map = null;
+        if (useTestMap)
+        {
+            map = LoadMap();
+            LoadTiles();
+            this.GetComponent<FogInitializer>().GenerateFog(-7,7,-15,17);
+        }
+        else
+        {
+            MapGeneratorScript initializer = this.GetComponent<MapGeneratorScript>();
+            map = initializer.GenerateMap();
+            this.GetComponent<FogInitializer>().GenerateFog(0, initializer.WIDTH, 0, initializer.HEIGTH);
+        }
         LoadPlayerUnits(map);
         initialized = true;
     }

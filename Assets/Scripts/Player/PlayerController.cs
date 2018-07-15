@@ -169,14 +169,14 @@ public class PlayerController : MonoBehaviour
     {
         if (GetPlayerStatusScript().IsShowingPath())
         {
-            GetPlayerActionScript().DoAction(true);
+            //GetPlayerActionScript().DoAction(true);
         }
         else
         {
             if (Time.time - lastClickTime < doubleClickDelay)
             {
                 //double click
-                GetPlayerActionScript().DoAction(false);
+                //GetPlayerActionScript().DoAction(false);
             }
             else
             {

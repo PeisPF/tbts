@@ -6,7 +6,12 @@ using UnityEngine;
 public class MoveAction : Action {
 
     private bool skippedFirstClick = false;
-
+    private bool found = false;
+    HighLightPathScript lastHit;
+    protected override bool ShouldResumeCheckOnFog()
+    {
+        return true;
+    }
 
     public MoveAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound ) : base(selectionSound, continuousSound, endActionSound)
     {
@@ -24,8 +29,12 @@ public class MoveAction : Action {
 
 
     protected override bool SelectionPhase()
-    {
-        GetPlayerBFSScript().FindSelectableTiles();
+    { 
+        if (!found)
+        {
+            GetPlayerBFSScript().FindSelectableTiles();
+            found = true;
+        }
         return CheckMouseForSelection();
     }
 
@@ -56,8 +65,14 @@ public class MoveAction : Action {
         if (Physics.Raycast(ray, out hit, float.PositiveInfinity, GetPlayerActionScript().moveLayerMask.value))
         {
             HighLightPathScript t = hit.collider.GetComponent<HighLightPathScript>();
-            t.SetPlayerStatusScript(GetPlayerStatusScript()); //per adesso lo passo così
-            t.CheckHighlightPath();
+            if (t != lastHit)
+            {
+                t.SetPlayerStatusScript(GetPlayerStatusScript()); //per adesso lo passo così
+                t.CheckHighlightPath();
+                lastHit = t;
+            }
+            
+            
         }
     }
 

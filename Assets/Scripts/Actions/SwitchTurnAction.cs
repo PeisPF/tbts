@@ -7,7 +7,7 @@ public class SwitchTurnAction : Action
 {
     private PlayerActionScript target;
 
-    protected override int GetCost()
+    public override int GetCost()
     {
         return 0;
     }

@@ -202,7 +202,7 @@ public class PlayerActionScript : UnitActionScript
         }
     }*/
 
-    public void DoAction(bool pathLit)
+    /*public void DoAction(bool pathLit)
     {
         //Debug.Log("DoAction("+ pathLit + ") called");
         //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -240,7 +240,7 @@ public class PlayerActionScript : UnitActionScript
                 }
             }
         }
-    }
+    }*/
 
     public bool MoveToTile(TileBFSScript tile)
     {
@@ -270,11 +270,11 @@ public class PlayerActionScript : UnitActionScript
         }
     }
 
-    void DoInteract(RaycastHit hit, int index)
+    /*void DoInteract(RaycastHit hit, int index)
     {
         Item t = hit.collider.GetComponent<Item>();
         InteractWithItem(t, index);
-    }
+    }*/
 
 
     void DoMove(RaycastHit hit)
@@ -303,7 +303,7 @@ public class PlayerActionScript : UnitActionScript
 
     }
 
-    public bool InteractWithItem(Item item, int actionIndex)
+    public bool InteractWithItem(Item item, int actionIndex, ActionWithCallback action)
     {
         Vector3 currentTilePosition = GetPlayerBFSScript().GetCurrentTile().transform.position;
         Vector3 itemPosition = item.transform.position;
@@ -312,7 +312,7 @@ public class PlayerActionScript : UnitActionScript
         {
             GetPlayerStatusScript().SetInteractingWithObject(true);
             TurnPlayerTo(itemPosition);
-            item.Interact(actionIndex, this.GetPlayerController());
+            item.Interact(actionIndex, this.GetPlayerController(), action);
             return true;
         }
         else
