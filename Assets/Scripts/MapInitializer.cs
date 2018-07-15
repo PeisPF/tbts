@@ -21,7 +21,7 @@ public class MapInitializer : MonoBehaviour
     {
         UnityEngine.Object obj = Resources.Load("TestMap");
         Debug.Log("loaded obj: " + obj);
-        GameObject map = (GameObject)Instantiate(obj);
+        GameObject map = (GameObject)Utils.MyInstantiate(obj);
         map.name = "mappa di test";
         map.transform.position = Vector3.zero;
         return map;
@@ -34,7 +34,7 @@ public class MapInitializer : MonoBehaviour
         {
             for (float z = -15; z < 17; z++)
             {
-                GameObject go = (GameObject)Instantiate(obj);
+                GameObject go = (GameObject)Utils.MyInstantiate(obj);
                 go.transform.position = new Vector3(x, 0, z) + this.transform.position;
                 go.transform.SetParent(this.transform, false);
             }
@@ -94,14 +94,14 @@ public class MapInitializer : MonoBehaviour
     private void InstantiateGUIItem(GameObject playerObject)
     {
         UnityEngine.Object obj = Resources.Load("UI/UnitPanel");
-        GameObject go = (GameObject)Instantiate(obj);
+        GameObject go = (GameObject)Utils.MyInstantiate(obj);
         go.GetComponent<UnitFrameGUIScript>().SetPlayer(playerObject.GetComponent<PlayerStatusScript>());
         go.transform.SetParent(unitFrames.transform, false);
     }
 
     private static GameObject InstantiatePlayer(UnityEngine.Object player, PlayerStartingPointScript pos, UnitJSONData data)
     {
-        GameObject go = (GameObject)Instantiate(player);
+        GameObject go = (GameObject)Utils.MyInstantiate(player);
         go.transform.position = pos.transform.position;
         go.GetComponent<PlayerActionScript>().SetActionPointsPerTurn(data.actionPointsPerTurn);
         go.GetComponent<PlayerActionScript>().SetInteractionReach(data.interactionReach);
@@ -116,7 +116,7 @@ public class MapInitializer : MonoBehaviour
         foreach (string objectName in data.availableActions)
         {
             UnityEngine.Object obj = Resources.Load("UI/Action Buttons/"+objectName);
-            //GameObject go = (GameObject)Instantiate(obj);
+            //GameObject go = (GameObject)Utils.MyInstantiate(obj);
             gameObjects.Add(obj);
         }
         return gameObjects;

@@ -35,7 +35,7 @@ public class PlayerActionScript : UnitActionScript
     {
         foreach (UnityEngine.Object obj in GetAvailableActions())
         {
-            GameObject go = (GameObject)Instantiate(obj);
+            GameObject go = (GameObject)Utils.MyInstantiate(obj);
             go.transform.SetParent(actionButtons.transform, false);
         }
     }

@@ -57,7 +57,7 @@ public class UnitFrameGUIScript : MonoBehaviour
             }
             for (int i = 0; i < actionPoints; i++)
             {
-                GameObject go = (GameObject)Instantiate(obj);
+                GameObject go = (GameObject)Utils.MyInstantiate(obj);
                 go.transform.SetParent(actionPointsLayoutGroup.transform, false);
                 actionPointsGameObject.Add(go);
             }
