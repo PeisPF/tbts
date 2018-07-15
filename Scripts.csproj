@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Scripts\Actions\Action.cs" />
+    <Compile Include="Assets\Scripts\Actions\ActionWithCallback.cs" />
     <Compile Include="Assets\Scripts\Actions\InteractAction.cs" />
     <Compile Include="Assets\Scripts\Actions\MoveAction.cs" />
     <Compile Include="Assets\Scripts\Actions\SkipAction.cs" />
@@ -81,6 +82,10 @@
     <Compile Include="Assets\Scripts\Item\LeverScript.cs" />
     <Compile Include="Assets\Scripts\Item\TreasureChestScript.cs" />
     <Compile Include="Assets\Scripts\Item\TriggerItemScript.cs" />
+    <Compile Include="Assets\Scripts\Level\DungeonGenerator.cs" />
+    <Compile Include="Assets\Scripts\Level\MapGeneratorScript.cs" />
+    <Compile Include="Assets\Scripts\Level\SchemeToMapTransformer.cs" />
+    <Compile Include="Assets\Scripts\Level\TileScript2D.cs" />
     <Compile Include="Assets\Scripts\MapInitializer.cs" />
     <Compile Include="Assets\Scripts\Menu\ButtonScript.cs" />
     <Compile Include="Assets\Scripts\Menu\LoadNextSceneOnClick.cs" />

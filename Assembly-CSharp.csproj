@@ -61,9 +61,6 @@
   <ItemGroup>
     <Compile Include="Assets\Addons\CameraPathCreator\DEMO\CPC_DEMO_UpDown.cs" />
     <Compile Include="Assets\PlayerAnimation.cs" />
-    <Compile Include="Assets\Resources\DungeonGeneration\MapGeneratorScript.cs" />
-    <Compile Include="Assets\Resources\DungeonGeneration\Pass2.cs" />
-    <Compile Include="Assets\Resources\DungeonGeneration\TileScript2D.cs" />
     <Compile Include="Assets\Simple Vector Icons\Sample\IconPreview.cs" />
     <Reference Include="UnityEditor.StandardEvents">
       <HintPath>C:/Users/Iacopo/Documents/Tactical Movement Tutorial/Library/ScriptAssemblies/UnityEditor.StandardEvents.dll</HintPath>
