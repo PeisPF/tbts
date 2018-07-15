@@ -14,6 +14,8 @@ public class DoorScript : Item
 
     public Transform fulcrum;
 
+    private ActionWithCallback action;
+
     float endrot = 0;
     // Update is called once per frame
     protected override void Update()
@@ -35,6 +37,7 @@ public class DoorScript : Item
                     moving = false;
                     open = false;
                     endrot = 0;
+                    action.SetOver();
                 }
             }
             else
@@ -45,7 +48,7 @@ public class DoorScript : Item
                     moving = false;
                     open = true;
                     endrot = 0;
-
+                    action.SetOver();
                 }
             }
         }
@@ -70,8 +73,9 @@ public class DoorScript : Item
     }
 
 
-    public override void Interact1()
+    public override void Interact1(ActionWithCallback startingAction)
     {
+        this.action = startingAction;
         if (unitThatTriggered != null)
         {
             if (Vector3.Distance(unitThatTriggered.transform.position, this.transform.position) > 0.0f)

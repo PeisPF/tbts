@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InteractAction : Action
+public class InteractAction : ActionWithCallback
 {
     private bool skippedFirstClick = false;
     Item target;
@@ -12,15 +12,20 @@ public class InteractAction : Action
     {
     }
 
+    protected override bool ShouldResumeCheckOnFog()
+    {
+        return true;
+    }
+
     protected override bool DoActualAction()
     {
-        return base.DoActualAction() && GetPlayerActionScript().InteractWithItem(target, 0);
+        return base.DoActualAction() && GetPlayerActionScript().InteractWithItem(target, 0, this);
     }
 
     protected override bool EndAction()
     {
-        Debug.Log("resetting color to black");
         ResetCurrentTargetColor();
+        GetCheckFogScript().Resume();
         return base.EndAction() &&true;
     }
 

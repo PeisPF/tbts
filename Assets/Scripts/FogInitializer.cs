@@ -18,9 +18,9 @@ public class FogInitializer : MonoBehaviour {
             instance = this;
         }
         Object obj = Resources.Load("Fog_cube");
-        for (float x = -7; x < 7; x++)
+        for (float x = 0; x < 64; x++)
         {
-            for (float z = -15; z < 17; z++)
+            for (float z = 0; z < 64; z++)
             {
                 GameObject go = (GameObject)Instantiate(obj);
                 go.transform.position = new Vector3(x, 1.55f, z) + this.transform.position;

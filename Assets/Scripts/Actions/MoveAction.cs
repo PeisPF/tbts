@@ -7,6 +7,10 @@ public class MoveAction : Action {
 
     private bool skippedFirstClick = false;
 
+    protected override bool ShouldResumeCheckOnFog()
+    {
+        return true;
+    }
 
     public MoveAction(AudioSource selectionSound, AudioSource continuousSound, AudioSource endActionSound ) : base(selectionSound, continuousSound, endActionSound)
     {

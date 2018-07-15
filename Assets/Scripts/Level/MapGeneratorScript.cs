@@ -26,10 +26,13 @@ public class MapGeneratorScript : MonoBehaviour
     public int STARTING_POINT_DEPTH;
     public int ARRIVAL_POINT_DEPTH;
 
+    private GameObject startingPoint;
+    private GameObject arrivalPoint;
+
     private List<Room> rooms;
 
     // Use this for initialization
-    void Start()
+    public GameObject GenerateMap()
     {
         random = new System.Random();
         tilesMap = new GameObject[WIDTH, HEIGTH];
@@ -39,18 +42,23 @@ public class MapGeneratorScript : MonoBehaviour
         BisectOrCreateRoom(root);
         ConnectChildren(root);
         CreateQuest(root);
+        SchemeToMapTransformer transformer = this.GetComponent<SchemeToMapTransformer>();
+        transformer.arrivalPoint = this.arrivalPoint;
+        transformer.startingPoint = this.startingPoint;
+        transformer.tilesMap = tilesMap;
+        return transformer.Transform();
     }
 
     
     private void CreateQuest(Area root)
     {
-        CreateItemInArea(root.GetChildren().ToArray()[0], STARTING_POINT_DEPTH, "DungeonGeneration/StartingPoint");
-        CreateItemInArea(root.GetChildren().ToArray()[1], ARRIVAL_POINT_DEPTH, "DungeonGeneration/ArrivalPoint");
+        startingPoint = CreateItemInArea(root.GetChildren().ToArray()[0], STARTING_POINT_DEPTH, "DungeonGeneration/StartingPoint");
+        arrivalPoint = CreateItemInArea(root.GetChildren().ToArray()[1], ARRIVAL_POINT_DEPTH, "DungeonGeneration/ArrivalPoint");
     }
 
-    private void CreateItemInArea(Area area, int threshold, string itemName)
+    private GameObject CreateItemInArea(Area area, int threshold, string itemName)
     {
-        bool instantiated = false;
+        GameObject result = null;
         if (random.Next(100) > threshold || area.GetRoom() != null) //o ho superato la soglia, o sono in una foglia
         {
             if (area.GetChildren() != null && area.GetChildren().Count > 0)//non sono in una foglia, ma provo a vedere se uno dei figli lo è
@@ -59,49 +67,47 @@ public class MapGeneratorScript : MonoBehaviour
                 {
                     if (random.Next(100) > 50)
                     {
-                        InstantiateItemInRoom(area.GetChildren().ToArray()[0].GetRoom(), itemName);
+                        result = InstantiateItemInRoom(area.GetChildren().ToArray()[0].GetRoom(), itemName);
                     }
                     else
                     {
-                        InstantiateItemInRoom(area.GetChildren().ToArray()[1].GetRoom(), itemName);
+                        result = InstantiateItemInRoom(area.GetChildren().ToArray()[1].GetRoom(), itemName);
                     }
-                    instantiated = true;
                 }
                 else if (area.GetChildren().ToArray()[0].GetRoom() != null)
                 {
-                    InstantiateItemInRoom(area.GetChildren().ToArray()[0].GetRoom(), itemName);
-                    instantiated = true;
+                    result = InstantiateItemInRoom(area.GetChildren().ToArray()[0].GetRoom(), itemName);
                 }
                 else if (area.GetChildren().ToArray()[1].GetRoom() != null)
                 {
-                    InstantiateItemInRoom(area.GetChildren().ToArray()[1].GetRoom(), itemName);
-                    instantiated = true;
+                    result = InstantiateItemInRoom(area.GetChildren().ToArray()[1].GetRoom(), itemName);
                 }
             }
             else //sono in una foglia, c'è sicuramente una stanza
             {
-                InstantiateItemInRoom(area.GetRoom(), itemName);
-                instantiated = true;
+                result = InstantiateItemInRoom(area.GetRoom(), itemName);
             }
         }
-        if (!instantiated)
+        if (result==null)
         {
             if (random.Next(100) > 50)
             {
-                CreateItemInArea(area.GetChildren().ToArray()[0], threshold, itemName);
+                result = CreateItemInArea(area.GetChildren().ToArray()[0], threshold, itemName);
             }
             else
             {
-                CreateItemInArea(area.GetChildren().ToArray()[1], threshold, itemName);
+                result = CreateItemInArea(area.GetChildren().ToArray()[1], threshold, itemName);
             }
         }
+        return result;
     }
 
-    private void InstantiateItemInRoom(Room room, string itemName)
+    private GameObject InstantiateItemInRoom(Room room, string itemName)
     {
         UnityEngine.Object obj = Resources.Load(itemName);
         GameObject item = (GameObject)Instantiate(obj);
         item.transform.position = room.GetMedianPoint() + new Vector3(0, 1, 0);
+        return item;
     }
 
     private void ConnectChildren(Area area)
@@ -140,13 +146,13 @@ public class MapGeneratorScript : MonoBehaviour
         List<GameObject> result = new List<GameObject>();
         if (random.Next(100) > 50)
         {
-            tile1.GetComponent<TileScript2D>().SetType(TileScript2D.TileType.DOOR_OPEN);
-            tile2.GetComponent<TileScript2D>().SetType(TileScript2D.TileType.FLOOR);
+            tile1.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.DOOR_OPEN);
+            tile2.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.FLOOR);
         }
         else
         {
-            tile1.GetComponent<TileScript2D>().SetType(TileScript2D.TileType.FLOOR);
-            tile2.GetComponent<TileScript2D>().SetType(TileScript2D.TileType.DOOR_OPEN);
+            tile1.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.FLOOR);
+            tile2.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.DOOR_OPEN);
         }
 
 
@@ -165,7 +171,7 @@ public class MapGeneratorScript : MonoBehaviour
             if (tile != tile1 && tile != tile2)
             {
                 result.Add(tile);
-                hit.collider.GetComponent<TileScript2D>().SetType(type);
+                hit.collider.GetComponent<TileScript2D>().SetTileType(type);
             }
         }
     }
@@ -337,11 +343,11 @@ public class MapGeneratorScript : MonoBehaviour
                 TileScript2D tileScript = tilesMap[x, y].GetComponent<TileScript2D>();
                 if (IsOnRoomsEdge(x, y, room))
                 {
-                    tileScript.SetType(TileScript2D.TileType.WALL);
+                    tileScript.SetTileType(TileScript2D.TileType.WALL);
                 }
                 else
                 {
-                    tileScript.SetType(TileScript2D.TileType.FLOOR);
+                    tileScript.SetTileType(TileScript2D.TileType.FLOOR);
                 }
 
 

@@ -774,6 +774,34 @@ Transform:
   m_Father: {fileID: 121473143}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &39255308
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 5
+  m_Component:
+  - component: {fileID: 39255309}
+  m_Layer: 0
+  m_Name: TilesHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &39255309
+Transform:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 39255308}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 7.9337473, y: 0.08181703, z: 10.389944}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &46989776
 GameObject:
   m_ObjectHideFlags: 0
@@ -5594,6 +5622,8 @@ GameObject:
   - component: {fileID: 289226415}
   - component: {fileID: 289226414}
   - component: {fileID: 289226413}
+  - component: {fileID: 289226417}
+  - component: {fileID: 289226416}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -5625,6 +5655,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   unitFrames: {fileID: 1728429391}
+  useTestMap: 0
 --- !u!4 &289226415
 Transform:
   m_ObjectHideFlags: 0
@@ -5638,6 +5669,43 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &289226416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 289226412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bab54a47be2712541ba398eb2c9beac5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startingPoint: {fileID: 0}
+  arrivalPoint: {fileID: 0}
+  map: {fileID: 0}
+--- !u!114 &289226417
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 289226412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bca1a9b2fc164b04bab9209d7a8a94d6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  WIDTH: 64
+  HEIGTH: 64
+  map: {fileID: 39255308}
+  THRESHOLD: 30
+  MIN_ROOM_SIZE: 10
+  MAX_OFFSET: 10
+  MIN_OFFSET: 1
+  onlyTilesLayerMask:
+    serializedVersion: 2
+    m_Bits: 8192
+  STARTING_POINT_DEPTH: 100
+  ARRIVAL_POINT_DEPTH: 100
 --- !u!1 &300564793
 GameObject:
   m_ObjectHideFlags: 0

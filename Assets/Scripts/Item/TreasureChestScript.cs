@@ -19,7 +19,7 @@ public class TreasureChestScript : Item {
         return new string[] { "Open" };
     }
 
-    public override void Interact1()
+    public override void Interact1(ActionWithCallback action)
     {
         Debug.Log("YOU FUCKIN' WIN");
         SceneManager.LoadScene(3);

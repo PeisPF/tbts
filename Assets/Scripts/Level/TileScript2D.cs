@@ -13,9 +13,14 @@ public class TileScript2D : MonoBehaviour
         this.type = TileType.NONE;
     }
 
-    public void SetType(TileType type)
+    public void SetTileType(TileType type)
     {
         this.type = type;
+    }
+
+    public TileType GetTileType()
+    {
+        return this.type;
     }
    /* public void SetColor(Color color)
     {
