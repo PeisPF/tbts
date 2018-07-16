@@ -27,6 +27,7 @@ GameObject:
   - component: {fileID: 114213467094364198}
   - component: {fileID: 114530338758297152}
   - component: {fileID: 65252412512880058}
+  - component: {fileID: 54578337132893574}
   m_Layer: 13
   m_Name: Cube
   m_TagString: Tile
@@ -89,6 +90,21 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1258061903538200}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!54 &54578337132893574
+Rigidbody:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1258061903538200}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!65 &65252412512880058
 BoxCollider:
   m_ObjectHideFlags: 1
