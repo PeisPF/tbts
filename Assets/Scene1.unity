@@ -5656,7 +5656,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialized: 0
   unitFrames: {fileID: 1728429391}
-  useTestMap: 1
+  useTestMap: 0
 --- !u!4 &289226415
 Transform:
   m_ObjectHideFlags: 0
