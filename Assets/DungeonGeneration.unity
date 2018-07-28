@@ -148,7 +148,7 @@ MonoBehaviour:
   THRESHOLD: 30
   MIN_ROOM_SIZE: 10
   MAX_OFFSET: 10
-  MIN_OFFSET: 1
+  MIN_OFFSET: 2
   onlyTilesLayerMask:
     serializedVersion: 2
     m_Bits: 8192
@@ -178,8 +178,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bab54a47be2712541ba398eb2c9beac5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startingPoint: {fileID: 0}
-  arrivalPoint: {fileID: 0}
   map: {fileID: 0}
 --- !u!114 &250439097
 MonoBehaviour:

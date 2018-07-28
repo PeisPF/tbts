@@ -6,9 +6,11 @@ public class SchemeToMapTransformer : MonoBehaviour
 {
 
     public GameObject[,] tilesMap;
-    public GameObject startingPoint;
-    public GameObject arrivalPoint;
+    public Room startingRoom;
+    public Room arrivalRoom;
     public GameObject map;
+    internal Dictionary<GameObject, Room> lockedDoors;
+
     // Use this for initialization
     void Start()
     {
@@ -42,8 +44,8 @@ public class SchemeToMapTransformer : MonoBehaviour
     private void CreateArrivalPoint()
     {
         Object obj = Resources.Load("chest_open");
-        int x = (int)arrivalPoint.transform.position.x;
-        int y = (int)arrivalPoint.transform.position.z;
+        int x = (int)arrivalRoom.GetMedianPoint().x;
+        int y = (int)arrivalRoom.GetMedianPoint().z;
         TileScript2D tile = tilesMap[x, y].GetComponent<TileScript2D>();
 
         GameObject go = (GameObject)Utils.MyInstantiate(obj);
@@ -55,13 +57,13 @@ public class SchemeToMapTransformer : MonoBehaviour
     private void CreateStartingPoints()
     {
         Object obj = Resources.Load("PlayerStartingPoint");
-        int x = (int)startingPoint.transform.position.x;
-        int y = (int)startingPoint.transform.position.z;
+        int x = (int)startingRoom.GetMedianPoint().x;
+        int y = (int)startingRoom.GetMedianPoint().z;
 
-        TileScript2D up = GetUpTile(x, y);
-        TileScript2D down = GetDownTile(x, y);
-        TileScript2D left = GetLeftTile(x, y);
-        TileScript2D right = GetRightTile(x, y);
+        TileScript2D up = DungeonGenerationUtils.GetUpTile(x, y, tilesMap);
+        TileScript2D down = DungeonGenerationUtils.GetDownTile(x, y, tilesMap);
+        TileScript2D left = DungeonGenerationUtils.GetLeftTile(x, y, tilesMap);
+        TileScript2D right = DungeonGenerationUtils.GetRightTile(x, y, tilesMap);
 
         GameObject go = (GameObject)Utils.MyInstantiate(obj);
         go.transform.position = up.transform.position + new Vector3(0, 1f, 0);
@@ -90,8 +92,6 @@ public class SchemeToMapTransformer : MonoBehaviour
                 Destroy(tilesMap[x, y]);
             }
         }
-        Destroy(startingPoint);
-        Destroy(arrivalPoint);
     }
 
     private void Transform(GameObject gameObject, int x, int y)
@@ -121,8 +121,8 @@ public class SchemeToMapTransformer : MonoBehaviour
 
     private void CreateDoor(GameObject gameObject, int x, int y)
     {
-        TileScript2D up = GetUpTile(x, y);
-        TileScript2D down = GetDownTile(x, y);
+        TileScript2D up = DungeonGenerationUtils.GetUpTile(x, y, tilesMap);
+        TileScript2D down = DungeonGenerationUtils.GetDownTile(x, y, tilesMap);
         float degrees = 90;
         UnityEngine.Object obj = Resources.Load("Door");
         if (IsWall(up) && IsWall(down))
@@ -134,19 +134,30 @@ public class SchemeToMapTransformer : MonoBehaviour
         go.transform.position = gameObject.transform.position + new Vector3(0, 1.5f, 0);
         go.transform.Rotate(Vector3.up, degrees);
         go.transform.SetParent(map.transform, false);
+        if (lockedDoors.ContainsKey(gameObject))
+        {
+            LockDoorAndCreateKey(go, gameObject);
+        }
 
     }
 
+    private void LockDoorAndCreateKey(GameObject door, GameObject tile)
+    {
+        door.GetComponentInChildren<DoorScript>().allowedLocalOpen = false;
+        CreateKeyInRoom(lockedDoors[tile]);
+    }
 
-
-
+    private void CreateKeyInRoom(Room room)
+    {
+        Debug.Log("Creating key in room " + room);//TODO: qui dentro va creata davvero la chiave
+    }
 
     private void CreateWall(GameObject gameObject, int x, int y)
     {
-        TileScript2D up = GetUpTile(x, y);
-        TileScript2D down = GetDownTile(x, y);
-        TileScript2D left = GetLeftTile(x, y);
-        TileScript2D right = GetRightTile(x, y);
+        TileScript2D up = DungeonGenerationUtils.GetUpTile(x, y, tilesMap);
+        TileScript2D down = DungeonGenerationUtils.GetDownTile(x, y, tilesMap);
+        TileScript2D left = DungeonGenerationUtils.GetLeftTile(x, y, tilesMap);
+        TileScript2D right = DungeonGenerationUtils.GetRightTile(x, y, tilesMap);
         UnityEngine.Object obj = null;
         float degrees = 0;
         if (IsNullOrFloor(up) && IsNullOrFloor(down))
@@ -212,51 +223,5 @@ public class SchemeToMapTransformer : MonoBehaviour
     }
 
 
-    private TileScript2D GetUpTile(int x, int y)
-    {
-        if (y - 1 > 0)
-        {
-            return tilesMap[x, y - 1].GetComponent<TileScript2D>();
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private TileScript2D GetDownTile(int x, int y)
-    {
-        if (y + 1 < tilesMap.GetLength(1))
-        {
-            return tilesMap[x, y + 1].GetComponent<TileScript2D>();
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private TileScript2D GetLeftTile(int x, int y)
-    {
-        if (x - 1 > 0)
-        {
-            return tilesMap[x - 1, y].GetComponent<TileScript2D>();
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private TileScript2D GetRightTile(int x, int y)
-    {
-        if (x + 1 < tilesMap.GetLength(0))
-        {
-            return tilesMap[x + 1, y].GetComponent<TileScript2D>();
-        }
-        else
-        {
-            return null;
-        }
-    }
+    
 }

@@ -52,12 +52,6 @@ public class DoorScript : Item
                 }
             }
         }
-        /*if (unitThatTriggered != null)
-        {
-            //potrebbe essere null, se arriva da un trigger
-            unitThatTriggered.ForceCheckFog();
-            unitThatTriggered.SetCheckedFogInCurrentPosition(false);
-        }*/
 
     }
 

@@ -26,10 +26,12 @@ public class MapGeneratorScript : MonoBehaviour
     public int STARTING_POINT_DEPTH;
     public int ARRIVAL_POINT_DEPTH;
 
-    private GameObject startingPoint;
-    private GameObject arrivalPoint;
+    private Room startingRoom;
+    private Room arrivalRoom;
 
     private List<Room> rooms;
+
+    private Dictionary<GameObject, Room> lockedDoors = new Dictionary<GameObject, Room>();
 
     // Use this for initialization
     public GameObject GenerateMap()
@@ -43,22 +45,405 @@ public class MapGeneratorScript : MonoBehaviour
         ConnectChildren(root);
         CreateQuest(root);
         SchemeToMapTransformer transformer = this.GetComponent<SchemeToMapTransformer>();
-        transformer.arrivalPoint = this.arrivalPoint;
-        transformer.startingPoint = this.startingPoint;
+        transformer.startingRoom = this.startingRoom;
+        transformer.arrivalRoom = this.arrivalRoom;
         transformer.tilesMap = tilesMap;
+        transformer.lockedDoors = lockedDoors;
         return transformer.Transform();
     }
 
-    
-    private void CreateQuest(Area root)
+    internal void CleanUp()
     {
-        startingPoint = CreateItemInArea(root.GetChildren().ToArray()[0], STARTING_POINT_DEPTH, "DungeonGeneration/StartingPoint");
-        arrivalPoint = CreateItemInArea(root.GetChildren().ToArray()[1], ARRIVAL_POINT_DEPTH, "DungeonGeneration/ArrivalPoint");
+        for (int x = 0; x < tilesMap.GetLength(0); x++)
+        {
+            for (int y = 0; y < tilesMap.GetLength(1); y++)
+            {
+                Destroy(tilesMap[x, y]);
+            }
+        }
     }
 
-    private GameObject CreateItemInArea(Area area, int threshold, string itemName)
+    private void CreateQuest(Area root)
     {
-        GameObject result = null;
+        Dictionary<Room, List<Room>> adjacencyList = CalculateAdjacencyList(rooms);
+        DebugAdjacencyList(adjacencyList, Color.white, Vector3.zero);
+        startingRoom = CreateItemInArea(root.GetChildren().ToArray()[0], STARTING_POINT_DEPTH);
+        arrivalRoom = CreateItemInArea(root.GetChildren().ToArray()[1], ARRIVAL_POINT_DEPTH);
+        LockRooms(startingRoom, arrivalRoom, adjacencyList);
+    }
+
+    private void LockRooms(Room startingRoom, Room arrivalRoom, Dictionary<Room, List<Room>> adjacencyList)
+    {
+        List<Room> pathToDest = CalculatePath(startingRoom, arrivalRoom, adjacencyList);
+        Debug.Log("Path is " + pathToDest.Count + " rooms long");
+        Room previousRoom = null;
+        Room theRoom = null;
+        Room theOtherRoom = null;
+        foreach (Room room in pathToDest)
+        {
+            if (previousRoom != null)
+            {
+                if (FindExitTiles(previousRoom).Count > 2)
+                {
+                    theRoom = room;
+                    theOtherRoom = previousRoom;
+                }
+            }
+            previousRoom = room;
+        }
+        if (theRoom != null && theOtherRoom != null)
+        {
+            GameObject lockedDoorTile = LockDoorToRoom(theRoom, theOtherRoom);
+            Dictionary<Room, List<Room>> newAdjacencyList = CreateNewAdjacencyListRemovingLinkFromRooms(adjacencyList, theOtherRoom, theRoom);
+            DebugAdjacencyList(newAdjacencyList, Color.red, new Vector3(0.2f, 0, 0.2f));
+            Room keyHolder = FindRandomRoomConnectedTo(startingRoom, newAdjacencyList);
+            PutKeyInRoom(keyHolder, lockedDoorTile);
+            LockRooms(startingRoom, keyHolder, newAdjacencyList);
+        }
+    }
+
+    private void PutKeyInRoom(Room keyHolder, GameObject lockedDoorTile)
+    {
+        Debug.DrawLine(keyHolder.GetMedianPoint(), lockedDoorTile.transform.position, Color.cyan, 40f, false);
+        lockedDoors.Add(lockedDoorTile, keyHolder);
+    }
+
+    private void DebugAdjacencyList(Dictionary<Room, List<Room>> adjacencyList, Color color, Vector3 shift)
+    {
+        foreach (Room room in adjacencyList.Keys)
+        {
+            foreach (Room otherRoom in adjacencyList[room])
+            {
+                Debug.DrawLine(room.GetMedianPoint() + shift, otherRoom.GetMedianPoint() + shift, color, 40f, false);
+            }
+        }
+    }
+
+    private Room ChooseRandomRoomFromList(List<Room> list)
+    {
+        Room result = null;
+        foreach (Room room in list)
+        {
+            if (random.Next(list.Count) == 0 || result == null)
+            {
+                result = room;
+            }
+        }
+        return result;
+    }
+
+    private Room FindRandomRoomConnectedTo(Room room, Dictionary<Room, List<Room>> adjacencyList)
+    {
+        Dictionary<Room, List<Room>> paths = CalculateAllPathsFromRoom(room, adjacencyList);
+        List<Room> eligible = new List<Room>(paths.Keys);
+        eligible.Remove(room);
+        return ChooseRandomRoomFromList(eligible);
+    }
+
+    private Dictionary<Room, List<Room>> CreateNewAdjacencyListRemovingLinkFromRooms(Dictionary<Room, List<Room>> adjacencyList, Room previousRoom, Room room)
+    {
+        Dictionary<Room, List<Room>> result = new Dictionary<Room, List<Room>>();
+        foreach (Room theRoom in adjacencyList.Keys)
+        {
+            if (theRoom != room && theRoom != previousRoom)
+            {
+                result.Add(theRoom, adjacencyList[theRoom]);
+            }
+            else
+            {
+                List<Room> newListForRoom = new List<Room>();
+                if (theRoom == room)
+                {
+
+                    foreach (Room temp in adjacencyList[theRoom])
+                    {
+                        if (temp != previousRoom)
+                        {
+                            newListForRoom.Add(temp);
+                        }
+                    }
+                }
+                else if (theRoom == previousRoom)
+                {
+                    foreach (Room temp in adjacencyList[theRoom])
+                    {
+                        if (temp != room)
+                        {
+                            newListForRoom.Add(temp);
+                        }
+                    }
+                }
+                result.Add(theRoom, newListForRoom);
+            }
+
+        }
+        return result;
+    }
+
+    private GameObject LockDoorToRoom(Room room, Room previousRoom)
+    {
+        GameObject doorTile = FindExitToRoom(room, previousRoom);
+        doorTile.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.DOOR_CLOSED);
+        return doorTile;
+    }
+
+    private GameObject FindExitToRoom(Room from, Room to)
+    {
+        foreach (GameObject exit in FindExitTiles(from))
+        {
+            Room temp = FindConnectedRoom(exit, from);
+            if (to == temp)
+            {
+                return exit;
+            }
+        }
+        return null;
+    }
+
+    private List<Room> CalculatePath(Room startingRoom, Room arrivalRoom, Dictionary<Room, List<Room>> adjacencyList)
+    {
+        Dictionary<Room, List<Room>> paths = CalculateAllPathsFromRoom(startingRoom, arrivalRoom, adjacencyList);
+        return paths[arrivalRoom];
+    }
+    private static Dictionary<Room, List<Room>> CalculateAllPathsFromRoom(Room startingRoom, Dictionary<Room, List<Room>> adjacencyList)
+    {
+        return CalculateAllPathsFromRoom(startingRoom, null, adjacencyList);
+    }
+
+    private static Dictionary<Room, List<Room>> CalculateAllPathsFromRoom(Room startingRoom, Room arrivalRoom, Dictionary<Room, List<Room>> adjacencyList)
+    {
+        Dictionary<Room, List<Room>> paths = new Dictionary<Room, List<Room>>();
+
+        Queue<Room> queue = new Queue<Room>();
+        List<Room> checkedRooms = new List<Room>();
+
+        List<Room> pathToCurrent = new List<Room>();
+        pathToCurrent.Add(startingRoom);
+        paths.Add(startingRoom, pathToCurrent);
+        queue.Enqueue(startingRoom);
+        while (queue.Count > 0)
+        {
+            Room checkedRoom = queue.Dequeue();
+            pathToCurrent = paths[checkedRoom];
+            checkedRooms.Add(checkedRoom);
+            if (arrivalRoom != null && checkedRoom == arrivalRoom)
+            {
+                break;
+            }
+            else
+            {
+                foreach (Room room in adjacencyList[checkedRoom])
+                {
+                    if (!checkedRooms.Contains(room))
+                    {
+                        List<Room> path = new List<Room>();
+                        path.AddRange(pathToCurrent);
+                        path.Add(room);
+                        paths.Add(room, path);
+                        queue.Enqueue(room);
+                    }
+                }
+            }
+        }
+        return paths;
+    }
+
+    private Dictionary<Room, List<Room>> CalculateAdjacencyList(List<Room> rooms)
+    {
+        Dictionary<Room, List<Room>> result = new Dictionary<Room, List<Room>>();
+        foreach (Room room in rooms)
+        {
+            result.Add(room, CalculateAdjacencyList(room));
+        }
+        return result;
+    }
+
+    private List<Room> CalculateAdjacencyList(Room room)
+    {
+        List<Room> result = new List<Room>();
+        List<GameObject> exits = FindExitTiles(room);
+
+        foreach (GameObject tile in exits)
+        {
+            Room connected = FindConnectedRoom(tile, room);
+            result.Add(connected);
+        }
+
+        return result;
+    }
+
+    private Room FindConnectedRoom(GameObject tile, Room currentRoom)
+    {
+        int x;
+        int y;
+        bool found = false;
+        for (x = 0, y = 0; x < tilesMap.GetLength(0); x++)
+        {
+            for (y = 0; y < tilesMap.GetLength(1); y++)
+            {
+                if (tilesMap[x, y] == tile)
+                {
+                    found = true;
+                    break;
+                }
+            }
+            if (found)
+            {
+                break;
+            }
+        }
+
+        Room result = FindRoomGoingUp(x, y, currentRoom);
+        if (result == null)
+        {
+            result = FindRoomGoingDown(x, y, currentRoom);
+        }
+        if (result == null)
+        {
+            result = FindRoomGoingLeft(x, y, currentRoom);
+        }
+        if (result == null)
+        {
+            result = FindRoomGoingRight(x, y, currentRoom);
+        }
+        if (result == null)
+        {
+            tilesMap[x, y].GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.FAILURE);
+        }
+        return result;
+    }
+
+    private Room FindRoomGoingUp(int x, int y, Room currentRoom)
+    {
+        GameObject tile = DungeonGenerationUtils.GetUp(x, y, tilesMap);
+        if (currentRoom.GetTiles().Contains(tile))
+        {
+            return null;
+        }
+        else
+        {
+            foreach (Room room in rooms)
+            {
+                if (room != currentRoom && room.GetTiles().Contains(tile))
+                {
+
+                    return room;
+                }
+            }
+            if (y > 0)
+            {
+                return FindRoomGoingUp(x, y - 1, currentRoom);
+            }
+            else
+            {
+                return null;
+            }
+        }
+    }
+
+    private Room FindRoomGoingDown(int x, int y, Room currentRoom)
+    {
+        GameObject tile = DungeonGenerationUtils.GetDown(x, y, tilesMap);
+        if (currentRoom.GetTiles().Contains(tile))
+        {
+            return null;
+        }
+        else
+        {
+            foreach (Room room in rooms)
+            {
+                if (room != currentRoom && room.GetTiles().Contains(tile))
+                {
+                    return room;
+                }
+            }
+            if (y < HEIGTH)
+            {
+                return FindRoomGoingDown(x, y + 1, currentRoom);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+    }
+
+    private Room FindRoomGoingLeft(int x, int y, Room currentRoom)
+    {
+        GameObject tile = DungeonGenerationUtils.GetLeft(x, y, tilesMap);
+        if (currentRoom.GetTiles().Contains(tile))
+        {
+            return null;
+        }
+        else
+        {
+            foreach (Room room in rooms)
+            {
+                if (room != currentRoom && room.GetTiles().Contains(tile))
+                {
+
+                    return room;
+                }
+            }
+            if (x > 0)
+            {
+                return FindRoomGoingLeft(x - 1, y, currentRoom);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+    }
+
+    private Room FindRoomGoingRight(int x, int y, Room currentRoom)
+    {
+        GameObject tile = DungeonGenerationUtils.GetRight(x, y, tilesMap);
+        if (currentRoom.GetTiles().Contains(tile))
+        {
+            return null;
+        }
+        else
+        {
+            foreach (Room room in rooms)
+            {
+                if (room != currentRoom && room.GetTiles().Contains(tile))
+                {
+
+                    return room;
+                }
+            }
+            if (x < WIDTH)
+            {
+                return FindRoomGoingRight(x + 1, y, currentRoom);
+            }
+            else
+            {
+                return null;
+            }
+
+        }
+    }
+
+    private List<GameObject> FindExitTiles(Room room)
+    {
+        List<GameObject> result = new List<GameObject>();
+        foreach (GameObject tile in room.GetTiles())
+        {
+            if (tile.GetComponent<TileScript2D>().GetTileType() == TileScript2D.TileType.DOOR_OPEN)
+            {
+                result.Add(tile);
+            }
+        }
+        Debug.Log("Room " + room + " is connected to " + result.Count + " other rooms");
+        return result;
+    }
+
+    private Room CreateItemInArea(Area area, int threshold)
+    {
+        Room result = null;
         if (random.Next(100) > threshold || area.GetRoom() != null) //o ho superato la soglia, o sono in una foglia
         {
             if (area.GetChildren() != null && area.GetChildren().Count > 0)//non sono in una foglia, ma provo a vedere se uno dei figli lo è
@@ -67,47 +452,39 @@ public class MapGeneratorScript : MonoBehaviour
                 {
                     if (random.Next(100) > 50)
                     {
-                        result = InstantiateItemInRoom(area.GetChildren().ToArray()[0].GetRoom(), itemName);
+                        result = area.GetChildren().ToArray()[0].GetRoom();
                     }
                     else
                     {
-                        result = InstantiateItemInRoom(area.GetChildren().ToArray()[1].GetRoom(), itemName);
+                        result = area.GetChildren().ToArray()[1].GetRoom();
                     }
                 }
                 else if (area.GetChildren().ToArray()[0].GetRoom() != null)
                 {
-                    result = InstantiateItemInRoom(area.GetChildren().ToArray()[0].GetRoom(), itemName);
+                    result = area.GetChildren().ToArray()[0].GetRoom();
                 }
                 else if (area.GetChildren().ToArray()[1].GetRoom() != null)
                 {
-                    result = InstantiateItemInRoom(area.GetChildren().ToArray()[1].GetRoom(), itemName);
+                    result = area.GetChildren().ToArray()[1].GetRoom();
                 }
             }
             else //sono in una foglia, c'è sicuramente una stanza
             {
-                result = InstantiateItemInRoom(area.GetRoom(), itemName);
+                result = area.GetRoom();
             }
         }
-        if (result==null)
+        if (result == null)
         {
             if (random.Next(100) > 50)
             {
-                result = CreateItemInArea(area.GetChildren().ToArray()[0], threshold, itemName);
+                result = CreateItemInArea(area.GetChildren().ToArray()[0], threshold);
             }
             else
             {
-                result = CreateItemInArea(area.GetChildren().ToArray()[1], threshold, itemName);
+                result = CreateItemInArea(area.GetChildren().ToArray()[1], threshold);
             }
         }
         return result;
-    }
-
-    private GameObject InstantiateItemInRoom(Room room, string itemName)
-    {
-        UnityEngine.Object obj = Resources.Load(itemName);
-        GameObject item = (GameObject)Utils.MyInstantiate(obj);
-        item.transform.position = room.GetMedianPoint() + new Vector3(0, 1, 0);
-        return item;
     }
 
     private void ConnectChildren(Area area)
@@ -138,24 +515,14 @@ public class MapGeneratorScript : MonoBehaviour
     {
         GameObject[] closestTiles = GetClosestTiles(room1, room2);
         List<GameObject> corridor = ConnectTiles(closestTiles[0], closestTiles[1]);
-    return corridor;
+        return corridor;
     }
 
     private List<GameObject> ConnectTiles(GameObject tile1, GameObject tile2)
     {
         List<GameObject> result = new List<GameObject>();
-        if (random.Next(100) > 50)
-        {
-            tile1.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.DOOR_OPEN);
-            tile2.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.FLOOR);
-        }
-        else
-        {
-            tile1.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.FLOOR);
-            tile2.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.DOOR_OPEN);
-        }
-
-
+        tile1.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.DOOR_OPEN);
+        tile2.GetComponent<TileScript2D>().SetTileType(TileScript2D.TileType.DOOR_OPEN);
         ConnectTilesAndAddToResult(tile1, tile2, result, TileScript2D.TileType.FLOOR);
         List<GameObject> wallTiles = CreateWalls(tile1, tile2);
         result.AddRange(wallTiles);
@@ -237,19 +604,6 @@ public class MapGeneratorScript : MonoBehaviour
         return candidates[random.Next(candidates.Count)];
     }
 
-    /*private bool IsCorner(GameObject tile, Area area)
-    {
-        if (area.GetRoom() == null)
-        {
-            List<Area> children = area.GetChildren();
-            return IsCorner(tile.gameObject, area.GetChildren().ToArray()[0]) || IsCorner(tile.gameObject, area.GetChildren().ToArray()[1]);
-        }
-        else
-        {
-            return area.GetRoom().GetTiles().Contains(tile) && ((tile.transform.position.x == area.GetRoom().GetX() || tile.transform.position.x == area.GetRoom().GetX() + area.GetRoom().GetSizeX()) || (tile.transform.position.z == area.GetRoom().GetY() || tile.transform.position.z == area.GetRoom().GetY() + area.GetRoom().GetSizeY()));
-        }
-    }*/
-
     private bool AreNotCorners(GameObject tile1, GameObject tile2, Room room1, Room room2)
     {
         return !room1.IsCorner(tile1) && !room2.IsCorner(tile2);
@@ -270,11 +624,11 @@ public class MapGeneratorScript : MonoBehaviour
         if (area.IsSmallerThan(THRESHOLD))
         {
             Room room = CreateRoom(area);
+            Debug.Log("created Room: " + room);
             rooms.Add(room);
         }
         else
         {
-            //Debug.Log("Splitting area: " + area);
             bool bisectOnX = false;
             if (!area.IsSmallerOnXThan(THRESHOLD) && !area.IsSmallerOnYThan(THRESHOLD))
             {
@@ -332,8 +686,6 @@ public class MapGeneratorScript : MonoBehaviour
         int offsetXEnd = MIN_OFFSET + random.Next(Math.Min(area.GetSizeX() - (actualMaxOffsetX + offsetX), actualMaxOffsetX));
         int offsetYEnd = MIN_OFFSET + random.Next(Math.Min(area.GetSizeY() - (actualMaxOffsetY + offsetX), actualMaxOffsetY));
 
-        //Color color = new Color((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble());
-        // Debug.Log("creating room in area: " + area+",using color: " +color);
         Room room = new Room(area.GetX() + offsetX, area.GetY() + offsetY, area.GetSizeX() - offsetX - offsetXEnd, area.GetSizeY() - offsetY - offsetYEnd, tilesMap);
         area.SetRoom(room);
         for (int x = room.GetX(); x < room.GetX() + room.GetSizeX(); x++)
@@ -349,10 +701,6 @@ public class MapGeneratorScript : MonoBehaviour
                 {
                     tileScript.SetTileType(TileScript2D.TileType.FLOOR);
                 }
-
-
-                //tiles[x, y].GetComponent<TileScript2D>().SetColor(color);
-                //Debug.Log("tile at [" + x + "," + y + "] colored with color: " + tiles[x,y].GetComponent<TileScript2D>().GetColor());
             }
         }
         return room;
@@ -370,19 +718,17 @@ public class MapGeneratorScript : MonoBehaviour
                 item.transform.position = new Vector3(x, 0, z);
                 item.transform.SetParent(map.transform);
                 tilesMap[x, z] = item;
-                //Debug.Log("tiles[" + (x + WIDTH / 2) + "," + (z + HEIGTH / 2) + "]");
             }
         }
     }
 }
 
-class Room
+public class Room
 {
     private int x;
     private int y;
     private int sizeX;
     private int sizeY;
-    private bool connected;
 
     private int index;
 
@@ -390,17 +736,7 @@ class Room
 
     public override string ToString()
     {
-        return "Room: x=" + x + "(" + sizeX + "), y=" + y + "(" + sizeY + ")";
-    }
-
-    public void SetConnected()
-    {
-        this.connected = true;
-    }
-
-    public bool IsConnected()
-    {
-        return this.connected;
+        return "Room: x=" + x + "(" + sizeX + "), y=" + y + "(" + sizeY + "), size: " + tiles.Count;
     }
 
     public int GetX()
@@ -428,25 +764,14 @@ class Room
         return new Vector3(x + (sizeX / 2), 1, y + (sizeY / 2));
     }
 
+
     public Room(int x, int y, int sizeX, int sizeY, GameObject[,] tilesMap)
     {
         this.x = x;
         this.y = y;
         this.sizeX = sizeX;
         this.sizeY = sizeY;
-        this.connected = false;
-
         InitTiles(tilesMap);
-    }
-
-    public void AddTile(GameObject tile)
-    {
-        this.tiles.Add(tile);
-    }
-
-    public void AddTiles(List<GameObject> tiles)
-    {
-        this.tiles.AddRange(tiles);
     }
 
     protected virtual void InitTiles(GameObject[,] tilesMap)
@@ -487,7 +812,7 @@ class Room
     }
 }
 
-class Area : Room
+public class Area : Room
 {
     private Area parent;
     private List<Area> children;
@@ -497,6 +822,16 @@ class Area : Room
     {
         this.parent = parent;
         this.children = new List<Area>();
+    }
+
+    public void AddTile(GameObject tile)
+    {
+        this.tiles.Add(tile);
+    }
+
+    public void AddTiles(List<GameObject> tiles)
+    {
+        this.tiles.AddRange(tiles);
     }
 
     public override bool IsCorner(GameObject tile)
