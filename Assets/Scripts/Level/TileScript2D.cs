@@ -55,12 +55,15 @@ public class TileScript2D : MonoBehaviour
             case TileType.DOOR_OPEN:
                 this.GetComponent<Renderer>().material.color = Color.yellow;
                 break;
+            case TileType.FAILURE:
+                this.GetComponent<Renderer>().material.color = Color.red;
+                break;
         }
     }
 
     public enum TileType
     {
-       NONE, WALL, FLOOR, DOOR_CLOSED, DOOR_OPEN
+       NONE, WALL, FLOOR, DOOR_CLOSED, DOOR_OPEN, FAILURE
     }
 
     /*public Color GetColor()
