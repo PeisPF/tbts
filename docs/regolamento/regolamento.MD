@@ -23,7 +23,7 @@ E’ possibile rinunciare ad utilizzare una o entrambe le azioni.
 
 Qualsiasi azione diversa dal movimento tattico e dall’attacco corpo a corpo, eseguita in una casella “minacciata” da una o più unità avversarie, espone chi la compie ad un attacco di opportunità. 
 
-##Abilità specifiche
+## Abilità specifiche
 
 ### Passive
 
