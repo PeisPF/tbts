@@ -62,12 +62,12 @@ Impiegando un’azione di attacco, l’unità “protegge” un compagno adiacen
 ## Intelligenza artificiale
 
 Le azioni dell’intelligenza artificiale sono volte a minimizzare la minaccia rappresentata dalle unità del giocatore. La minaccia di ogni unità del giocatore, calcolata per ogni unità del personaggio, è rappresentata da un numero che viene modificato in base alle azioni compiute dall’unità nemica:
-*	Attacco di un compagno: 3 punto
+*	Attacco ad un compagno: 3 punti
 *	Riduzione di un compagno ad incapacitato: 5 punti
 *   Colpo di grazia ad un compagno: 10 punti
 *	Attacco verso l’unità: 5 punti
 *   Riduzione ad incapacitato: 10 punti
-*	Guardia: 2 punto 
+*	Guardia: 2 punti 
 *	Utilizzo di un’abilità neutra: 1 punto
 *   Cura di un avversario incapacitato: 5 punti
 
