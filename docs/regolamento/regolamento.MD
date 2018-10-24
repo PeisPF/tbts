@@ -50,14 +50,56 @@ Esempi (N e W)
 * Arma a portata
 Permette di colpire avversari a distanza di 2 caselle. Non è possibile utilizzare questa abilità se sulla linea di tiro c’è un avversario (è possibile invece farlo se c’è un alleato)
 
+* Berserker
+Quando un compagno viene ridotto ad incapacitato, guadagna un'azione di attacco bonus
+
+* Elusione
+Il movimento tattico dell'unità permette di spostarsi di 2 caselle
+
+* Spostamento
+A seguito del primo attacco subito all'interno di un turno, l'unità evita il colpo a patto di avere una casella adiacente in cui spostarsi
+
 ### Attive
 
-* Tiro mirato (sostituisce “inchioda al terreno” che è inutile)
+* Tiro mirato 
 Impiegando un’azione di attacco, l’unità prende di mira un avversario, ad una distanza tra le 2 e le 5 caselle. Nella successiva azione di attacco, a patto che l’avversario sia ancora in range 2-5 caselle, si effettua un attacco ignorando tutte le abilità di difesa dell’avversario.
+
 * Incalzare
 Dopo l’uccisione di un avversario, è possibile effettuare un’azione di attacco aggiuntiva contro un’altra unità a portata.
+
 * Difesa
 Impiegando un’azione di attacco, l’unità “protegge” un compagno adiacente, negando il successivo attacco a lui indirizzato. Se l’unità “protetta” si sposta, perde questo vantaggio.
+
+* Carica
+Consumando un'azione di movimento ed una di attacco, può caricare un avversario a 4 o 5 caselle di distanza (NON a 3 o meno), spostandosi a contatto ed attaccando prima degli attacchi di opportunità del bersaglio (se l'avversario viene incapacitato, non può effettuare l'attacco di opportunità, se invece resiste all'attacco può eseguirlo normalmente). 
+Eventuali altri attacchi di opportunità, da parte di altre unità, vengono comunque subiti. 
+
+* Passo d'ombra
+Consumando un'azione di movimento ed una di attacco, può scegliere un avversario entro 3 caselle, a patto che la linea di visuale sia coperta (da un ostacolo, da un compagno o da un altro avversario), spostarsi in una casella a contatto, colpirlo e successivamente effettuare la propria azione di movimento. Subisce normalmente gli attacchi di opportunità
+
+* Phasing
+Come azione di movimento, può scegliere di teletrasportarsi in una casella casuale all'interno di un range di 5 caselle. Se la casella è occupata da un ostacolo, l'unità viene incapacitata e spostata nella prima casella utile; se la casella è occupata da un'altra unità, entrambe le unità vengono incapacitate.
+
+* Colonne di fuoco
+Come azione di attacco, si scelgono 2 caselle, all'interno di un range di 4 caselle, dalle quali spunteranno delle colonne di fuoco all'inizio del round successivo, incapacitando qualsiasi unità si trovi nella casella bersaglio. Le colonne non sono ostacoli, ignorano le abilità di difesa e sono visibili all'avversario
+
+* Controllo mentale
+Come azione di attacco, può prendere il controllo di un'unità nemica incapacitata (l'unità viene ripristinata come se avesse subito gli effetti di una cura) fino alla fine del combattimento o fino alla morte del caster
+
+
+## Unità
+
+Guerriero - spada e scudo. Abilità parata e difesa
+Guerriero - arma lunga. Abilità arma a portata e incalzare
+Arciere - arma da tiro. Abilità tiro e tiro mirato
+Chierico - curatore. Abilità cura e vampiro
+Berserker - doppia ascia. Abilità berserker e carica
+Rogue - spada corta e pugnale. Abilità elusione e passo d'ombra
+Mago - bastone. Abilità phasing e colonne di fuoco
+Illusionista - arma esotica. Spostamento e controllo mentale
+
+## Nemici
+
 
 ## Intelligenza artificiale
 
