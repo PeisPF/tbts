@@ -77,14 +77,14 @@ Come azione di attacco, può prendere il controllo di un'unità nemica incapacit
 
 ## Unità
 
-Guerriero - spada e scudo. Abilità parata e difesa
-Guerriero - arma lunga. Abilità arma a portata e incalzare
-Arciere - arma da tiro. Abilità tiro e tiro mirato
-Chierico - curatore. Abilità cura e vampiro
-Berserker - doppia ascia. Abilità berserker e carica
-Rogue - spada corta e pugnale. Abilità elusione e passo d'ombra
-Mago - bastone. Abilità phasing e colonne di fuoco
-Illusionista - arma esotica. Spostamento e controllo mentale
+* Guerriero - spada e scudo. Abilità parata e difesa
+* Guerriero - arma lunga. Abilità arma a portata e incalzare
+* Arciere - arma da tiro. Abilità tiro e tiro mirato
+* Chierico - curatore. Abilità cura e vampiro
+* Berserker - doppia ascia. Abilità berserker e carica
+* Rogue - spada corta e pugnale. Abilità elusione e passo d'ombra
+* Mago - bastone. Abilità phasing e colonne di fuoco
+* Illusionista - arma esotica. Spostamento e controllo mentale
 
 ## Nemici
 
