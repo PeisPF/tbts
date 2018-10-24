@@ -33,19 +33,7 @@ L'effetto dell'attacco di opportunità si risolve sempre DOPO l'effetto dell'azi
 Permette di colpire avversari a distanza di 3 o 4 caselle. E’ necessaria una azione di movimento per ricaricare l’arma. E’ necessaria una linea di tiro pulita (nessuna unità alleata o nemica sulla linea di tiro). 
 Modifica anche la gestione dell'attacco di opportunità. Nel momento in cui si usa l'azione "guardia" si sceglie una linea di tiro (N/S/W/E) da presidiare, e solo su quella linea è possibile effettuare un attacco
 
-Esempi (N e W)
-
-00000000000		00000000000
-00000x00000		00000000000
-0000xxx0000		00000000000
-000xx0xx000		000x0000000
-00000000000		00xx0000000
-00000U00000		0xx00U00000
-00000000000		00xx0000000
-00000000000		000x0000000
-00000000000		00000000000
-00000000000		00000000000
-00000000000		00000000000
+![alt text](https://github.com/PeisPF/tbts/blob/regolamento/docs/regolamento/tiro.png?raw=true)
 
 * Arma a portata
 Permette di colpire avversari a distanza di 2 caselle. Non è possibile utilizzare questa abilità se sulla linea di tiro c’è un avversario (è possibile invece farlo se c’è un alleato)
