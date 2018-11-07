@@ -1,8 +1,8 @@
 # Regolamento
 
 ## Round di combattimento
-
-L’unità nel round compie due azioni: azione di movimento e azione marziale. L’azione di movimento viene effettuata sempre per prima (l’azione marziale termina il round)
+Ogni unità possiede due action point, uno di movimento e uno marziale. Gli action point vengono ripristinati alla fine del round di azione della squadra, pertanto persistono per tutta la durata del round degli avversari e di quello della squadra.
+L'utilizzo dell'action point marziale termina il round di azione dell'unità.
 
 ## Azioni di movimento
 
@@ -21,14 +21,23 @@ L’unità nel round compie due azioni: azione di movimento e azione marziale. L
 E’ possibile utilizzare un’azione di movimento al posto di un’azione marziale. 
 E’ possibile rinunciare ad utilizzare una o entrambe le azioni.
 
-## Attacchi d’opportunità
+## Difesa
+Esistono due tipologie di attacco, fisico e magico. Ogni tipologia di unità assorbe un certo numero di danni di un determinato tipo (vedi elenco classi), al costo di action point che di conseguenza non potrà usare nel proprio round di azione.
+Il primo action point ad essere consumato da un danno assorbito è sempre quello di movimento.
 
+## Attacco
+Salvo dove specificato diversamente, ogni abilità di attacco infligge un danno. Ogni attacco successivo al primo subito all'interno dello stesso round di azione infligge un danno aggiuntivo (il secondo attacco infligge 2 danni, il terzo ne infligge 3...). Ogni attacco successivo inflitto da una determinata unità allo stesso bersaglio, in round diversi, infligge un danno aggiuntivo. 
+
+## Attacchi d’opportunità
 Qualsiasi azione diversa dal movimento tattico e dall’attacco corpo a corpo, eseguita in una casella “minacciata” da una o più unità avversarie, espone chi la compie ad un attacco di opportunità. 
 L'effetto dell'attacco di opportunità si risolve sempre DOPO l'effetto dell'azione stessa (opzione per talento: "rapido" - i tuoi attacchi di opportunità si risolvono PRIMA delle azioni che li scatenano).
 
 ## Abilità specifiche
 
 ### Passive
+
+* Parata
+L'unità assorbe il primo danno fisico subito all'interno di un round senza consumare action point
 
 * Tiro
 Permette di colpire avversari a distanza di 3 o 4 caselle. E’ necessaria una azione di movimento per ricaricare l’arma. E’ necessaria una linea di tiro pulita (nessuna unità alleata o nemica sulla linea di tiro). 
@@ -46,12 +55,12 @@ Quando l'unità viene ridotta ad incapacitato, resta attiva per un turno.
 Il movimento tattico dell'unità permette di spostarsi di 2 caselle
 
 * Spostamento
-A seguito del primo attacco subito all'interno di un turno, l'unità evita il colpo a patto di avere una casella adiacente in cui spostarsi
+L'unità assorbe il primo danno magico all'interno di un round senza consumare action point, spostandosi in una casella adiacente (a patto che questa esista e sia libera)
 
 ### Attive
 
 * Tiro mirato 
-Impiegando un’azione di attacco, l’unità prende di mira un avversario, ad una distanza tra le 2 e le 5 caselle. Nella successiva azione di attacco, a patto che l’avversario sia ancora in range 2-5 caselle, si effettua un attacco ignorando tutte le abilità di difesa dell’avversario.
+Impiegando un’azione di attacco, l’unità prende di mira un avversario, ad una distanza tra le 2 e le 5 caselle. Nella successiva azione di attacco, a patto che l’avversario sia ancora in range 2-5 caselle, si effettua un attacco che infligge 2 danni fisici.
 
 * Incalzare
 Dopo l’uccisione di un avversario, è possibile effettuare un’azione di attacco aggiuntiva contro un’altra unità a portata.
@@ -64,7 +73,7 @@ Consumando un'azione di movimento ed una di attacco, può caricare un avversario
 Eventuali altri attacchi di opportunità, da parte di altre unità, vengono comunque subiti. 
 
 * Passo d'ombra
-Consumando un'azione di movimento ed una di attacco, può scegliere un avversario entro 4 caselle, a patto che la linea di visuale sia coperta (da un ostacolo, da un compagno o da un altro avversario), spostarsi in una casella adiacente al bersaglio, colpirlo e successivamente effettuare un'azione di movimento; gli attacchi di opportunità durante l'azione di attacco sono ignorati, mentre vengono subiti eventuali attacchi di opportunità scatenati dall'azione di movimento
+Consumando un'azione di movimento ed una di attacco, può scegliere un avversario entro 4 caselle, a patto che la linea di visuale sia coperta (da un ostacolo, da un compagno o da un altro avversario), spostarsi in una qualsiasi casella adiacente al bersaglio, colpirlo e successivamente effettuare un'azione di movimento; gli attacchi di opportunità durante l'azione di attacco sono ignorati, mentre vengono subiti eventuali attacchi di opportunità scatenati dall'azione di movimento
 
 ### Incantesimi
 Le abilità che seguono richiedono l'utilizzo di punti mana. Salvo dove diversamente specificato, le abilità superano automaticamente le difese fisiche.
@@ -93,15 +102,23 @@ Come azione di attacco, può selezionare fino a 3 unità nemiche entro 4 caselle
 
 ## Unità
 
+Marziali (assorbono due danni fisici)
+
 * Guerriero - spada e scudo. Abilità parata e difesa
 * Guerriero - arma lunga. Abilità arma a portata e incalzare
-* Arciere - arma da tiro. Abilità tiro e tiro mirato
-* Chierico - curatore. Abilità guarigione e vampiro
 * Berserker - doppia ascia. Abilità berserker e carica
-* Rogue - spada corta e pugnale. Abilità elusione e passo d'ombra
+
+Specialisti (assorbono due danni magici)
+
 * Mago - bastone. Abilità colonne di fuoco e palla di fuoco
 * Illusionista - arma esotica. Spostamento e controllo mentale
 * Druido - bastone. Abilità pelle di pietra e radici
+
+Ibridi (assorbono un danno fisico ed uno magico)
+
+* Chierico - curatore. Abilità guarigione e vampiro
+* Arciere - arma da tiro. Abilità tiro e tiro mirato
+* Rogue - spada corta e pugnale. Abilità elusione e passo d'ombra
 
 ## Nemici
 
@@ -120,9 +137,17 @@ Le azioni dell’intelligenza artificiale sono volte a minimizzare la minaccia r
 *   Unità incapacitata: -5 punti 
 
 Lo scopo dell’IA è sempre minimizzare la minaccia, quindi la logica da applicare è:
-1.  Se in questo turno posso dare il colpo di grazia ad un avversario incapacitato, oppure posso attaccarne uno sano, senza incorrere in attacchi di opportunità, lo faccio scegliendo con priorità il bersaglio con minaccia più alta.
-3.	Se in questo turno non posso attaccare alcun avversario, ma posso avvicinarmi ad uno o più avversari senza incorrere in attacchi di opportunità, mi sposto fino a ridurre al minimo la distanza verso l'avversario più vicino e poi attivo la guardia
-4.	Se non posso nemmeno avvicinarmi, faccio un movimento tattico in direzione dell’avversario più vicino e poi attivo la guardia
-5.	Se non posso avvicinarmi ad alcun avversario, non mi sposto e uso la guardia
+
+Unità specialiste o ibridi con mana:
+1.  Se ho abbastanza mana per lanciare l'incantesimo di attacco più potente che ho a disposizione, mi comporto come le unità marziali
+2.  Se ho unità nemiche ad una distanza inferiore o uguale a 4 caselle, mi allontano e ricarico mana
+3.  Ricarico mana e ricarico mana
+
+Unità marziali o ibridi senza mana
+
+1.  Se in questo turno posso dare il colpo di grazia ad un avversario incapacitato, oppure posso attaccarne uno sano, senza incorrere in attacchi di opportunità, lo faccio scegliendo con priorità il bersaglio con minaccia più alta. Se è possibile attaccare utilizzando un'abilità, la utilizzo massimizzandone l'effetto
+2.	Se in questo turno non posso attaccare alcun avversario, ma posso avvicinarmi ad uno o più avversari senza incorrere in attacchi di opportunità, mi sposto fino a ridurre al minimo la distanza verso l'avversario più vicino e poi attivo la guardia
+3.	Se non posso nemmeno avvicinarmi, faccio un movimento tattico in direzione dell’avversario più vicino e poi attivo la guardia
+4.	Se non posso avvicinarmi ad alcun avversario, non mi sposto e uso la guardia
 
 
